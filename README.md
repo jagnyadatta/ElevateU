@@ -1,2 +1,2 @@
-# Group-5
+# ElevateU
 Group - 5 Project
