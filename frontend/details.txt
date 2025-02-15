@@ -1,0 +1,3 @@
+Home_page bg-color : #f0f0f0
+Navbar button color : #3b66ff
+Navbar li color : #ced9ff
