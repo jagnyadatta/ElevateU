@@ -91,16 +91,16 @@
 }
 
 @layer base {
-  * {
+  /* * {
     @apply border-border outline-ring/50;
-  }
+  } */
   body {
     @apply bg-background text-foreground;
   }
 }
 
-@layer utilities{
-  .styled-card{
-    clip-path: polygon(61% 66%, 73% 45%, 85% 25%, 92% 16%, 96% 12%, 100% 10%, 100% 100%, 24% 100%, 37% 95%, 45% 89%, 53% 80%);
-  }
+.img-card{
+  filter:blur(8px);
+  -webkit-filter:blur(30px);
 }
+
