@@ -4,11 +4,10 @@ import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
   
 
 const Navbar = () => {
-    const imaLogo = 'https://ucarecdn.com/ce35b28e-f586-4dc0-99a7-a7646d8ec51a/ElevateU.png';
   return (
       <nav className="navbar w-[90vw] sm:w-[600px] md:w-[707px] lg:w-[907px] p-2 pl-6 font-primary overflow-hidden navbar-expand-lg navbar-light bg-white flex flex-row justify-between items-center border-0 rounded-full shadow-lg m-[-10px]">
         <div id="nav-logo" className="w-[40px]">
-          <img src={imaLogo} />
+          <img src="/image/ElevateU.png" />
         </div>
         <div className="sm:flex hidden">
           <ul className="flex flex-row justify-between gap-5 font-semibold">

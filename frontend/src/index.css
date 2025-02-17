@@ -101,6 +101,7 @@
 
 .img-card{
   filter:blur(8px);
-  -webkit-filter:blur(30px);
+  -webkit-filter:blur(20px);
+  background-color: #cccaca;
 }
 
