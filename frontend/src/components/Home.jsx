@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "./ui/button";
-import { faFacebook, faInstagram, faWhatsapp, faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faInstagram, faLinkedin, faWhatsapp, faYoutube } from "@fortawesome/free-brands-svg-icons";
 function Home() {
   return (
     <div className="w-full flex flex-col relative items-center justify-center p-0">
@@ -14,7 +14,7 @@ function Home() {
       </div>
       {/* Content */}
       <div className="w-full h-[100vh] grid grid-cols-2 z-20">
-        <div className="flex flex-col items-center justify-center border-2 gap-4 border-red-400 ">
+        <div className="flex flex-col items-center justify-center border-2 gap-4 border-red-400 col-span-2 sm:col-span-1 md:col-span-1 lg:col-span-1">
           <div className="w-full h-full border-2 border-blue-500 flex flex-col justify-center items-end">
             <div className="w-[95%] h-auto flex flex-col border-2 border-red-400 gap-3 items-start">
               <h1 className="text-black text-6xl">
@@ -29,7 +29,7 @@ function Home() {
               </p>
               <p>
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Laudantium adipisci exercitationem{" "}
+                Laudantium adipisci exercitationem
               </p>
               <Button>Go With..</Button>
             </div>
@@ -47,10 +47,10 @@ function Home() {
               icon={faInstagram}
               className="text-[#3b66ff] text-3xl"
             />
-            <FontAwesomeIcon icon={faYoutube} className="text-[#3b66ff] text-3xl" />
+            <FontAwesomeIcon icon={faLinkedin} className="text-[#3b66ff] text-3xl" />
           </div>
         </div>
-        <div className="w-full hidden sm:flex items-end justify-end">
+        <div className="w-full hidden sm:flex items-end md:items-center justify-end">
           <img
             src="/image/person-laptop.png"
             alt="person-with-table"
