@@ -5,7 +5,7 @@ function Home() {
   return (
     <div className="w-full flex flex-col relative items-center justify-center p-0">
       {/* Background Image (Covers Entire Page) */}
-      <div className="inset-0 absolute w-full h-full flex items-center justify-center img-card opacity-20 z-10">
+      <div className="inset-0 absolute w-full h-full flex items-center justify-center img-card sm:opacity-20 opacity-30 z-10">
         <img
           src="/image/ElevateU.png"
           alt="homepage image"
@@ -13,25 +13,23 @@ function Home() {
         />
       </div>
       {/* Content */}
-      <div className="w-full h-[100vh] grid grid-cols-2 z-20">
-        <div className="flex flex-col items-center justify-center border-2 gap-4 border-red-400 col-span-2 sm:col-span-1 md:col-span-1 lg:col-span-1">
-          <div className="w-full h-full border-2 border-blue-500 flex flex-col justify-center items-end">
-            <div className="w-[95%] h-auto flex flex-col border-2 border-red-400 gap-3 items-start">
-              <h1 className="text-black text-6xl">
+      <div className="w-full h-[70vh] sm:h-[100vh] grid grid-cols-2 z-20">
+        <div className="flex flex-col items-center justify-center border-2 sm:gap-4 border-red-400 col-span-2 sm:col-span-1 md:col-span-1 lg:col-span-1">
+          <div className="w-full sm:h-full border-2 border-blue-500 flex flex-col justify-center items-center sm:items-end">
+            <div className="w-[95%] h-auto flex flex-col border-2 border-red-400 gap-3 items-center sm:items-start">
+              <h1 className="text-black text-[34px] sm:text-6xl">
                 Welcome to{" "}
                 <span className="font-bold text-[#3b66ff]">ElevateU</span>
               </h1>
-              <p className="text-[1rem] italic text-[#002ccc] whitespace-nowrap">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. <br />
-                Perspiciatis, quae sunt. Dicta atque repellendus molestias,<br />
-                repellat consectetur iure nisi saepe ex nesciunt id non suscipit <br />
-                provident voluptatum architecto, quod est.
+              {/* <p className="text-[1rem] italic font-semibold text-[#002ccc] text-justify sm:whitespace-nowrap"> */}
+              <p className="text-[1rem] italic font-semibold text-[#002ccc] text-justify">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Perspiciatis, quae sunt. Dicta atque repellendus molestias.
               </p>
-              <p>
+              <p className="text-justify">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Laudantium adipisci exercitationem
               </p>
-              <Button>Go With..</Button>
+              <Button className="rounded-3xl">Go With..</Button>
             </div>
           </div>
           <div className="w-full h-[20%] m border-2 border-black flex items-center gap-3 z-49">
@@ -41,16 +39,16 @@ function Home() {
             />
             <FontAwesomeIcon
               icon={faWhatsapp}
-              className="text-[#3b66ff] text-3xl"
+              className="text-[#25D366] text-3xl"
             />
             <FontAwesomeIcon
               icon={faInstagram}
-              className="text-[#3b66ff] text-3xl"
+              className="text-[#E1306C] text-3xl"
             />
             <FontAwesomeIcon icon={faLinkedin} className="text-[#3b66ff] text-3xl" />
           </div>
         </div>
-        <div className="w-full hidden sm:flex items-end md:items-center justify-end">
+        <div className="w-full hidden sm:flex items-end justify-end">
           <img
             src="/image/person-laptop.png"
             alt="person-with-table"
