@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button';
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
   
 
 const Navbar = () => {
+  const {user} = useSelector((store)=> store.auth);
+  const firstLetter = user ? user.fullname.split(" ")[0][0] : "X";
   return (
       <nav className="navbar w-[90vw] sm:w-[600px] md:w-[707px] lg:w-[907px] p-2 pl-6 font-primary overflow-hidden navbar-expand-lg navbar-light bg-white flex flex-row justify-between items-center border-0 rounded-full shadow-lg m-[-10px]">
         <div id="nav-logo" className="w-[40px]">
-          <img src="/image/ElevateU.png" />
+          <Link to="/">
+            <img src="/image/ElevateU.png" />
+          </Link>
         </div>
         <div className="sm:flex hidden">
           <ul className="flex flex-row justify-between gap-5 font-semibold">
@@ -26,20 +32,33 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="flex flex-row">
-          <div className="hidden sm:flex flex-row">
-            <Button
-              variant="secondary"
-              className="w-[90px] flex flex-col items-start border-gray-600 hover:bg-[#a6b8fa] hover:text-white border-r-0 rounded-l-full rounded-r-full cursor-pointer mr-[-20px]"
-            >
-              SignUp
-            </Button>
-            <Button
-              variant="secondary"
-              className="bg-[#3b66ff] hover:bg-[#9fb4ff] rounded-l-full rounded-r-full text-white cursor-pointer ml-[-5px]"
-            >
-              Login
-            </Button>
-          </div>
+          {
+            !user ?(
+              <div className="hidden sm:flex flex-row">
+                <Link to="/signup">
+                  <Button
+                    variant="secondary"
+                    className="w-[90px] flex flex-col items-start border-gray-600 hover:bg-[#a6b8fa] hover:text-white active:bg-black border-r-0 rounded-l-full rounded-r-full cursor-pointer mr-[-20px]"
+                  >
+                    SignUp
+                  </Button>
+                </Link>
+                <Link to="/login">
+                  <Button
+                    variant="secondary"
+                    className="bg-[#3b66ff] hover:bg-[#9fb4ff] active:bg-black rounded-l-full rounded-r-full text-white cursor-pointer ml-[-5px]"
+                  >
+                    Login
+                  </Button> 
+                </Link>
+              </div>
+            ) :(
+              <div className='w-[35px] h-[33px] flex items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold'>
+                  {firstLetter}
+              </div>
+            )
+          }
+          
           <div className="flex sm:hidden md:hidden lg:hidden">
             <Popover>
               <PopoverTrigger>
@@ -75,18 +94,22 @@ const Navbar = () => {
                     </li>
                   </ul>
                   <div className='flex flex-row gap-1'>
-                    <Button
-                      variant="secondary"
-                      className="w-[90px] flex flex-col border-gray-600 hover:bg-[#a6b8fa] hover:text-white border-r-0 rounded-l-full rounded-r-full cursor-pointer mt-2"
-                    >
-                      SignUp
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      className="w-[90px] bg-[#3b66ff] hover:bg-[#9fb4ff] rounded-l-full rounded-r-full text-white cursor-pointer mt-2"
-                    >
-                      Login
-                    </Button>
+                    <Link to="/signup">
+                      <Button
+                        variant="secondary"
+                        className="w-[90px] flex flex-col border-gray-600 hover:bg-[#a6b8fa] hover:text-white border-r-0 rounded-l-full rounded-r-full cursor-pointer mt-2"
+                      >
+                        SignUp
+                      </Button>
+                    </Link>
+                    <Link to="/login">
+                      <Button
+                        variant="secondary"
+                        className="w-[90px] bg-[#3b66ff] hover:bg-[#9fb4ff] rounded-l-full rounded-r-full text-white cursor-pointer mt-2"
+                      >
+                        Login
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </PopoverContent>

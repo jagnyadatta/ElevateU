@@ -1,16 +1,34 @@
 import './App.css'
-import Home from './components/Home';
-import Navbar from './components/shared/Navbar'
+import Home from './components/Home'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Login from './components/auth/Login'
+import Signup from './components/auth/Signup'
+import Layout from './components/Layout'
+
+const appRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Home />
+      },
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'signup',
+        element: <Signup />
+      },
+      // Add more pages inside here if they also need Navbar
+    ]
+  },
+])
 
 function App() {
-  return (
-    <div className="w-full flex flex-col items-center justify-center p-0">
-      <div className="fixed top-5 flex justify-center w-full z-50">
-        <Navbar />
-      </div>
-      <Home/>
-    </div> 
-  )
+  return <RouterProvider router={appRouter} />
 }
 
 export default App
