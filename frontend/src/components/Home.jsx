@@ -1,4 +1,4 @@
-  import FrontPagelayout from "./FrontPagelayout";
+import FrontPagelayout from "./FrontPagelayout";
 import BackgroundImage from "./BackgroundImage";
 import Service from "./Service";
 
