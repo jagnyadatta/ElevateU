@@ -8,13 +8,8 @@ const Service = () => {
       {/* Wrapper with relative for positioning context */}
       <div className="relative h-[100vh] w-full">
 
-        {/* Background Image placed underneath */}
-        <div className="absolute top-0 left-0 w-full h-full z-0">
-          <BackgroundImage />
-        </div>
-
         {/* Main content above the background */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center">
+        <div className="relative z-2 h-full flex flex-col items-center justify-center">
           <div className="w-full h-[20%]">
             <h2 className="text-5xl ml-[12%] mt-[7%] text-[#3b66ff] font-bold">
               Services
