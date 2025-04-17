@@ -1,6 +1,7 @@
 import FrontPagelayout from "./FrontPagelayout";
 import BackgroundImage from "./BackgroundImage";
 import Service from "./Service";
+import AboutUs from "./AboutUs";
 
 function Home() {
   return (
@@ -8,6 +9,7 @@ function Home() {
       <FrontPagelayout/>
       <BackgroundImage />
       <Service/>
+      <AboutUs/>
     </>
 
 
