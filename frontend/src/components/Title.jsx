@@ -6,7 +6,7 @@ import TypingEffect from "./TypingEffect";
 export default function Title(){
     return (
         <>
-        <div className="h-[100vh] w-full flex flex-col items-center justify-center sm:gap-4  col-span-2 sm:col-span-1 md:col-span-1 lg:col-span-1">
+        <div id="home" className="h-[100vh] w-full flex flex-col items-center justify-center sm:gap-4  col-span-2 sm:col-span-1 md:col-span-1 lg:col-span-1">
           <div className="w-full sm:h-full flex flex-col justify-center items-center sm:items-end">
             <div className="w-[96%] h-auto flex flex-col gap-5 sm:gap-3 items-center sm:items-start">
               <h1 className="text-black text-[34px] sm:text-6xl">

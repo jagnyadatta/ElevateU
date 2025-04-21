@@ -39,16 +39,17 @@ const Navbar = () => {
         <div className="sm:flex hidden">
           <ul className="flex flex-row justify-between gap-5 font-semibold">
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-              Home
+            <a href="#home">Home</a>
+              
             </li>
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-              Services
+             <a href="#services">Services</a>
             </li>
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-              Contact Us
+              <a href="#contactus">Contact Us</a>
             </li>
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-              About Us
+             <a href="#aboutus"> About Us</a>
             </li>
           </ul>
         </div>
