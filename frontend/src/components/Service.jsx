@@ -6,7 +6,7 @@ const Service = () => {
   return (
     <>
       {/* Wrapper with relative for positioning context */}
-      <div className="relative h-[100vh] w-full">
+      <div id="services" className="relative h-[100vh] w-full">
 
         {/* Background Image placed underneath */}
         <div className="absolute top-0 left-0 w-full h-full z-0">
