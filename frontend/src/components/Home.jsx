@@ -3,15 +3,19 @@ import BackgroundImage from "./BackgroundImage";
 import Service from "./Service";
 import AboutUs from "./AboutUs";
 import Footer from "./shared/Footer";
+import CareerCounsellor from "./CareerCounsellor";
+
 
 function Home() {
   return (
     <>
-      <FrontPagelayout/>
+      {/* <FrontPagelayout/>
       <BackgroundImage />
       <Service/>
       <AboutUs/>
-      <Footer/>
+      <Footer/> */}
+      <CareerCounsellor />
+      
     </>
 
 
