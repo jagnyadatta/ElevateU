@@ -2,6 +2,7 @@ import FrontPagelayout from "./FrontPagelayout";
 import BackgroundImage from "./BackgroundImage";
 import Service from "./Service";
 import AboutUs from "./AboutUs";
+import Footer from "./shared/Footer";
 
 function Home() {
   return (
@@ -10,6 +11,7 @@ function Home() {
       <BackgroundImage />
       <Service/>
       <AboutUs/>
+      <Footer/>
     </>
 
 

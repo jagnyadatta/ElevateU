@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { USER_API_END_POINT, OTP_API_END_POINT } from "../../utils/constant.js"
+import Footer from "../shared/Footer";
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -135,136 +136,139 @@ const Signup = () => {
     }, [resendCooldown]);
 
   return (
-    <div className="mt-25">
-      <div className="flex items-center justify-center max-w-7xl mx-auto">
-        <form
-          onSubmit={submitHandler}
-          className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
-        >
-          <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Sign Up</h1>
+    <>
+      <div className="mt-25">
+        <div className="flex items-center justify-center max-w-7xl mx-auto">
+          <form
+            onSubmit={submitHandler}
+            className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
+          >
+            <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Sign Up</h1>
 
-          <div className="my-2">
-            <Label>Full Name</Label>
-            <Input
-              type="text"
-              value={input.fullname}
-              name="fullname"
-              onChange={changeEventHandler}
-              placeholder="Jagnyadatta Dalai"
-              className="mt-2"
-            />
-          </div>
-
-          <div className="my-2">
-            <Label>Email</Label>
-            <div className="flex items-center">
-              <Input
-                type="email"
-                value={input.email}
-                name="email"
-                onChange={changeEventHandler}
-                placeholder="demo123@gmail.com"
-                className="flex-1 mt-2"
-              />
-              {isOTPRequested ? (
-                <div className="my-2 flex flex-col items-center">
-                  <Button
-                    type="button"
-                    onClick={resendOTPHandler}
-                    disabled={resendCooldown || isOTPVerified}
-                    className={`ml-2 mt-2 text-white bg-red-500 hover:bg-red-800 outline-none ${
-                      isOTPVerified && "hidden"
-                    }`}
-                  >
-                    {!isOTPVerified && "Resend"}
-                  </Button>
-
-                </div>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={sendOTPHandler}
-                  className="ml-2 mt-2 bg-blue-600 hover:bg-[#9fb4ff] active:bg-black text-white cursor-pointer"
-                  disabled={isOTPRequested}
-                >
-                  Send OTP
-                </Button>
-              )}
-            </div>
-          </div>
-
-          {!isOTPVerified && (resendCooldown && (isOTPRequested && (
-            <p className="text-gray-600 text-sm mt-1 ">
-              You can request a new OTP in <span className="text-red-600 font-semibold">{countdown}</span> seconds.
-            </p>
-          )))}
-
-          {isOTPRequested && (
             <div className="my-2">
-              <Label>Enter OTP</Label>
+              <Label>Full Name</Label>
+              <Input
+                type="text"
+                value={input.fullname}
+                name="fullname"
+                onChange={changeEventHandler}
+                placeholder="Jagnyadatta Dalai"
+                className="mt-2"
+              />
+            </div>
+
+            <div className="my-2">
+              <Label>Email</Label>
               <div className="flex items-center">
                 <Input
-                  type="text"
-                  value={input.otp}
-                  name="otp"
+                  type="email"
+                  value={input.email}
+                  name="email"
                   onChange={changeEventHandler}
-                  placeholder="Enter OTP"
-                  className="flex-1 my-2"
+                  placeholder="demo123@gmail.com"
+                  className="flex-1 mt-2"
                 />
-                <Button
-                  type="button"
-                  onClick={verifyOTPHandler}
-                  className={`ml-2 my-2 bg-green-600 text-white ${
-                    isOTPVerified ? "cursor-not-allowed" : "bg-green-700"
-                  } `}
-                  disabled={isOTPVerified}
-                >
-                  Verify OTP
-                </Button>
+                {isOTPRequested ? (
+                  <div className="my-2 flex flex-col items-center">
+                    <Button
+                      type="button"
+                      onClick={resendOTPHandler}
+                      disabled={resendCooldown || isOTPVerified}
+                      className={`ml-2 mt-2 text-white bg-red-500 hover:bg-red-800 outline-none ${
+                        isOTPVerified && "hidden"
+                      }`}
+                    >
+                      {!isOTPVerified && "Resend"}
+                    </Button>
+
+                  </div>
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={sendOTPHandler}
+                    className="ml-2 mt-2 bg-blue-600 hover:bg-[#9fb4ff] active:bg-black text-white cursor-pointer"
+                    disabled={isOTPRequested}
+                  >
+                    Send OTP
+                  </Button>
+                )}
               </div>
             </div>
-          )}
 
-          <div className="my-2">
-            <Label>Phone No</Label>
-            <Input
-              type="text"
-              value={input.phoneNumber}
-              name="phoneNumber"
-              onChange={changeEventHandler}
-              placeholder="7070707709"
-              className="mt-2"
-            />
-          </div>
-          <div className="my-2">
-            <Label>Password</Label>
-            <Input
-              type="password"
-              value={input.password}
-              name="password"
-              onChange={changeEventHandler}
-              placeholder="**********"
-              className="mt-2"
-            />
-          </div>
+            {!isOTPVerified && (resendCooldown && (isOTPRequested && (
+              <p className="text-gray-600 text-sm mt-1 ">
+                You can request a new OTP in <span className="text-red-600 font-semibold">{countdown}</span> seconds.
+              </p>
+            )))}
 
-          <Button
-            type="submit"
-            className="w-full my-4 bg-[#3b66ff] hover:bg-[#9fb4ff] outline:none cursor-pointer"
-            disabled={!isOTPVerified}
-          >
-            Signup
-          </Button>
+            {isOTPRequested && (
+              <div className="my-2">
+                <Label>Enter OTP</Label>
+                <div className="flex items-center">
+                  <Input
+                    type="text"
+                    value={input.otp}
+                    name="otp"
+                    onChange={changeEventHandler}
+                    placeholder="Enter OTP"
+                    className="flex-1 my-2"
+                  />
+                  <Button
+                    type="button"
+                    onClick={verifyOTPHandler}
+                    className={`ml-2 my-2 bg-green-600 text-white ${
+                      isOTPVerified ? "cursor-not-allowed" : "bg-green-700"
+                    } `}
+                    disabled={isOTPVerified}
+                  >
+                    Verify OTP
+                  </Button>
+                </div>
+              </div>
+            )}
 
-          <span className="text-sm">
-            Already have an account?{" "}
-            <Link to="/login" className="text-blue-600">
-              Login
-            </Link>
-          </span>
-        </form>
+            <div className="my-2">
+              <Label>Phone No</Label>
+              <Input
+                type="text"
+                value={input.phoneNumber}
+                name="phoneNumber"
+                onChange={changeEventHandler}
+                placeholder="7070707709"
+                className="mt-2"
+              />
+            </div>
+            <div className="my-2">
+              <Label>Password</Label>
+              <Input
+                type="password"
+                value={input.password}
+                name="password"
+                onChange={changeEventHandler}
+                placeholder="**********"
+                className="mt-2"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full my-4 bg-[#3b66ff] hover:bg-[#9fb4ff] outline:none cursor-pointer"
+              disabled={!isOTPVerified}
+            >
+              Signup
+            </Button>
+
+            <span className="text-sm">
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-600">
+                Login
+              </Link>
+            </span>
+          </form>
+        </div>
       </div>
-    </div>
+      <Footer/>
+    </>
   );
 };
 
