@@ -1,6 +1,6 @@
 import React from "react";
-import BackgroundImage from "./BackgroundImage";
-import { Button } from "./ui/button";
+import BackgroundImage from "../shared/BackgroundImage";
+import { Button } from "../ui/button";
 
 const Service = () => {
   return (

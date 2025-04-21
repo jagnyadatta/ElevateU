@@ -1,9 +1,9 @@
-import FrontPagelayout from "./FrontPagelayout";
-import BackgroundImage from "./BackgroundImage";
-import Service from "./Service";
+import CareerCounsellor from "../Career/CareerCounsellor";
+import BackgroundImage from "../shared/BackgroundImage";
+import Footer from "../shared/Footer";
 import AboutUs from "./AboutUs";
-import Footer from "./shared/Footer";
-import CareerCounsellor from "./CareerCounsellor";
+import FrontPagelayout from "./FrontPagelayout";
+import Service from "./Service";
 
 
 function Home() {

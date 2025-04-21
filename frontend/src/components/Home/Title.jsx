@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "./ui/button";
 import {faFacebook,faInstagram,faLinkedin,faWhatsapp,} from "@fortawesome/free-brands-svg-icons";
+import { Button } from "../ui/button";
 import TypingEffect from "./TypingEffect";
 
 export default function Title(){
