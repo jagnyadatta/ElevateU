@@ -9,10 +9,10 @@ import Service from "./Service";
 function Home() {
   return (
     <>
-      {/* <FrontPagelayout/>
+      <FrontPagelayout/>
       <Service/>
       <AboutUs/>
-      <Footer/> */}
+      <Footer/>
       <BackgroundImage />
       <CareerCounsellor />
       

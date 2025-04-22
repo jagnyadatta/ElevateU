@@ -1,4 +1,4 @@
-export default function Contentt() {
+export default function Content() {
     return (
       <>
         <div className=" w-full h-screen  hidden sm:block" z-5>
