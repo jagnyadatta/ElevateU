@@ -17,7 +17,7 @@ const Service = () => {
         <div className="relative z-10 h-full flex flex-col items-center justify-center">
           <div className="w-full h-[20%]">
             <h2 className="text-5xl ml-[12%] mt-[7%] text-[#3b66ff] font-bold">
-              Services
+             <a href="">Services</a>
             </h2>
           </div>
 

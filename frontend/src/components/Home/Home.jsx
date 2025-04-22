@@ -10,10 +10,10 @@ function Home() {
   return (
     <>
       {/* <FrontPagelayout/>
-      <BackgroundImage />
       <Service/>
       <AboutUs/>
       <Footer/> */}
+      <BackgroundImage />
       <CareerCounsellor />
       
     </>
