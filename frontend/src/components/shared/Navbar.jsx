@@ -45,11 +45,16 @@ const Navbar = () => {
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
              <a href="#services">Services</a>
             </li>
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+            {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <a href="#contactus">Contact Us</a>
-            </li>
+            </li> */}
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
              <a href="#aboutus"> About Us</a>
+            </li>
+            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+              <Link to="/aisuggest">
+                AI Suggetion
+              </Link>
             </li>
           </ul>
         </div>
@@ -122,6 +127,11 @@ const Navbar = () => {
                     </li>
                     <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
                       About Us
+                    </li>
+                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                      <Link to="/aisuggest">
+                        AI Suggetion
+                      </Link>
                     </li>
                   </ul>
                   {

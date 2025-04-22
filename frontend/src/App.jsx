@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Layout from './components/shared/Layout'
-// import AiHomePage from './components/AIpage/AiHomePage'
+import AiHomePage from './components/AIpage/AiHomePage'
 
 const appRouter = createBrowserRouter([
   {
@@ -23,10 +23,10 @@ const appRouter = createBrowserRouter([
         path: 'signup',
         element: <Signup />
       },
-      // {
-      //   path: 'aisuggest',
-      //   element: <AiHomePage />
-      // },
+      {
+        path: 'aisuggest',
+        element: <AiHomePage />
+      },
       // Add more pages inside here if they also need Navbar
     ]
   },
