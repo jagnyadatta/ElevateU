@@ -49,7 +49,8 @@ const persons = [
 
 const PersonCard = ({ name, image,college }) => {
   return (
-    <Card className="w-64 m-4 shadow-lg rounded-2xl overflow-hidden">
+    <Card className="w-64 m-4 shadow-lg rounded-2xl overflow-hidden transition-all duration-300 ease-in-out hover:opacity-70">
+
       <img src={image} alt={name} className="w-full h-64 object-cover" />
       <CardContent className="p-4 text-center">
         <h2 className="text-md font-semibold">{name}</h2>
@@ -62,9 +63,9 @@ const PersonCard = ({ name, image,college }) => {
 
 const PersonCardList = () => {
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-wrap justify-center ">
       {persons.map((person, index) => (
-        <PersonCard key={index} name={person.name} image={person.image} college={person.college} />
+        <PersonCard key={index} name={person.name} image={person.image} college={person.college}  />
       ))}
     </div>
   );

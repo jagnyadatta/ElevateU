@@ -1,20 +1,24 @@
 import CareerCounsellor from "../Career/CareerCounsellor";
+import MusicianProfileCard from "../Career/CounsellorProfile";
 import BackgroundImage from "../shared/BackgroundImage";
 import Footer from "../shared/Footer";
 import AboutUs from "./AboutUs";
 import FrontPagelayout from "./FrontPagelayout";
+
 import Service from "./Service";
 
 
 function Home() {
   return (
     <>
-      <FrontPagelayout/>
+      {/* <FrontPagelayout/>
       <Service/>
       <AboutUs/>
-      <Footer/>
-      <BackgroundImage />
-      <CareerCounsellor />
+      <Footer/> */}
+      {/* <BackgroundImage />
+      <CareerCounsellor /> */}
+      <MusicianProfileCard />
+
       
     </>
 
