@@ -14,12 +14,10 @@ function Home() {
       {/* <FrontPagelayout/>
       <Service/>
       <AboutUs/>
-      <Footer/> */}
-      {/* <BackgroundImage />
+      <Footer/>
+      <BackgroundImage />
       <CareerCounsellor /> */}
-      <MusicianProfileCard />
-
-      
+      <MusicianProfileCard /> 
     </>
 
 

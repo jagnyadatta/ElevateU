@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { AI_API_END_POINT } from '@/utils/constant';
 
 const CareerSuggestionPage = () => {
   const [education, setEducation] = useState('');
@@ -13,7 +14,7 @@ const CareerSuggestionPage = () => {
   const [chatStarted, setChatStarted] = useState(false);
 
   const getSuggestions = async () => {
-    const response = await fetch('/api/career-suggestions', {
+    const response = await fetch(`${AI_API_END_POINT}/career-suggestions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ education })
@@ -28,7 +29,7 @@ const CareerSuggestionPage = () => {
     setChatHistory(newChat);
     setMessage('');
 
-    const response = await fetch('/api/career-chat', {
+    const response = await fetch(`${AI_API_END_POINT}/career-chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: newChat })

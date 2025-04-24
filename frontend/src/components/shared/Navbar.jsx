@@ -53,7 +53,7 @@ const Navbar = () => {
             </li>
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <Link to="/aisuggest">
-                AI Suggetion
+                AI Suggestion
               </Link>
             </li>
           </ul>
