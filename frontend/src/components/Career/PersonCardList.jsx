@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 const persons = [
   {
@@ -55,7 +56,9 @@ const PersonCard = ({ name, image,college }) => {
       <CardContent className="p-4 text-center">
         <h2 className="text-md font-semibold">{name}</h2>
         <h2 className="text-md font-semibold">{college}</h2>
-        <Button className="bg-[#3b66ff]" > Go With </Button>
+        <Link to="/profilecouncil">
+          <Button className="bg-[#3b66ff]" > Go With </Button>
+        </Link>
       </CardContent>
     </Card>
   );
