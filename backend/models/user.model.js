@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    role:{
+      type: String,
+      required: false,
+    },
     otp: {
       type: String,  // Stores the OTP sent to the user
       required: false, // OTP is not always needed
