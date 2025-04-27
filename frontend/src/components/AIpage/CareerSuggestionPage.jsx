@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { AI_API_END_POINT } from '@/utils/constant';
 
 const CareerSuggestionPage = () => {
   const [education, setEducation] = useState('');
@@ -13,7 +14,7 @@ const CareerSuggestionPage = () => {
   const [chatStarted, setChatStarted] = useState(false);
 
   const getSuggestions = async () => {
-    const response = await fetch('/api/career-suggestions', {
+    const response = await fetch(`${AI_API_END_POINT}/career-suggestions`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ education })
@@ -28,7 +29,7 @@ const CareerSuggestionPage = () => {
     setChatHistory(newChat);
     setMessage('');
 
-    const response = await fetch('/api/career-chat', {
+    const response = await fetch(`${AI_API_END_POINT}/career-chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: newChat })
@@ -42,19 +43,19 @@ const CareerSuggestionPage = () => {
     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
       <div className="col-span-1 space-y-4">
         {!chatStarted ? (
-          <Card>
+          <Card className="border-[#3b66ff] container-shadow">
             <CardContent className="space-y-4 p-4">
-              <h2 className="text-xl font-semibold">Start Your Career Chat</h2>
+              <h2 className="text-xl font-semibold text-[#3b66ff]">Start Your Career Chat</h2>
               <Input
                 value={education}
                 onChange={(e) => setEducation(e.target.value)}
                 placeholder="Enter your last/current education"
               />
-              <Button onClick={getSuggestions}>Get Suggestions</Button>
+              <Button onClick={getSuggestions} className="bg-[#3b66ff] hover:bg-[#9fb4ff] active:bg-black rounded-l-full rounded-r-full text-white cursor-pointer ml-[-5px]">Get Suggestions</Button>
             </CardContent>
           </Card>
         ) : (
-          <Card>
+          <Card className="border-[#3b66ff] container-shadow">
             <CardContent className="space-y-2 p-4">
               <h2 className="font-bold">AI Career Suggestions</h2>
               <ul className="list-disc list-inside text-sm">
@@ -68,7 +69,7 @@ const CareerSuggestionPage = () => {
       </div>
 
       <div className="col-span-2">
-        <Card className="h-[500px] flex flex-col">
+        <Card className="h-[500px] flex flex-col border-[#3b66ff] container-shadow">
           <ScrollArea className="flex-1 p-4 space-y-2 overflow-y-auto">
             {chatHistory.map((msg, idx) => (
               <div
@@ -81,14 +82,14 @@ const CareerSuggestionPage = () => {
               </div>
             ))}
           </ScrollArea>
-          <div className="p-4 border-t flex gap-2">
+          <div className="p-4 border-t border-[#3b66ff] flex gap-2">
             <Input
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your question or choose a suggestion..."
               onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
             />
-            <Button onClick={sendMessage}>Send</Button>
+            <Button onClick={sendMessage} className="bg-[#3b66ff] hover:bg-[#9fb4ff] active:bg-black rounded-l-full rounded-r-full text-white cursor-pointer ml-[-5px]">Send</Button>
           </div>
         </Card>
       </div>
