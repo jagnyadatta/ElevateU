@@ -17,7 +17,12 @@ function Home() {
       <AboutUs/>
       <Footer/>
       <BackgroundImage />
+      {/* <CareerCounsellor /> */}
+      {/* <CounsellorProfile /> */}
+  
     </>
+
+
   );
 }
 
