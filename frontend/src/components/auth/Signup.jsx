@@ -15,6 +15,7 @@ const Signup = () => {
     phoneNumber: "",
     password: "",
     otp: "",
+    role:"",
   });
   const [isOTPRequested, setIsOTPRequested] = useState(false); // State to track OTP request
   const [isOTPVerified, setIsOTPVerified] = useState(false); // State to track OTP verification
@@ -53,8 +54,6 @@ const Signup = () => {
       toast.error(error.response?.data?.message || "An error occurred.");
     }
   };
-
-  
 
   // Submit form after OTP verification
   const submitHandler = async (e) => {
@@ -117,23 +116,23 @@ const Signup = () => {
   };
 
 
-    //useEffect for resend otp timer
-    useEffect(() => {
-      let timer;
-      if (resendCooldown) {
-        timer = setInterval(() => {
-          setCountdown((prev) => {
-            if (prev === 1) {
-              clearInterval(timer);
-              setResendCooldown(false);
-              return 60;
-            }
-            return prev - 1;
-          });
-        }, 1000);
-      }
-      return () => clearInterval(timer);
-    }, [resendCooldown]);
+  //useEffect for resend otp timer
+  useEffect(() => {
+    let timer;
+    if (resendCooldown) {
+      timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev === 1) {
+            clearInterval(timer);
+            setResendCooldown(false);
+            return 60;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
 
   return (
     <>
@@ -228,6 +227,21 @@ const Signup = () => {
             )}
 
             <div className="my-2">
+              <Label>Select Role</Label>
+              <select
+                name="role"
+                value={input.role}
+                onChange={changeEventHandler}
+                className="w-full p-2 border border-[#3b66ff] mt-2 rounded-md focus:outline-none"
+                required
+              >
+                <option value="">Select your role</option> {/* Default empty option */}
+                <option value="student">Student</option>
+                <option value="counsellor">Counsellor</option>
+              </select>
+            </div>
+
+            <div className="my-2">
               <Label>Phone No</Label>
               <Input
                 type="text"
@@ -252,7 +266,7 @@ const Signup = () => {
 
             <Button
               type="submit"
-              className="w-full my-4 bg-[#3b66ff] hover:bg-[#9fb4ff] outline:none cursor-pointer"
+              className="w-full my-4 bg-[#3b66ff] hover:bg-[#9fb4ff] outline-none cursor-pointer"
               disabled={!isOTPVerified}
             >
               Signup

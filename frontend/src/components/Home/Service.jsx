@@ -1,6 +1,7 @@
 import React from "react";
 import BackgroundImage from "../shared/BackgroundImage";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
 
 const Service = () => {
   return (
@@ -34,9 +35,11 @@ const Service = () => {
                     nostrum labore eos amet rerum nihil id quasi illo minus? Earum
                     placeat aut beatae! Blanditiis.
                   </p>
-                  <Button className="rounded-3xl bg-white text-[#3b66ff] w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
-                    Continue
-                  </Button>
+                  <Link to="/careerzone">
+                    <Button className="rounded-3xl bg-white text-[#3b66ff] w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
+                      Continue
+                    </Button>
+                  </Link>
                 </div>
               </div>
 

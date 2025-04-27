@@ -5,6 +5,8 @@ import Login from './components/auth/Login'
 import Signup from './components/auth/Signup'
 import Layout from './components/shared/Layout'
 import AiHomePage from './components/AIpage/AiHomePage'
+import CareerCounsellor from './components/Career/CareerCounsellor'
+import CounsellorProfile from './components/Career/CounsellorProfile'
 
 const appRouter = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const appRouter = createBrowserRouter([
       {
         path: 'aisuggest',
         element: <AiHomePage />
+      },
+      {
+        path: 'careerzone',
+        element: <CareerCounsellor/>
+      },
+      {
+        path: 'profilecouncil',
+        element: <CounsellorProfile/>
       },
       // Add more pages inside here if they also need Navbar
     ]
