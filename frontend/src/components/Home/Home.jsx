@@ -1,4 +1,5 @@
 import CareerCounsellor from "../Career/CareerCounsellor";
+import CounsellorProfile from "../Career/CounsellorProfile";
 import MusicianProfileCard from "../Career/CounsellorProfile";
 import BackgroundImage from "../shared/BackgroundImage";
 import Footer from "../shared/Footer";
@@ -15,9 +16,9 @@ function Home() {
       <Service/>
       <AboutUs/>
       <Footer/> */}
-      {/* <BackgroundImage />
-      <CareerCounsellor /> */}
-      <MusicianProfileCard />
+      {/* <BackgroundImage /> */}
+      {/* <CareerCounsellor /> */}
+      <CounsellorProfile />
 
       
     </>
