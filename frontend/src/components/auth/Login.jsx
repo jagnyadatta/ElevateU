@@ -14,6 +14,7 @@ const Login = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
+    role: "",
   });
   const {user} = useSelector((store)=> store.auth);
   const navigate = useNavigate();
@@ -76,6 +77,21 @@ const Login = () => {
                 className="mt-2"
               />
             </div>
+            <div className="my-2">
+              <Label>Select Role</Label>
+              <select
+                name="role"
+                value={input.role}
+                onChange={changeEventHandler}
+                className="w-full p-2 border border-[#3b66ff] mt-2 rounded-md focus:outline-none"
+                required
+              >
+                <option value="">Select your role</option>
+                <option value="student">Student</option>
+                <option value="counsellor">Counsellor</option>
+              </select>
+            </div>
+
             <Button
                 type="submit"
                 className="w-full my-4 bg-[#3b66ff] hover:bg-[#6072b4] active:bg-black cursor-pointer outline:none"

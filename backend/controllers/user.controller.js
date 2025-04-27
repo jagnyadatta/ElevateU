@@ -58,8 +58,8 @@ export const register = async (req, res) => {
   //For Login
   export const login = async (req, res) => {
     try {
-      const { email, password} = req.body;
-      if (!email || !password ) {
+      const { email, password, role} = req.body;
+      if (!email || !password || !role) {
         return res.status(400).json({
           message: "Something is missing",
           success: false,
@@ -72,6 +72,15 @@ export const register = async (req, res) => {
           success: false,
         });
       }
+
+      // Check if role matches
+      if (user.role !== role) {
+        return res.status(400).json({
+          message: `Incorrect role selected. Please login as a ${user.role}.`,
+          success: false,
+        });
+      }
+
       const isPasswordMatch = await bcrypt.compare(password, user.password);
       if (!isPasswordMatch) {
         return res.status(400).json({
@@ -83,6 +92,7 @@ export const register = async (req, res) => {
       //token data
       const tokenData = {
         userId: user._id,
+        role: user.role,
       };
       const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
         expiresIn: "1d",
@@ -93,12 +103,13 @@ export const register = async (req, res) => {
         fullname: user.fullname,
         email: user.email,
         phoneNumber: user.phoneNumber,
+        role: user.role,
       };
   
       return res.status(200)
         .cookie("token", token, {
           maxAge: 1 * 24 * 60 * 60 * 1000,
-          httpsOnly: true,
+          httpOnly: true,
           sameSite: "strict",
         })
         .json({
@@ -108,6 +119,10 @@ export const register = async (req, res) => {
           });
     } catch (error) {
       console.log(error);
+      res.status(500).json({
+        message: "Internal Server Error",
+        success: false,
+      });
     }
   };
   
