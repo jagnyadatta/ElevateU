@@ -76,7 +76,7 @@ export const register = async (req, res) => {
       // Check if role matches
       if (user.role !== role) {
         return res.status(400).json({
-          message: `Incorrect role selected. Please login as a ${user.role}.`,
+          message: `Incorrect role selected. Please login as a ${user.role || "(not updated)"}.`,
           success: false,
         });
       }

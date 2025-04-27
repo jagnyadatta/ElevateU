@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
 import Footer from "../shared/Footer";
+import Loader from "../ui/Loader";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -16,6 +17,7 @@ const Login = () => {
     password: "",
     role: "",
   });
+  const [loader, setLoader] = useState(false);
   const {user} = useSelector((store)=> store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const Login = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      setLoader(true);
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
           "Content-Type": "application/json  ",
@@ -38,7 +41,9 @@ const Login = () => {
         toast.success(`Login Successfully! ${name}`);
       }
     } catch (error) {
-        toast.error(error.response?.data?.message || "Something went wrong!");
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    } finally{
+      setLoader(false);
     }
   };
   useEffect(() => {
@@ -93,11 +98,11 @@ const Login = () => {
             </div>
 
             <Button
-                type="submit"
-                className="w-full my-4 bg-[#3b66ff] hover:bg-[#6072b4] active:bg-black cursor-pointer outline:none"
-              >
-                Login
-              </Button>
+              type="submit"
+              className="w-full my-4 bg-[#3b66ff] hover:bg-[#6072b4] active:bg-black cursor-pointer outline:none"
+            >
+              Login
+            </Button>
 
             <span className="text-sm">
               Don't have an account?{" "}
@@ -108,6 +113,11 @@ const Login = () => {
           </form>
         </div>
       </div>
+      {loader && 
+        <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+          <Loader/>
+        </div>
+      }
       <Footer/>
     </>
   );
