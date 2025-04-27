@@ -15,17 +15,14 @@ function Home() {
       <FrontPagelayout/>
       <Service/>
       <AboutUs/>
-<<<<<<< HEAD
-      <Footer/> */}
-      {/* <BackgroundImage /> */}
-      {/* <CareerCounsellor /> */}
-      <CounsellorProfile />
-      
-=======
       <Footer/>
       <BackgroundImage />
->>>>>>> 3db1cfa3854a1343095c98f972ae84b05a39130a
+      {/* <CareerCounsellor /> */}
+      {/* <CounsellorProfile /> */}
+  
     </>
+
+
   );
 }
 
