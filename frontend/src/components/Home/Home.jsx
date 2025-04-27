@@ -15,19 +15,11 @@ function Home() {
       {/* <FrontPagelayout/>
       <Service/>
       <AboutUs/>
-<<<<<<< HEAD
       <Footer/> */}
       {/* <BackgroundImage /> */}
       {/* <CareerCounsellor /> */}
       <CounsellorProfile />
-
       
-=======
-      <Footer/>
-      <BackgroundImage />
-      <CareerCounsellor /> */}
-      <MusicianProfileCard /> 
->>>>>>> 28a0eeeac0e7455732d49a3fe9d43fa8f34c65cf
     </>
 
 
