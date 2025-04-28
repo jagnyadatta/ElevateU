@@ -1,4 +1,4 @@
-import { User } from "../models/user.model.js";
+import { Student } from "../models/student.model.js";
 import { generateOtp, sendOtpEmail } from "../utils/otpGenerate.js";
 
 // Send OTP
@@ -7,7 +7,7 @@ export const sendOtp = async (req, res) => {
 
   try {
     // Check if the user exists
-    let user = await User.findOne({ email });
+    let user = await Student.findOne({ email });
     if (user) {
       return res.status(400).json({
         message: "User is already exist with this email!",
@@ -17,7 +17,7 @@ export const sendOtp = async (req, res) => {
 
     if (!user) {
       // Create a temporary user for OTP verification
-      user = new User({ email, otp: null, otpExpiry: null });
+      user = new Student({ email, otp: null, otpExpiry: null });
     }
 
     const otp = generateOtp();
@@ -45,7 +45,7 @@ export const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await Student.findOne({ email });
 
     if (!user) {
       return res.status(404).json({ success: false, message: "Already OTP is Verified!" });
@@ -77,15 +77,15 @@ export const verifyOtp = async (req, res) => {
 export const resendOtp = async (req, res) => {
   const { email } = req.body;
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await Student.findOne({ email });
     if (existingUser) {
-      await User.deleteOne({ email }); // Delete the temporary user
+      await Student.deleteOne({ email }); // Delete the temporary user
     }
 
     const otp = generateOtp();
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
     
-    const newUser = new User({ email, otp, otpExpiry });
+    const newUser = new Student({ email, otp, otpExpiry });
     await newUser.save();
 
     const emailResponse = await sendOtpEmail(email, otp);
