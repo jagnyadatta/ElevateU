@@ -5,6 +5,7 @@ import MusicianProfileCard from "../Career/CounsellorProfile";
 import BackgroundImage from "../shared/BackgroundImage";
 import Footer from "../shared/Footer";
 import AboutUs from "./AboutUs";
+import Dashboard from "./Dashboard";
 import FrontPagelayout from "./FrontPagelayout";
 
 import Service from "./Service";
@@ -13,14 +14,15 @@ import Service from "./Service";
 function Home() {
   return (
     <>
-      <FrontPagelayout/>
+      {/* <FrontPagelayout/>
       <Service/>
       <AboutUs/>
       <Footer/>
-      <BackgroundImage />
+      <BackgroundImage /> */}
       {/* <CounsellorSignup /> */}
       {/* <CareerCounsellor /> */}
       {/* <CounsellorProfile /> */}
+      <Dashboard/>
     </>
   );
 }
