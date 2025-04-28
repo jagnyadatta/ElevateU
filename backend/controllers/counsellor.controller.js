@@ -4,8 +4,8 @@ import { counsellorPerson } from "../models/counsellor.model.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, phoneNumber, password, role, collegeName, branch, examName, rank, passoutYear, about, registrationNumber, profileImage, collegeIdCard, rankCard } = req.body;
-    if (!name || !email || !phoneNumber || !password || !role || !collegeName || !branch || !examName || !rank || !passoutYear || !about || !registrationNumber || !profileImage || !collegeIdCard || !rankCard) {
+    const { name, email, phoneNumber, password, collegeName, branch, examName, rank, passoutYear, about, registrationNumber } = req.body;
+    if (!name || !email || !phoneNumber || !password || !collegeName || !branch || !examName || !rank || !passoutYear || !about || !registrationNumber ) {
       return res.status(400).json({
         message: "Something is missing",
         success: false,
@@ -37,13 +37,20 @@ export const register = async (req, res) => {
       });
     }
 
-    const hashedPassoword = await bcrypt.hash(password, 10);
+    const files = req.files;
+    const profileImageUrl = files.profileImage[0].path;
+    const collegeIdCardImageUrl = files.collegeIdCard[0].path;
+    const rankCardImageUrl = files.rankCard[0].path;
+    
+    const slugName = name.split(' ')[0];
+    const slug = rank + slugName;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
     await counsellorPerson.create({
       name,
       email,
       phoneNumber,
-      password: hashedPassoword,
-      role,
+      password: hashedPassword,
       collegeName,
       branch,
       examName,
@@ -51,9 +58,10 @@ export const register = async (req, res) => {
       passoutYear,
       about,
       registrationNumber,
-      profileImage,
-      collegeIdCard,
-      rankCard
+      profileImage: profileImageUrl,
+      collegeIdCard: collegeIdCardImageUrl,
+      rankCard: rankCardImageUrl,
+      slug,
     });
 
     return res.status(201).json({
@@ -62,5 +70,9 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false,
+    });
   }
 };

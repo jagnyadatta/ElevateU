@@ -31,7 +31,7 @@ const counsellorPersonSchema = new mongoose.Schema({
     required: false
   },
   rank: {
-    type: Number,
+    type: String,
     required: false
   },
   passoutYear:{

@@ -129,7 +129,7 @@ const CounsellorSignup = () => {
 
     try {
       setLoader(true);
-      const res = await axios.post(`${COUNSELLOR_API_END_POINT}/student-form`, formData, {
+      const res = await axios.post(`${COUNSELLOR_API_END_POINT}/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
