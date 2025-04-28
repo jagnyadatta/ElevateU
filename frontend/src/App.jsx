@@ -45,6 +45,9 @@ const appRouter = createBrowserRouter([
       // Add more pages inside here if they also need Navbar
     ]
   },
+  {
+    
+  }
 ])
 
 function App() {

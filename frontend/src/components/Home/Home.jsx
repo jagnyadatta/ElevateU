@@ -14,15 +14,15 @@ import Service from "./Service";
 function Home() {
   return (
     <>
-      {/* <FrontPagelayout/>
+      <FrontPagelayout/>
       <Service/>
       <AboutUs/>
       <Footer/>
-      <BackgroundImage /> */}
+      <BackgroundImage />
       {/* <CounsellorSignup /> */}
       {/* <CareerCounsellor /> */}
       {/* <CounsellorProfile /> */}
-      <Dashboard/>
+      {/* <Dashboard/> */}
     </>
   );
 }

@@ -167,7 +167,7 @@ const CounsellorSignup = () => {
 
   return (
     <>
-      <div className="mt-20">
+      <div >
         <div className="flex items-center justify-center max-w-7xl mx-auto">
           <form
             onSubmit={submitHandler}
@@ -427,8 +427,6 @@ const CounsellorSignup = () => {
           <Loader/>
         </div>
       }
-      
-      <Footer/>
     </>
   );
 };
