@@ -4,10 +4,13 @@ import SearchBox from "./SearchBox";
 
 import PersonCardList from "./PersonCardList";
 import Footer from "../shared/Footer";
+import BackgroundImage from "../shared/BackgroundImage";
 
 function CareerCounsellor() {
   return (
-    <div className="h-[100vh] relative z-4">
+    <div className="h-[100vh] relative z-2">
+      <BackgroundImage />
+
       <div className="h-[30%] flex justify-center items-end">
         <SearchBox />
       </div>
@@ -19,7 +22,9 @@ function CareerCounsellor() {
       </div>
       <div className=" flex flex-col justify-center items-center">
         <div className=" w-full flex justify-center">
-          <p className="text-[#3b66ff] text-4xl text-left w-[70%] border-b-2 pb-5">All Categories</p>
+          <p className="text-[#3b66ff] text-4xl text-left w-[70%] border-b-2 pb-5">
+            All Categories
+          </p>
         </div>
         <div className="">
           <PersonCardList />

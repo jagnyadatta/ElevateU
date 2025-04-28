@@ -12,17 +12,14 @@ import Service from "./Service";
 function Home() {
   return (
     <>
-      <FrontPagelayout/>
+      {/* <FrontPagelayout/>
       <Service/>
       <AboutUs/>
-      <Footer/>
-      <BackgroundImage />
-      {/* <CareerCounsellor /> */}
+      <Footer/> */}
+      {/* <BackgroundImage /> */}
+      <CareerCounsellor />
       {/* <CounsellorProfile /> */}
-  
     </>
-
-
   );
 }
 

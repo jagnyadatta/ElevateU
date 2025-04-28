@@ -46,14 +46,14 @@ export function CarouselSize() {
           loop: true
         }}
         setApi={setApi}
-        className="w-[70%]"  // Increase max width for bigger images
+        className="w-[70%]  relative z-10"  // Increase max width for bigger images
       >
-        <CarouselContent>
+        <CarouselContent >
           {images.map((imgUrl, index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
               <div className="p-1">
                 <Card>
-                  <CardContent className="flex flex-col items-center justify-center p-4 hover:cursor-pointer">
+                  <CardContent className="flex flex-col items-center justify-center p-4 hover:cursor-pointer ">
                     <img
                       src={imgUrl}
                       alt={`Slide ${index + 1}`}

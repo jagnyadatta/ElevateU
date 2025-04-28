@@ -66,7 +66,7 @@ const PersonCard = ({ name, image,college }) => {
 
 const PersonCardList = () => {
   return (
-    <div className="flex flex-wrap justify-center ">
+    <div className="flex flex-wrap justify-center relative z-10 ">
       {persons.map((person, index) => (
         <PersonCard key={index} name={person.name} image={person.image} college={person.college}  />
       ))}
