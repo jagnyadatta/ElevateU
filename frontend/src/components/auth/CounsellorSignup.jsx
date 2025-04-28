@@ -167,7 +167,7 @@ const CounsellorSignup = () => {
 
   return (
     <>
-      <div >
+      <div>
         <div className="flex items-center justify-center max-w-7xl mx-auto">
           <form
             onSubmit={submitHandler}

@@ -62,7 +62,7 @@ const Navbar = () => {
           {
             !user ?(
               <div className="hidden sm:flex flex-row">
-                <Link to="/signup">
+                <Link to="/choicesignup">
                   <Button
                     variant="secondary"
                     className="w-[90px] flex flex-col items-start border-gray-600 hover:bg-[#a6b8fa] hover:text-white active:bg-black border-r-0 rounded-l-full rounded-r-full cursor-pointer mr-[-20px]"
