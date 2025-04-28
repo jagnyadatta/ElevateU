@@ -3,10 +3,9 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import { USER_API_END_POINT } from "../../utils/constant.js";
+import { COUNSELLOR_API_END_POINT } from "../../utils/constant.js";
 import axios from "axios";
 import { toast } from "sonner";
-import Footer from "../shared/Footer";
 import Loader from "../ui/Loader";
 
 const CounsellorSignup = () => {
@@ -50,12 +49,12 @@ const CounsellorSignup = () => {
       toast.error("Only @gmail.com email addresses are allowed.");
       return; // Stop if email is not Gmail
     }
-    console.log(OTP_API_END_POINT);
+    console.log(COUNSELLOR_API_END_POINT);
     
     try {
       setLoader(true);
       const otpRes = await axios.post(
-        `${OTP_API_END_POINT}/send-otp`, 
+        `${COUNSELLOR_API_END_POINT}/send-otp`, 
         { email: input.email }
       );
       
@@ -80,7 +79,7 @@ const CounsellorSignup = () => {
     
     try {
       setLoader(true);
-      const resendRes = await axios.post(`${OTP_API_END_POINT}/resend-otp`, { email: input.email });
+      const resendRes = await axios.post(`${COUNSELLOR_API_END_POINT}/resend-otp`, { email: input.email });
       if (resendRes.data.success) {
         setIsOTPRequested(true);
         setIsOTPVerified(false);
@@ -104,7 +103,7 @@ const CounsellorSignup = () => {
     try {
       setLoader(true);
       const verifyRes = await axios.post(
-        `${OTP_API_END_POINT}/verify-otp`,
+        `${COUNSELLOR_API_END_POINT}/verify-otp`,
         { email: input.email, otp: input.otp }
       );
 
@@ -130,7 +129,7 @@ const CounsellorSignup = () => {
 
     try {
       setLoader(true);
-      const res = await axios.post(`${USER_API_END_POINT}/student-form`, formData, {
+      const res = await axios.post(`${COUNSELLOR_API_END_POINT}/student-form`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
