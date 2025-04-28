@@ -241,21 +241,6 @@ const Signup = () => {
             )}
 
             <div className="my-2">
-              <Label>Select Role</Label>
-              <select
-                name="role"
-                value={input.role}
-                onChange={changeEventHandler}
-                className="w-full p-2 border border-[#3b66ff] mt-2 rounded-md focus:outline-none"
-                required
-              >
-                <option value="">Select your role</option> {/* Default empty option */}
-                <option value="student">Student</option>
-                <option value="counsellor">Counsellor</option>
-              </select>
-            </div>
-
-            <div className="my-2">
               <Label>Phone No</Label>
               <Input
                 type="text"

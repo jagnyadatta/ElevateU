@@ -7,6 +7,7 @@ import Layout from './components/shared/Layout'
 import AiHomePage from './components/AIpage/AiHomePage'
 import CareerCounsellor from './components/Career/CareerCounsellor'
 import CounsellorProfile from './components/Career/CounsellorProfile'
+import CounsellorSignup from './components/auth/CounsellorSignup'
 
 const appRouter = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const appRouter = createBrowserRouter([
       {
         path: 'profilecouncil',
         element: <CounsellorProfile/>
+      },
+      {
+        path: 'councilsignup',
+        element: <CounsellorSignup/>
       },
       // Add more pages inside here if they also need Navbar
     ]

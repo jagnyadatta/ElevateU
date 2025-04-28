@@ -1,6 +1,6 @@
-import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { Student } from "../models/student.model.js";
 
 export const register = async (req, res) => {
     try {
@@ -20,7 +20,7 @@ export const register = async (req, res) => {
         });
       }
   
-      const user = await User.findOne({ email });
+      const user = await Student.findOne({ email });
       if (user) {
         return res.status(400).json({
           message: "User is already exist with this email!",
@@ -29,7 +29,7 @@ export const register = async (req, res) => {
       }
 
       // Check if phone number already exists
-      const existingUserByPhone = await User.findOne({ phoneNumber });
+      const existingUserByPhone = await Student.findOne({ phoneNumber });
       if (existingUserByPhone) {
         return res.status(400).json({
           message: "Phone number already registered!",
@@ -38,7 +38,7 @@ export const register = async (req, res) => {
       }
       
       const hashedPassoword = await bcrypt.hash(password, 10);
-      await User.create({
+      await Student.create({
         fullname,
         email,
         phoneNumber,
@@ -65,7 +65,7 @@ export const register = async (req, res) => {
           success: false,
         });
       }
-      let user = await User.findOne({ email });
+      let user = await Student.findOne({ email });
       if (!user) {
         return res.status(400).json({
           message: "Incorrect email or password",

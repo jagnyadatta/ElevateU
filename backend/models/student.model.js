@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const userSchema = new mongoose.Schema(
+const studentSchema = new mongoose.Schema(
   {
     fullname: {
       type: String,
@@ -18,20 +18,20 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    role:{
-      type: String,
-      required: false,
-    },
     otp: {
-      type: String,  // Stores the OTP sent to the user
-      required: false, // OTP is not always needed
+      type: String,  
+      required: false, 
     },
     otpExpiry: {
-      type: Date, // Stores the expiry time of the OTP
-      required: false, // OTP expiry is not always set
+      type: Date, 
+      required: false, 
+    },
+    slug:{
+      type: String,
+      required: true
     },
   },
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", userSchema);
+export const Student = mongoose.model("Student", studentSchema);
