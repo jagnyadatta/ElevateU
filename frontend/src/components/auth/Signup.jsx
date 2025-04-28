@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { USER_API_END_POINT, OTP_API_END_POINT } from "../../utils/constant.js"
 import Footer from "../shared/Footer";
+import Loader from "../ui/Loader";
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -20,6 +21,7 @@ const Signup = () => {
   const [isOTPRequested, setIsOTPRequested] = useState(false); // State to track OTP request
   const [isOTPVerified, setIsOTPVerified] = useState(false); // State to track OTP verification
   const [resendCooldown, setResendCooldown] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [countdown, setCountdown] = useState(60);
   const navigate = useNavigate();
 
@@ -37,6 +39,7 @@ const Signup = () => {
     console.log(OTP_API_END_POINT);
     
     try {
+      setLoader(true);
       const otpRes = await axios.post(
         `${OTP_API_END_POINT}/send-otp`, 
         { email: input.email }
@@ -52,6 +55,8 @@ const Signup = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred.");
+    } finally{
+      setLoader(false);
     }
   };
 
@@ -59,6 +64,7 @@ const Signup = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      setLoader(true);
       const res = await axios.post(`${USER_API_END_POINT}/register`, input, {
         headers: {
           "Content-Type": "application/json",
@@ -71,6 +77,8 @@ const Signup = () => {
       }
     } catch (error) {
       toast.error(error.response.data.message);
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -79,6 +87,7 @@ const Signup = () => {
     e.preventDefault();
     
     try {
+      setLoader(true);
       const resendRes = await axios.post(`${OTP_API_END_POINT}/resend-otp`, { email: input.email });
       if (resendRes.data.success) {
         setIsOTPRequested(true);
@@ -91,6 +100,8 @@ const Signup = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred.");
+    } finally {
+      setLoader(false);
     }
   };
 
@@ -99,6 +110,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
+      setLoader(true);
       const verifyRes = await axios.post(
         `${OTP_API_END_POINT}/verify-otp`,
         { email: input.email, otp: input.otp }
@@ -112,6 +124,8 @@ const Signup = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred.");
+    } finally{
+      setLoader(false);
     }
   };
 
@@ -281,6 +295,11 @@ const Signup = () => {
           </form>
         </div>
       </div>
+      {loader && 
+        <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+          <Loader/>
+        </div>
+      }
       <Footer/>
     </>
   );
