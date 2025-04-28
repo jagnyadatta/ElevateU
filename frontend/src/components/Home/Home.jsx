@@ -1,3 +1,4 @@
+import CounsellorSignup from "../auth/CounsellorSignup";
 import CareerCounsellor from "../Career/CareerCounsellor";
 import CounsellorProfile from "../Career/CounsellorProfile";
 import MusicianProfileCard from "../Career/CounsellorProfile";
@@ -12,12 +13,13 @@ import Service from "./Service";
 function Home() {
   return (
     <>
-      {/* <FrontPagelayout/>
+      <FrontPagelayout/>
       <Service/>
       <AboutUs/>
-      <Footer/> */}
-      {/* <BackgroundImage /> */}
-      <CareerCounsellor />
+      <Footer/>
+      <BackgroundImage />
+      {/* <CounsellorSignup /> */}
+      {/* <CareerCounsellor /> */}
       {/* <CounsellorProfile /> */}
     </>
   );
