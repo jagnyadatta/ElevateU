@@ -8,13 +8,6 @@ const CounsellorProfile = () => {
     "Resume Review",
     "Interview Preparation",
     "Higher Studies Advice",
-    "Higher Studies Advice",
-    "Higher Studies Advice",
-    "Higher Studies Advice",
-    "Higher Studies Advice",
-    "Higher Studies Advice",
-    "Higher Studies Advice",
-    "Higher Studies Advice",
     "Personal Development",
   ];
 
@@ -30,8 +23,11 @@ const CounsellorProfile = () => {
         <img
           src="https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
           alt="Profile"
-          className="w-40 h-40 rounded-full object-cover mb-6"
+          className="w-40 h-40 rounded-full object-cover mb-4"
         />
+
+        {/* Name below image */}
+        <h2 className="text-2xl font-bold text-gray-800 mb-6">John Doe</h2>
 
         {/* Rank, College, Branch, Passout */}
         <div className="flex flex-col space-y-4 text-gray-700 w-full mb-6">
@@ -56,14 +52,15 @@ const CounsellorProfile = () => {
           </div>
         </div>
 
-        {/* Two Buttons */}
-        <button className="w-full bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 mb-4">
-          Continue With John
-        </button>
-        <button className="w-full bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 flex items-center justify-center gap-2">
-          <MessageCircle className="w-5 h-5" />
-          Send Message
-        </button>
+        {/* Two Buttons Side by Side */}
+        <div className="flex w-full gap-4">
+          <button className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600">
+            Continue
+          </button>
+          <button className="flex-1 bg-green-500 text-white px-4 py-2 rounded-xl hover:bg-green-600 flex items-center justify-center gap-1">
+            <MessageCircle className="w-5 h-5" />
+          </button>
+        </div>
 
       </div>
 
