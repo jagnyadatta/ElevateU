@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from '../ui/button';
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { Link, useNavigate } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import { useDispatch, useSelector } from 'react-redux';
 import { STUDENT_API_END_POINT } from '@/utils/constant';
 import axios from 'axios';
@@ -38,19 +39,24 @@ const Navbar = () => {
         </Link>
         <div className="sm:flex hidden">
           <ul className="flex flex-row justify-between gap-5 font-semibold">
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-            <a href="#home">Home</a>
-              
-            </li>
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-             <a href="#services">Services</a>
-            </li>
+            <HashLink smooth to="/#home">
+              <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                Home
+              </li>
+            </HashLink>
+            <HashLink smooth to="/#services">
+              <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                Services
+              </li>
+            </HashLink>
+            <HashLink smooth to="/#aboutus">
+              <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                About Us
+              </li>
+            </HashLink>
             {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <a href="#contactus">Contact Us</a>
             </li> */}
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-             <a href="#aboutus"> About Us</a>
-            </li>
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <Link to="/aisuggest">
                 AI Suggestion
@@ -116,18 +122,21 @@ const Navbar = () => {
               <PopoverContent>
                 <div className="">
                   <ul className="flex flex-col justify-between gap-3 font-semibold">
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      Home
-                    </li>
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      Services
-                    </li>
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      Contact Us
-                    </li>
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      About Us
-                    </li>
+                    <HashLink smooth to="/#home">
+                      <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                        Home
+                      </li>
+                    </HashLink>
+                    <HashLink smooth to="/#services">
+                      <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                        Services
+                      </li>
+                    </HashLink>
+                    <HashLink smooth to="/#aboutus">
+                      <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                        About Us
+                      </li>
+                    </HashLink>
                     <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
                       <Link to="/aisuggest">
                         AI Suggetion
