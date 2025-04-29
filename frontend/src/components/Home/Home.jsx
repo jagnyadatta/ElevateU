@@ -5,6 +5,7 @@ import MusicianProfileCard from "../Career/CounsellorProfile";
 import BackgroundImage from "../shared/BackgroundImage";
 import Footer from "../shared/Footer";
 import AboutUs from "./AboutUs";
+import AdminDashboard from "./AdminDashboard";
 import Dashboard from "./Dashboard";
 import FrontPagelayout from "./FrontPagelayout";
 
@@ -23,6 +24,7 @@ function Home() {
       {/* <CareerCounsellor /> */}
       {/* <CounsellorProfile /> */}
       {/* <Dashboard/> */}
+      {/* <AdminDashboard/> */}
     </>
   );
 }

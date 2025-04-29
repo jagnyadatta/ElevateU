@@ -5,6 +5,7 @@ import userRoute from "./routes/user.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import otpGenRoute from "./routes/auth.route.js";
+import otpCounsellor from "./routes/counsellor.route.js";
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,7 @@ app.use(cors(corsOptions));
 //API's here
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/otp", otpGenRoute);
+app.use("/api/v1/counsellor",otpCounsellor);
 
 app.get("/", (req, res)=>{
     return res.status(200).json({

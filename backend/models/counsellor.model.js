@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const counsellorPersonSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: false
   },
   email: {
     type: String,
@@ -20,35 +20,35 @@ const counsellorPersonSchema = new mongoose.Schema({
   },
   collegeName:{
     type: String,
-    required: true,
+    required: false,
   },
   branch: {
     type: String,
-    required: true
+    required: false
   },
   examName: {
     type: String,
-    required: true
+    required: false
   },
   rank: {
-    type: Number,
-    required: true
+    type: String,
+    required: false
   },
   passoutYear:{
     type: Number,
-    required: true
+    required: false
   },
   about: {
     type: String,
-    required: true
+    required: false
   },
   registrationNumber:{
     type: String,
-    required: true
+    required: false
   },
   profileImage: {
     type: String,
-    required: true
+    required: false
   },
   collegeIdCard: {
     type: String,
@@ -72,7 +72,7 @@ const counsellorPersonSchema = new mongoose.Schema({
   },
   slug:{
     type: String,
-    required: true
+    required: false
   },
 },
 { timestamps: true }
