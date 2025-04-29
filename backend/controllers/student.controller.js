@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from 'uuid';
 import { Student } from "../models/student.model.js";
+import { counsellorPerson } from "../models/counsellor.model.js";
 
 export const register = async (req, res) => {
     try {
@@ -20,23 +21,23 @@ export const register = async (req, res) => {
           success: false,
         });
       }
-  
-      const user = await Student.findOne({ email });
-      if (user) {
+
+      // Check if phone number already exists
+      const existingPhone1 = await Student.findOne({ phoneNumber });
+      if (existingPhone1) {
         return res.status(400).json({
-          message: "User is already exist with this email!",
+          message: "Phone number already registered with another user!",
           success: false,
         });
       }
 
-      // Check if phone number already exists
-      const existingUserByPhone = await Student.findOne({ phoneNumber });
-      if (existingUserByPhone) {
-        return res.status(400).json({
-          message: "Phone number already registered!",
-          success: false,
-        });
-      }
+    const existingPhone2 = await counsellorPerson.findOne({ phoneNumber });
+    if (existingPhone2) {
+      return res.status(400).json({
+        message: "Phone number already registered by COUNSELLOR!",
+        success: false,
+      });
+    }
       
       const files = req.files;
       const profileImageUrl = files.profileImage[0].path;

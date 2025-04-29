@@ -8,18 +8,22 @@ export const sendOtp = async (req, res) => {
 
   try {
     // Check if the user exists
-    let user = await Student.findOne({ email });
-    if (user) {
+    const user1 = await Student.findOne({ email });
+    if (user1) {
       return res.status(400).json({
         message: "User is already exist with this email!",
         success: false,
       });
     }
-
-    if (!user) {
-      // Create a temporary user for OTP verification
-      user = new Student({ email, otp: null, otpExpiry: null });
+    const user2 = await counsellorPerson.findOne({ email });
+    if (user2) {
+      return res.status(400).json({
+        message: "User is already exist as COUNSELLOR with this email!",
+        success: false,
+      });
     }
+
+    const user = new Student({ email, otp: null, otpExpiry: null });
 
     const otp = generateOtp();
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
@@ -109,18 +113,23 @@ export const sendOtpCounsellor = async (req, res) => {
 
   try {
     // Check if the user exists
-    let user = await counsellorPerson.findOne({ email });
-    if (user) {
+    const user1 = await counsellorPerson.findOne({ email });
+    if (user1) {
       return res.status(400).json({
         message: "User is already exist with this email!",
         success: false,
       });
     }
 
-    if (!user) {
-      // Create a temporary user for OTP verification
-      user = new counsellorPerson({ email, otp: null, otpExpiry: null });
+    const user2 = await Student.findOne({ email });
+    if (user2) {
+      return res.status(400).json({
+        message: "User is already exist as STUDENT with this email!",
+        success: false,
+      });
     }
+
+    const user = new counsellorPerson({ email, otp: null, otpExpiry: null });
 
     const otp = generateOtp();
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // OTP valid for 10 minutes
