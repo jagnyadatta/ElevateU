@@ -137,7 +137,7 @@ const CounsellorSignup = () => {
         withCredentials: true,
       });
       if (res.data.success) {
-        toast.success("Form Submitted Successfully!");
+        toast.success(res.data.message);
         navigate("/");
       }
     } catch (error) {
@@ -173,7 +173,7 @@ const CounsellorSignup = () => {
             onSubmit={submitHandler}
             className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
           >
-            <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Counsellor Signup Form</h1>
+            <h1 className="text-center font-bold text-2xl mb-5 text-[#3b66ff]">Counsellor Signup Form</h1>
 
             <div className="my-2">
               <Label>Name</Label>

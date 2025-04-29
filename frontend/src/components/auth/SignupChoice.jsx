@@ -23,10 +23,9 @@ const SignupChoice = () => {
   return (
     <>
     <div className="flex items-center justify-center min-h-screen  relative z-4">
-      <div className="w-[40vw] h-[40vh] bg-white p-8 rounded-lg shadow-md text-center">
-        <h1 className="text-3xl font-bold mb-6">Want to signup for...</h1>
-
-        <div className="flex justify-evenly text-2xl items-center mb-6">
+      <div className="w-[80%] h-[60%] sm:w-[50%] sm:h-[50%] bg-white p-8 rounded-lg shadow-md text-center">
+        <h1 className="text-[20px] sm:text-3xl font-bold mb-6">Want to signup for...</h1>
+        <div className="flex justify-evenly text-[18px] sm:text-2xl items-center mb-6">
           <label className="mt-2 font-semibold">
             <input
               type="radio"
@@ -34,7 +33,7 @@ const SignupChoice = () => {
               value="student"
               checked={role === "student"}
               onChange={(e) => setRole(e.target.value)}
-              className="mr-2 w-5 h-5"
+              className="mr-2 w-4 h-4 sm:w-5 sm:h-5 hover:cursor-pointer"
             />
             Student
           </label>
@@ -46,7 +45,7 @@ const SignupChoice = () => {
               value="counsellor"
               checked={role === "counsellor"}
               onChange={(e) => setRole(e.target.value)}
-              className="mr-2 w-5 h-5"
+              className="mr-2 w-4 h-4 sm:w-5 sm:h-5 hover:cursor-pointer"
             />
             Counsellor
           </label>
@@ -54,7 +53,7 @@ const SignupChoice = () => {
 
         <button
           onClick={handleContinue}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md w-full mt-10"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md w-full mt-8 hover:cursor-pointer"
         >
           Continue
         </button>

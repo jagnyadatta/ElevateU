@@ -76,7 +76,7 @@ const Navbar = () => {
                     SignUp
                   </Button>
                 </Link>
-                <Link to="/login">
+                <Link to="/">
                   <Button
                     variant="secondary"
                     className="bg-[#3b66ff] hover:bg-[#9fb4ff] active:bg-black rounded-l-full rounded-r-full text-white cursor-pointer ml-[-5px]"
@@ -90,7 +90,7 @@ const Navbar = () => {
                 <Popover>
                   <PopoverTrigger>
                     <div className='w-[35px] h-[33px] flex items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold'>
-                        {firstLetter}
+                      {firstLetter}
                     </div>
                   </PopoverTrigger>
                   <PopoverContent>
@@ -146,7 +146,7 @@ const Navbar = () => {
                   {
                     !user ? (
                       <div className='flex flex-row gap-1'>
-                        <Link to="/signup">
+                        <Link to="/choicesignup">
                           <Button
                             variant="secondary"
                             className="w-[90px] flex flex-col border-gray-600 hover:bg-[#a6b8fa] hover:text-white border-r-0 rounded-l-full rounded-r-full cursor-pointer mt-2"
@@ -154,7 +154,7 @@ const Navbar = () => {
                             SignUp
                           </Button>
                         </Link>
-                        <Link to="/login">
+                        <Link to="/">
                           <Button
                             variant="secondary"
                             className="w-[90px] bg-[#3b66ff] hover:bg-[#9fb4ff] rounded-l-full rounded-r-full text-white cursor-pointer mt-2"
