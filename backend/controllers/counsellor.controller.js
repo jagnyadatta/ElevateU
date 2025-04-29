@@ -1,11 +1,12 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from 'uuid';
 import { counsellorPerson } from "../models/counsellor.model.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, phoneNumber, password, collegeName, branch, examName, rank, passoutYear, about, registrationNumber } = req.body;
-    if (!name || !email || !phoneNumber || !password || !collegeName || !branch || !examName || !rank || !passoutYear || !about || !registrationNumber ) {
+    const { name, email, gender, phoneNumber, password, collegeName, branch, examName, rank, passoutYear, about, registrationNumber } = req.body;
+    if (!name || !email || !gender || !phoneNumber || !password || !collegeName || !branch || !examName || !rank || !passoutYear || !about || !registrationNumber ) {
       return res.status(400).json({
         message: "Something is missing",
         success: false,
@@ -41,14 +42,14 @@ export const register = async (req, res) => {
     const profileImageUrl = files.profileImage[0].path;
     const collegeIdCardImageUrl = files.collegeIdCard[0].path;
     const rankCardImageUrl = files.rankCard[0].path;
-    
-    const slugName = name.split(' ')[0];
-    const slug = rank + slugName;
+
+    const slug = uuidv4();
 
     const hashedPassword = await bcrypt.hash(password, 10);
     await counsellorPerson.create({
       name,
       email,
+      gender,
       phoneNumber,
       password: hashedPassword,
       collegeName,

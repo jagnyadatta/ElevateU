@@ -13,7 +13,7 @@ const SignupChoice = () => {
       toast.error("Please Select a option.");
     } else {
       if(role === "student"){
-        navigate("/");
+        navigate("/student/signup");
       }else{
         navigate("/counsellor/signup");
       }
@@ -27,7 +27,7 @@ const SignupChoice = () => {
         <h1 className="text-3xl font-bold mb-6">Want to signup for...</h1>
 
         <div className="flex justify-evenly text-2xl items-center mb-6">
-          <label className="mb-2 font-semibold">
+          <label className="mt-2 font-semibold">
             <input
               type="radio"
               name="role"
@@ -39,7 +39,7 @@ const SignupChoice = () => {
             Student
           </label>
 
-          <label>
+          <label className="mt-2 font-semibold">
             <input
               type="radio"
               name="role"

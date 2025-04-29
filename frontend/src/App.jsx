@@ -9,6 +9,7 @@ import CareerCounsellor from './components/Career/CareerCounsellor'
 import CounsellorProfile from './components/Career/CounsellorProfile'
 import CounsellorSignup from './components/auth/CounsellorSignup'
 import SignupChoice from './components/auth/SignupChoice'
+import StudentSignup from './components/auth/StudentSignup'
 
 const appRouter = createBrowserRouter([
   {
@@ -18,14 +19,6 @@ const appRouter = createBrowserRouter([
       {
         index: true,
         element: <Home />
-      },
-      {
-        path: 'login',
-        element: <Login />
-      },
-      {
-        path: 'signup',
-        element: <Signup />
       },
       {
         path: 'aisuggest',
@@ -48,7 +41,11 @@ const appRouter = createBrowserRouter([
   {
     path: "/counsellor/signup",
     element: <CounsellorSignup/>
-  }
+  },
+  {
+    path: "/student/signup",
+    element: <StudentSignup/>
+  },
 ])
 
 function App() {

@@ -1,11 +1,12 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from 'uuid';
 import { Student } from "../models/student.model.js";
 
 export const register = async (req, res) => {
     try {
-      const { fullname, email, phoneNumber, password, role } = req.body;
-      if (!fullname || !email || !phoneNumber || !password || !role) {
+      const { name, email, gender, phoneNumber, password, about } = req.body;
+      if (!name || !email || !gender || !phoneNumber || !password || !about) {
         return res.status(400).json({
           message: "Something is missing",
           success: false,
@@ -37,13 +38,20 @@ export const register = async (req, res) => {
         });
       }
       
-      const hashedPassoword = await bcrypt.hash(password, 10);
+      const files = req.files;
+      const profileImageUrl = files.profileImage[0].path;
+      const slug = uuidv4();
+
+      const hashedPassword = await bcrypt.hash(password, 10);
       await Student.create({
-        fullname,
+        name,
         email,
+        gender,
         phoneNumber,
-        password: hashedPassoword,
-        role,
+        password: hashedPassword,
+        about,
+        profileImage: profileImageUrl,
+        slug,
       });
   
       return res.status(201).json({
@@ -52,14 +60,18 @@ export const register = async (req, res) => {
       });
     } catch (error) {
       console.log(error);
+      return res.status(500).json({
+        message: "Internal Server Error",
+        success: false,
+      });
     }
   };
   
   //For Login
   export const login = async (req, res) => {
     try {
-      const { email, password, role} = req.body;
-      if (!email || !password || !role) {
+      const { email, password} = req.body;
+      if (!email || !password ) {
         return res.status(400).json({
           message: "Something is missing",
           success: false,
@@ -69,14 +81,6 @@ export const register = async (req, res) => {
       if (!user) {
         return res.status(400).json({
           message: "Incorrect email or password",
-          success: false,
-        });
-      }
-
-      // Check if role matches
-      if (user.role !== role) {
-        return res.status(400).json({
-          message: `Incorrect role selected. Please login as a ${user.role || "(not updated)"}.`,
           success: false,
         });
       }
@@ -99,11 +103,9 @@ export const register = async (req, res) => {
       });
   
       user = {
-        _id: user._id,
-        fullname: user.fullname,
+        name: user.fullname,
         email: user.email,
         phoneNumber: user.phoneNumber,
-        role: user.role,
       };
   
       return res.status(200)

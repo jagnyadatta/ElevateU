@@ -12,6 +12,7 @@ const CounsellorSignup = () => {
   const [input, setInput] = useState({
     name: "",
     email: "",
+    gender:"",
     phoneNumber: "",
     password: "",
     otp: "",
@@ -172,7 +173,7 @@ const CounsellorSignup = () => {
             onSubmit={submitHandler}
             className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
           >
-            <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Student Form</h1>
+            <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Counsellor Signup Form</h1>
 
             <div className="my-2">
               <Label>Name</Label>
@@ -256,6 +257,21 @@ const CounsellorSignup = () => {
                 </div>
               </div>
             )}
+
+            <div className="my-2">
+              <Label>Gender</Label>
+              <select
+                name="gender"
+                value={input.gender}
+                onChange={changeEventHandler}
+                className="w-full p-2 border border-[#3b66ff] mt-2 rounded-md focus:outline-none"
+                required
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
             
             <div className="my-2">
               <Label>Phone No</Label>

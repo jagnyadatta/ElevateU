@@ -2,32 +2,38 @@ import React, { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { STUDENT_API_END_POINT } from "../../utils/constant.js";
 import axios from "axios";
-import { STUDENT_API_END_POINT, OTP_API_END_POINT } from "../../utils/constant.js"
-import Footer from "../shared/Footer";
+import { toast } from "sonner";
 import Loader from "../ui/Loader";
 
-const Signup = () => {
-  const [input, setInput] = useState({
-    fullname: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    otp: "",
-    role:"",
-  });
-  const [isOTPRequested, setIsOTPRequested] = useState(false); // State to track OTP request
-  const [isOTPVerified, setIsOTPVerified] = useState(false); // State to track OTP verification
-  const [resendCooldown, setResendCooldown] = useState(false);
-  const [loader, setLoader] = useState(false);
-  const [countdown, setCountdown] = useState(60);
-  const navigate = useNavigate();
+const StudentSignup = () => {
+    const [input, setInput] = useState({
+        name: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        otp: "",
+        about: "",
+        profileImage: null,
+    });
 
-  const changeEventHandler = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
+    const [isOTPRequested, setIsOTPRequested] = useState(false);
+    const [isOTPVerified, setIsOTPVerified] = useState(false);
+    const [resendCooldown, setResendCooldown] = useState(false);
+    const [countdown, setCountdown] = useState(60);
+    const [loader, setLoader] = useState(false);
+    const navigate = useNavigate();
+
+    const changeEventHandler = (e) => {
+      const { name, value, files } = e.target;
+      if (files) {
+        setInput({ ...input, [name]: files[0] });
+      } else {
+        setInput({ ...input, [name]: value });
+      }
+    };
 
   // Function to send OTP to email
   const sendOTPHandler = async (e) => {
@@ -36,12 +42,12 @@ const Signup = () => {
       toast.error("Only @gmail.com email addresses are allowed.");
       return; // Stop if email is not Gmail
     }
-    console.log(OTP_API_END_POINT);
+    console.log(STUDENT_API_END_POINT);
     
     try {
       setLoader(true);
       const otpRes = await axios.post(
-        `${OTP_API_END_POINT}/send-otp`, 
+        `${STUDENT_API_END_POINT}/send-otp`, 
         { email: input.email }
       );
       
@@ -60,35 +66,13 @@ const Signup = () => {
     }
   };
 
-  // Submit form after OTP verification
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    try {
-      setLoader(true);
-      const res = await axios.post(`${STUDENT_API_END_POINT}/register`, input, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
-      if (res.data.success) {
-        navigate("/login");
-        toast.success(res.data.message);
-      }
-    } catch (error) {
-      toast.error(error.response.data.message);
-    } finally {
-      setLoader(false);
-    }
-  };
-
   //function for resend OTP
   const resendOTPHandler = async (e) => {
     e.preventDefault();
     
     try {
       setLoader(true);
-      const resendRes = await axios.post(`${OTP_API_END_POINT}/resend-otp`, { email: input.email });
+      const resendRes = await axios.post(`${STUDENT_API_END_POINT}/resend-otp`, { email: input.email });
       if (resendRes.data.success) {
         setIsOTPRequested(true);
         setIsOTPVerified(false);
@@ -112,7 +96,7 @@ const Signup = () => {
     try {
       setLoader(true);
       const verifyRes = await axios.post(
-        `${OTP_API_END_POINT}/verify-otp`,
+        `${STUDENT_API_END_POINT}/verify-otp`,
         { email: input.email, otp: input.otp }
       );
 
@@ -129,44 +113,69 @@ const Signup = () => {
     }
   };
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    Object.keys(input).forEach((key) => {
+      formData.append(key, input[key]);
+    });
+
+    try {
+      setLoader(true);
+      const res = await axios.post(`${STUDENT_API_END_POINT}/register`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        toast.success("Form Submitted Successfully!");
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    } finally {
+      setLoader(false);
+    }
+  };
 
   //useEffect for resend otp timer
-  useEffect(() => {
-    let timer;
-    if (resendCooldown) {
-      timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev === 1) {
-            clearInterval(timer);
-            setResendCooldown(false);
-            return 60;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [resendCooldown]);
+    useEffect(() => {
+      let timer;
+      if (resendCooldown) {
+        timer = setInterval(() => {
+          setCountdown((prev) => {
+            if (prev === 1) {
+              clearInterval(timer);
+              setResendCooldown(false);
+              return 60;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }
+      return () => clearInterval(timer);
+    }, [resendCooldown]);
 
   return (
     <>
-      <div className="mt-25">
         <div className="flex items-center justify-center max-w-7xl mx-auto">
           <form
             onSubmit={submitHandler}
             className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
           >
-            <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Sign Up</h1>
+            <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Student Signup Form</h1>
 
             <div className="my-2">
-              <Label>Full Name</Label>
+              <Label>Name</Label>
               <Input
                 type="text"
-                value={input.fullname}
-                name="fullname"
+                name="name"
+                value={input.name}
                 onChange={changeEventHandler}
-                placeholder="Jagnyadatta Dalai"
+                placeholder="Enter your name"
                 className="mt-2"
+                required
               />
             </div>
 
@@ -207,13 +216,13 @@ const Signup = () => {
                 )}
               </div>
             </div>
-
+            
             {!isOTPVerified && (resendCooldown && (isOTPRequested && (
               <p className="text-gray-600 text-sm mt-1 ">
                 You can request a new OTP in <span className="text-red-600 font-semibold">{countdown}</span> seconds.
               </p>
             )))}
-
+            
             {isOTPRequested && (
               <div className="my-2">
                 <Label>Enter OTP</Label>
@@ -241,6 +250,21 @@ const Signup = () => {
             )}
 
             <div className="my-2">
+              <Label>Gender</Label>
+              <select
+                name="gender"
+                value={input.gender}
+                onChange={changeEventHandler}
+                className="w-full p-2 border border-[#3b66ff] mt-2 rounded-md focus:outline-none"
+                required
+              >
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </div>
+            
+            <div className="my-2">
               <Label>Phone No</Label>
               <Input
                 type="text"
@@ -263,31 +287,46 @@ const Signup = () => {
               />
             </div>
 
+            <div className="my-2">
+              <Label>About Yourself</Label>
+              <textarea
+                name="about"
+                value={input.about}
+                onChange={changeEventHandler}
+                placeholder="Tell us about yourself"
+                className="w-full border border-[#3b66ff] mt-2 p-2 rounded-md focus:outline-none"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <div className="my-2">
+              <Label>Upload your profile photo</Label>
+              <Input
+                type="file"
+                name="profileImage"
+                accept="image/*"
+                onChange={changeEventHandler}
+                className="mt-2"
+                required
+              />
+            </div>
+
             <Button
               type="submit"
-              className="w-full my-4 bg-[#3b66ff] hover:bg-[#9fb4ff] outline-none cursor-pointer"
-              disabled={!isOTPVerified}
+              className="w-full my-4 bg-[#3b66ff] hover:bg-[#6072b4] active:bg-black cursor-pointer outline:none"
             >
-              Signup
+              Submit Form
             </Button>
-
-            <span className="text-sm">
-              Already have an account?{" "}
-              <Link to="/login" className="text-blue-600">
-                Login
-              </Link>
-            </span>
           </form>
         </div>
-      </div>
-      {loader && 
-        <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
-          <Loader/>
-        </div>
-      }
-      <Footer/>
+        {loader && 
+          <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+            <Loader/>
+          </div>
+        }
     </>
-  );
-};
+  )
+}
 
-export default Signup;
+export default StudentSignup

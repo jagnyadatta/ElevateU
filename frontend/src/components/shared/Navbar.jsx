@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { USER_API_END_POINT } from '@/utils/constant';
+import { STUDENT_API_END_POINT } from '@/utils/constant';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { setUser } from '@/redux/authSlice';
@@ -16,7 +16,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const logoutHandler = async () => {
     try {
-      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+      const res = await axios.get(`${STUDENT_API_END_POINT}/logout`, {
         withCredentials: true,
       });
       if (res.data.success) {
