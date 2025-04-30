@@ -5,7 +5,7 @@ import cloudinary from '../config/cloudinary.js';
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'counsellors', // Folder name in Cloudinary
+    folder: 'ElevateU', // Folder name in Cloudinary
     allowed_formats: ['jpg', 'jpeg', 'png'],
   },
 });

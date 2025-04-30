@@ -2,8 +2,9 @@ import React from 'react'
 import { Button } from '../ui/button';
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { Link, useNavigate } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 import { useDispatch, useSelector } from 'react-redux';
-import { USER_API_END_POINT } from '@/utils/constant';
+import { STUDENT_API_END_POINT } from '@/utils/constant';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { setUser } from '@/redux/authSlice';
@@ -16,7 +17,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const logoutHandler = async () => {
     try {
-      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+      const res = await axios.get(`${STUDENT_API_END_POINT}/logout`, {
         withCredentials: true,
       });
       if (res.data.success) {
@@ -38,19 +39,24 @@ const Navbar = () => {
         </Link>
         <div className="sm:flex hidden">
           <ul className="flex flex-row justify-between gap-5 font-semibold">
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-            <a href="#home">Home</a>
-              
-            </li>
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-             <a href="#services">Services</a>
-            </li>
+            <HashLink smooth to="/#home">
+              <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                Home
+              </li>
+            </HashLink>
+            <HashLink smooth to="/#services">
+              <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                Services
+              </li>
+            </HashLink>
+            <HashLink smooth to="/#aboutus">
+              <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                About Us
+              </li>
+            </HashLink>
             {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <a href="#contactus">Contact Us</a>
             </li> */}
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-             <a href="#aboutus"> About Us</a>
-            </li>
             <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <Link to="/aisuggest">
                 AI Suggestion
@@ -70,7 +76,7 @@ const Navbar = () => {
                     SignUp
                   </Button>
                 </Link>
-                <Link to="/login">
+                <Link to="/">
                   <Button
                     variant="secondary"
                     className="bg-[#3b66ff] hover:bg-[#9fb4ff] active:bg-black rounded-l-full rounded-r-full text-white cursor-pointer ml-[-5px]"
@@ -84,7 +90,7 @@ const Navbar = () => {
                 <Popover>
                   <PopoverTrigger>
                     <div className='w-[35px] h-[33px] flex items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold'>
-                        {firstLetter}
+                      {firstLetter}
                     </div>
                   </PopoverTrigger>
                   <PopoverContent>
@@ -116,18 +122,21 @@ const Navbar = () => {
               <PopoverContent>
                 <div className="">
                   <ul className="flex flex-col justify-between gap-3 font-semibold">
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      Home
-                    </li>
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      Services
-                    </li>
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      Contact Us
-                    </li>
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
-                      About Us
-                    </li>
+                    <HashLink smooth to="/#home">
+                      <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                        Home
+                      </li>
+                    </HashLink>
+                    <HashLink smooth to="/#services">
+                      <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                        Services
+                      </li>
+                    </HashLink>
+                    <HashLink smooth to="/#aboutus">
+                      <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                        About Us
+                      </li>
+                    </HashLink>
                     <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
                       <Link to="/aisuggest">
                         AI Suggetion
@@ -137,7 +146,7 @@ const Navbar = () => {
                   {
                     !user ? (
                       <div className='flex flex-row gap-1'>
-                        <Link to="/signup">
+                        <Link to="/choicesignup">
                           <Button
                             variant="secondary"
                             className="w-[90px] flex flex-col border-gray-600 hover:bg-[#a6b8fa] hover:text-white border-r-0 rounded-l-full rounded-r-full cursor-pointer mt-2"
@@ -145,7 +154,7 @@ const Navbar = () => {
                             SignUp
                           </Button>
                         </Link>
-                        <Link to="/login">
+                        <Link to="/">
                           <Button
                             variant="secondary"
                             className="w-[90px] bg-[#3b66ff] hover:bg-[#9fb4ff] rounded-l-full rounded-r-full text-white cursor-pointer mt-2"

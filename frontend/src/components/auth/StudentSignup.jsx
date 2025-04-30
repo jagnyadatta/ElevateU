@@ -3,45 +3,37 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import { COUNSELLOR_API_END_POINT } from "../../utils/constant.js";
+import { STUDENT_API_END_POINT } from "../../utils/constant.js";
 import axios from "axios";
 import { toast } from "sonner";
 import Loader from "../ui/Loader";
 
-const CounsellorSignup = () => {
-  const [input, setInput] = useState({
-    name: "",
-    email: "",
-    gender:"",
-    phoneNumber: "",
-    password: "",
-    otp: "",
-    collegeName: "",
-    branch: "",
-    examName: "",
-    rank: "",
-    passoutYear: "",
-    about: "",
-    registrationNumber: "",
-    profileImage: null,
-    collegeIdCard: null,
-    rankCard: null,
-  });
-  const [isOTPRequested, setIsOTPRequested] = useState(false);
-  const [isOTPVerified, setIsOTPVerified] = useState(false);
-  const [resendCooldown, setResendCooldown] = useState(false);
-  const [countdown, setCountdown] = useState(60);
-  const [loader, setLoader] = useState(false);
-  const navigate = useNavigate();
+const StudentSignup = () => {
+    const [input, setInput] = useState({
+        name: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        otp: "",
+        about: "",
+        profileImage: null,
+    });
 
-  const changeEventHandler = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setInput({ ...input, [name]: files[0] });
-    } else {
-      setInput({ ...input, [name]: value });
-    }
-  };
+    const [isOTPRequested, setIsOTPRequested] = useState(false);
+    const [isOTPVerified, setIsOTPVerified] = useState(false);
+    const [resendCooldown, setResendCooldown] = useState(false);
+    const [countdown, setCountdown] = useState(60);
+    const [loader, setLoader] = useState(false);
+    const navigate = useNavigate();
+
+    const changeEventHandler = (e) => {
+      const { name, value, files } = e.target;
+      if (files) {
+        setInput({ ...input, [name]: files[0] });
+      } else {
+        setInput({ ...input, [name]: value });
+      }
+    };
 
   // Function to send OTP to email
   const sendOTPHandler = async (e) => {
@@ -50,12 +42,12 @@ const CounsellorSignup = () => {
       toast.error("Only @gmail.com email addresses are allowed.");
       return; // Stop if email is not Gmail
     }
-    console.log(COUNSELLOR_API_END_POINT);
+    console.log(STUDENT_API_END_POINT);
     
     try {
       setLoader(true);
       const otpRes = await axios.post(
-        `${COUNSELLOR_API_END_POINT}/send-otp`, 
+        `${STUDENT_API_END_POINT}/send-otp`, 
         { email: input.email }
       );
       
@@ -80,7 +72,7 @@ const CounsellorSignup = () => {
     
     try {
       setLoader(true);
-      const resendRes = await axios.post(`${COUNSELLOR_API_END_POINT}/resend-otp`, { email: input.email });
+      const resendRes = await axios.post(`${STUDENT_API_END_POINT}/resend-otp`, { email: input.email });
       if (resendRes.data.success) {
         setIsOTPRequested(true);
         setIsOTPVerified(false);
@@ -104,7 +96,7 @@ const CounsellorSignup = () => {
     try {
       setLoader(true);
       const verifyRes = await axios.post(
-        `${COUNSELLOR_API_END_POINT}/verify-otp`,
+        `${STUDENT_API_END_POINT}/verify-otp`,
         { email: input.email, otp: input.otp }
       );
 
@@ -120,7 +112,7 @@ const CounsellorSignup = () => {
       setLoader(false);
     }
   };
-  
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -130,7 +122,7 @@ const CounsellorSignup = () => {
 
     try {
       setLoader(true);
-      const res = await axios.post(`${COUNSELLOR_API_END_POINT}/register`, formData, {
+      const res = await axios.post(`${STUDENT_API_END_POINT}/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -148,32 +140,31 @@ const CounsellorSignup = () => {
   };
 
   //useEffect for resend otp timer
-  useEffect(() => {
-    let timer;
-    if (resendCooldown) {
-      timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev === 1) {
-            clearInterval(timer);
-            setResendCooldown(false);
-            return 60;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(timer);
-  }, [resendCooldown]);
+    useEffect(() => {
+      let timer;
+      if (resendCooldown) {
+        timer = setInterval(() => {
+          setCountdown((prev) => {
+            if (prev === 1) {
+              clearInterval(timer);
+              setResendCooldown(false);
+              return 60;
+            }
+            return prev - 1;
+          });
+        }, 1000);
+      }
+      return () => clearInterval(timer);
+    }, [resendCooldown]);
 
   return (
     <>
-      <div>
         <div className="flex items-center justify-center max-w-7xl mx-auto">
           <form
             onSubmit={submitHandler}
             className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
           >
-            <h1 className="text-center font-bold text-2xl mb-5 text-[#3b66ff]">Counsellor Signup Form</h1>
+            <h1 className="text-center font-bold text-2xl mb-5 text-[#3b66ff]">Student Signup Form</h1>
 
             <div className="my-2">
               <Label>Name</Label>
@@ -297,76 +288,6 @@ const CounsellorSignup = () => {
             </div>
 
             <div className="my-2">
-              <Label>Current College Name</Label>
-              <Input
-                type="text"
-                name="collegeName"
-                value={input.collegeName}
-                onChange={changeEventHandler}
-                placeholder="Enter your college name"
-                className="mt-2"
-                required
-              />
-            </div>
-
-            <div className="my-2">
-              <Label>Branch</Label>
-              <Input
-                type="text"
-                name="branch"
-                value={input.branch}
-                onChange={changeEventHandler}
-                placeholder="Enter your branch"
-                className="mt-2"
-                required
-              />
-            </div>
-
-            <div className="my-2">
-              <Label>Select Exam</Label>
-              <select
-                name="examName"
-                value={input.examName}
-                onChange={changeEventHandler}
-                className="w-full p-2 border border-[#3b66ff] mt-2 rounded-md focus:outline-none"
-                required
-              >
-                <option value="">Select Exam</option>
-                <option value="JEE">JEE</option>
-                <option value="OJEE">OJEE</option>
-                <option value="NIT">NIT</option>
-                <option value="MBA">MBA</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            <div className="my-2">
-              <Label>Rank</Label>
-              <Input
-                type="number"
-                name="rank"
-                value={input.rank}
-                onChange={changeEventHandler}
-                placeholder="Enter your rank"
-                className="mt-2"
-                required
-              />
-            </div>
-
-            <div className="my-2">
-              <Label>Passout Year</Label>
-              <Input
-                type="number"
-                name="passoutYear"
-                value={input.passoutYear}
-                onChange={changeEventHandler}
-                placeholder="Enter your passout year"
-                className="mt-2"
-                required
-              />
-            </div>
-
-            <div className="my-2">
               <Label>About Yourself</Label>
               <textarea
                 name="about"
@@ -380,46 +301,10 @@ const CounsellorSignup = () => {
             </div>
 
             <div className="my-2">
-              <Label>College ID / Registration Number</Label>
-              <Input
-                type="text"
-                name="registrationNumber"
-                value={input.registrationNumber}
-                onChange={changeEventHandler}
-                placeholder="Enter your registration number"
-                className="mt-2"
-                required
-              />
-            </div>
-
-            <div className="my-2">
               <Label>Upload your profile photo</Label>
               <Input
                 type="file"
                 name="profileImage"
-                accept="image/*"
-                onChange={changeEventHandler}
-                className="mt-2"
-                required
-              />
-            </div>
-            <div className="my-2">
-              <Label>Upload College ID Card</Label>
-              <Input
-                type="file"
-                name="collegeIdCard"
-                accept="image/*"
-                onChange={changeEventHandler}
-                className="mt-2"
-                required
-              />
-            </div>
-
-            <div className="my-2">
-              <Label>Upload Rank Card</Label>
-              <Input
-                type="file"
-                name="rankCard"
                 accept="image/*"
                 onChange={changeEventHandler}
                 className="mt-2"
@@ -435,15 +320,13 @@ const CounsellorSignup = () => {
             </Button>
           </form>
         </div>
-      </div>
-
-      {loader && 
-        <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
-          <Loader/>
-        </div>
-      }
+        {loader && 
+          <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+            <Loader/>
+          </div>
+        }
     </>
-  );
-};
+  )
+}
 
-export default CounsellorSignup;
+export default StudentSignup

@@ -24,7 +24,10 @@ function Home() {
       {/* <CareerCounsellor /> */}
       {/* <CounsellorProfile /> */}
       {/* <Dashboard/> */}
+<<<<<<< HEAD
       {/* <AdminDashboard/> */}
+=======
+>>>>>>> b7db57e17e96fc7cda195dde79ff692af633d64c
     </>
   );
 }

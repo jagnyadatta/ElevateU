@@ -10,6 +10,10 @@ const counsellorPersonSchema = new mongoose.Schema({
     required: false,
     unique: true,
   },
+  gender:{
+    type: String,
+    required: false,
+  },
   phoneNumber: {
     type: Number,
     required: false,

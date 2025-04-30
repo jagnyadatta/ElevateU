@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const studentSchema = new mongoose.Schema(
   {
-    fullname: {
+    name: {
       type: String,
       required: false,
     },
@@ -9,6 +9,10 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: false,
       unique: true,
+    },
+    gender:{
+      type: String,
+      required: false
     },
     phoneNumber: {
       type: Number,
@@ -18,6 +22,10 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    about:{
+      type: String,
+      required: false
+    },
     otp: {
       type: String,  
       required: false, 
@@ -26,9 +34,13 @@ const studentSchema = new mongoose.Schema(
       type: Date, 
       required: false, 
     },
+    profileImage:{
+      type: String,
+      required: false
+    },
     slug:{
       type: String,
-      required: true
+      required: false
     },
   },
   { timestamps: true }

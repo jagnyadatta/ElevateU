@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { USER_API_END_POINT, OTP_API_END_POINT } from "../../utils/constant.js"
+import { STUDENT_API_END_POINT, OTP_API_END_POINT } from "../../utils/constant.js"
 import Footer from "../shared/Footer";
 import Loader from "../ui/Loader";
 
@@ -65,7 +65,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       setLoader(true);
-      const res = await axios.post(`${USER_API_END_POINT}/register`, input, {
+      const res = await axios.post(`${STUDENT_API_END_POINT}/register`, input, {
         headers: {
           "Content-Type": "application/json",
         },

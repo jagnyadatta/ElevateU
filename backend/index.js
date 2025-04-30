@@ -1,11 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
-import userRoute from "./routes/user.route.js";
+import studentRoute from "./routes/student.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import otpGenRoute from "./routes/auth.route.js";
-import otpCounsellor from "./routes/counsellor.route.js";
+import counsellorRoute from "./routes/counsellor.route.js";
 
 dotenv.config();
 const app = express();
@@ -19,13 +19,13 @@ app.use(cookieParser());
 const corsOptions = {
   origin: "http://localhost:5173",
   credentials: true,
-};
+}; 
 app.use(cors(corsOptions));
 
 //API's here
-app.use("/api/v1/user", userRoute);
 app.use("/api/v1/otp", otpGenRoute);
-app.use("/api/v1/counsellor",otpCounsellor);
+app.use("/api/v1/student", studentRoute);
+app.use("/api/v1/counsellor",counsellorRoute);
 
 app.get("/", (req, res)=>{
     return res.status(200).json({
