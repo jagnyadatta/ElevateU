@@ -315,9 +315,17 @@ const StudentSignup = () => {
             <Button
               type="submit"
               className="w-full my-4 bg-[#3b66ff] hover:bg-[#6072b4] active:bg-black cursor-pointer outline:none"
+              disabled={!isOTPVerified}
             >
               Submit Form
             </Button>
+            {
+              !isOTPVerified && (
+                <p className="text-red-600 font-semibold text-sm mt-1 ">
+                  You can submit this form after OTP is verified.
+                </p>
+              )
+            }
           </form>
         </div>
         {loader && 
