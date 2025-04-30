@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { COUNSELLOR_API_END_POINT } from "../../utils/constant.js"
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
-import Footer from "../shared/Footer";
 import Loader from "../ui/Loader";
 
 const CounsellorLogin = () => {

@@ -86,7 +86,7 @@ export const register = async (req, res) => {
         });
       }
 
-      const isPasswordMatch = await bcrypt.compare(password, user.password);
+      const isPasswordMatch = bcrypt.compare(password, user.password);
       if (!isPasswordMatch) {
         return res.status(400).json({
           message: "Incorrect email or password",
@@ -99,15 +99,17 @@ export const register = async (req, res) => {
         userId: user._id,
         role: user.role,
       };
-      const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
+      const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
         expiresIn: "1d",
       });
   
       user = {
-        name: user.fullname,
+        name: user.name,
         email: user.email,
-        phoneNumber: user.phoneNumber,
+        slug: user.slug,
       };
+
+      const firstName = user.name.split(' ')[0];
   
       return res.status(200)
         .cookie("token", token, {
@@ -116,10 +118,10 @@ export const register = async (req, res) => {
           sameSite: "strict",
         })
         .json({
-            message: `Welcome back ${user.fullname}`,
-            user,
-            success: true,
-          });
+          message: `Welcome back ${firstName}`,
+          user,
+          success: true,
+        });
     } catch (error) {
       console.log(error);
       res.status(500).json({

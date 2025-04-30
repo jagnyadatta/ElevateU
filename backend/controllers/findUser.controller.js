@@ -25,7 +25,7 @@ export const findUser = async (req, res) => {
           return res.status(200).json({
             message: "Found user is STUDENT!",
             user2,
-            success: ture,
+            success: true,
           });
         }
   
@@ -44,12 +44,12 @@ export const findUser = async (req, res) => {
 
 //For Logout
 export const logout = async (req, res) => {
-    try {
-      return res.status(200).cookie("token", "", { maxAge: 0 }).json({
-        message: "Logged out Successfully.",
-        success: true,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  try {
+    return res.status(200).cookie("token", "", { maxAge: 0 }).json({
+      message: "Logged out Successfully.",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

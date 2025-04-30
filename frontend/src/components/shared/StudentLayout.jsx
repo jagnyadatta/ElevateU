@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-const CounsellorLayout = () => {
+const StudentLayout = () => {
   return (
     <>
       <Outlet />
@@ -9,4 +9,4 @@ const CounsellorLayout = () => {
   )
 }
 
-export default CounsellorLayout;
+export default StudentLayout;

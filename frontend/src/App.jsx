@@ -11,6 +11,8 @@ import StudentSignup from './components/auth/StudentSignup'
 import CounsellorLayout from './components/shared/CounsellorLayout'
 import CounsellorLogin from './components/auth/CounsellorLogin'
 import LoginChoice from './components/auth/LoginChoice'
+import StudentLayout from './components/shared/StudentLayout'
+import StudentLogin from './components/auth/StudentLogin'
 
 const appRouter = createBrowserRouter([
   {
@@ -58,8 +60,18 @@ const appRouter = createBrowserRouter([
     ]
   },
   {
-    path: "/student/signup",
-    element: <StudentSignup/>
+    path: "/student/",
+    element: <StudentLayout/>,
+    children:[
+      {
+        path: "signup",
+        element: <StudentSignup/>
+      },
+      {
+        path: "login",
+        element: <StudentLogin/>
+      },
+    ] 
   },
 ])
 

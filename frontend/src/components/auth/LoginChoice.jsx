@@ -5,7 +5,6 @@ import BackgroundImage from "../shared/BackgroundImage";
 
 const LoginChoice = () => {
   const [role, setRole] = useState("");
-  const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
 
   const handleContinue = () => {
@@ -24,7 +23,7 @@ const LoginChoice = () => {
     <>
     <div className="flex items-center justify-center min-h-screen  relative z-4">
       <div className="w-[80%] h-[60%] sm:w-[50%] sm:h-[50%] bg-white p-8 rounded-lg shadow-md text-center">
-        <h1 className="text-[20px] sm:text-3xl font-bold mb-6">Want to Login for...</h1>
+        <h1 className="text-[20px] sm:text-3xl text-[#3b66ff] font-bold mb-6">Want to Login for...</h1>
         <div className="flex justify-evenly text-[18px] sm:text-2xl items-center mb-6">
           <label className="mt-2 font-semibold">
             <input
