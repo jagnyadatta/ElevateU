@@ -3,7 +3,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { STUDENT_API_END_POINT } from "../../utils/constant.js"
+import { COUNSELLOR_API_END_POINT } from "../../utils/constant.js"
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/authSlice";
@@ -11,11 +11,10 @@ import { toast } from "sonner";
 import Footer from "../shared/Footer";
 import Loader from "../ui/Loader";
 
-const Login = () => {
+const CounsellorLogin = () => {
   const [input, setInput] = useState({
     email: "",
     password: "",
-    role: "",
   });
   const [loader, setLoader] = useState(false);
   const {user} = useSelector((store)=> store.auth);
@@ -28,17 +27,16 @@ const Login = () => {
     e.preventDefault();
     try {
       setLoader(true);
-      const res = await axios.post(`${STUDENT_API_END_POINT}/login`, input, {
+      const res = await axios.post(`${COUNSELLOR_API_END_POINT}/login`, input, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json  ",
         },
         withCredentials: true,
       });
       if (res.data.success) {
         dispatch(setUser(res.data.user));
-        const name = res.data.user.fullname.split(" ")[0];
         navigate("/");  
-        toast.success(`Login Successfully! ${name}`);
+        toast.success(res.data.message);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -59,7 +57,7 @@ const Login = () => {
             onSubmit={submitHandler}
             className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
           >
-            <h1 className="font-bold text-xl mb-5 text-[#3b66ff]">Login</h1>
+            <h1 className="font-bold text-2xl text-center mb-5 text-[#3b66ff]">Counsellor Login</h1>
             <div className="my-2">
               <Label>Email</Label>
               <Input
@@ -82,20 +80,6 @@ const Login = () => {
                 className="mt-2"
               />
             </div>
-            <div className="my-2">
-              <Label>Select Role</Label>
-              <select
-                name="role"
-                value={input.role}
-                onChange={changeEventHandler}
-                className="w-full p-2 border border-[#3b66ff] mt-2 rounded-md focus:outline-none"
-                required
-              >
-                <option value="">Select your role</option>
-                <option value="student">Student</option>
-                <option value="counsellor">Counsellor</option>
-              </select>
-            </div>
 
             <Button
               type="submit"
@@ -103,13 +87,6 @@ const Login = () => {
             >
               Login
             </Button>
-
-            <span className="text-sm">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-blue-600">
-                Signup
-              </Link>
-            </span>
           </form>
         </div>
       </div>
@@ -118,9 +95,8 @@ const Login = () => {
           <Loader/>
         </div>
       }
-      <Footer/>
     </>
   );
 };
 
-export default Login;
+export default CounsellorLogin;

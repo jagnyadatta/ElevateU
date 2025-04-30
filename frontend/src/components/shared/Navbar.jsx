@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button';
 import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { Link, useNavigate } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { useDispatch, useSelector } from 'react-redux';
-import { STUDENT_API_END_POINT } from '@/utils/constant';
+import { FIND_USER_API_END_POINT, STUDENT_API_END_POINT } from '@/utils/constant';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { setUser } from '@/redux/authSlice';
@@ -12,12 +12,35 @@ import { setUser } from '@/redux/authSlice';
 
 const Navbar = () => {
   const {user} = useSelector((store)=> store.auth);
-  const firstLetter = user ? user.fullname.split(" ")[0][0] : "X";
+  const [imageLink, setImageLink] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const fetchUser = async()=>{
+    try {
+      if (!user) return;
+      const res = await axios.post(`${FIND_USER_API_END_POINT}/find`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      const check = res.data;
+      if(check.success){
+        if(check.user1){
+          setImageLink(check.user1.profileImage);
+        }
+        if(check.user2){
+          setImageLink(check.user2.profileImage);
+        }
+      }
+      console.log(imageLink);
+    } catch (error){
+      console.error("User fetch failed:", error);
+    }
+  }
   const logoutHandler = async () => {
     try {
-      const res = await axios.get(`${STUDENT_API_END_POINT}/logout`, {
+      const res = await axios.get(`${FIND_USER_API_END_POINT}/logout`, {
         withCredentials: true,
       });
       if (res.data.success) {
@@ -30,6 +53,13 @@ const Navbar = () => {
       toast.error(error.response.data.message);
     }
   }; 
+
+  useEffect(() => {
+    if (user) {
+      fetchUser();
+    }
+  }, [user]);  
+
   return (
       <nav className="navbar w-[90vw] sm:w-[600px] md:w-[707px] lg:w-[907px] p-2 pl-6 font-primary overflow-hidden navbar-expand-lg navbar-light bg-white flex flex-row justify-between items-center border-0 rounded-full shadow-lg m-[-10px]">
         <Link to="/">
@@ -76,7 +106,7 @@ const Navbar = () => {
                     SignUp
                   </Button>
                 </Link>
-                <Link to="/">
+                <Link to="/choicelogin">
                   <Button
                     variant="secondary"
                     className="bg-[#3b66ff] hover:bg-[#9fb4ff] active:bg-black rounded-l-full rounded-r-full text-white cursor-pointer ml-[-5px]"
@@ -89,8 +119,8 @@ const Navbar = () => {
               <div className='hidden sm:flex md:flex lg:flex'>
                 <Popover>
                   <PopoverTrigger>
-                    <div className='w-[35px] h-[33px] flex items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold'>
-                      {firstLetter}
+                    <div className='w-[45px] h-[43px] flex items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold hover:cursor-pointer'>
+                      <img src={imageLink} alt="profileImage" className="w-full h-full object-cover rounded-full"/>
                     </div>
                   </PopoverTrigger>
                   <PopoverContent>
@@ -154,7 +184,7 @@ const Navbar = () => {
                             SignUp
                           </Button>
                         </Link>
-                        <Link to="/">
+                        <Link to="/choicelogin">
                           <Button
                             variant="secondary"
                             className="w-[90px] bg-[#3b66ff] hover:bg-[#9fb4ff] rounded-l-full rounded-r-full text-white cursor-pointer mt-2"
@@ -177,4 +207,4 @@ const Navbar = () => {
   );
 }
 
-export default Navbar
+export default Navbar;

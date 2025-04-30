@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { counsellorPerson } from "../models/counsellor.model.js";
 import { Student } from "../models/student.model.js";
 
+//REGISTER FUNCTION
 export const register = async (req, res) => {
   try {
     const { name, email, gender, phoneNumber, password, collegeName, branch, examName, rank, passoutYear, about, registrationNumber } = req.body;
@@ -78,3 +79,65 @@ export const register = async (req, res) => {
     });
   }
 };
+
+//LOGIN FUNCTION
+export const login = async (req, res) => {
+    try {
+      const { email, password} = req.body;
+      if (!email || !password ) {
+        return res.status(400).json({
+          message: "Something is missing",
+          success: false,
+        });
+      }
+      let user = await counsellorPerson.findOne({ email });
+      if (!user) {
+        return res.status(400).json({
+          message: "Incorrect email or password",
+          success: false,
+        });
+      }
+
+      const isPasswordMatch = bcrypt.compare(password, user.password);
+      if (!isPasswordMatch) {
+        return res.status(400).json({
+          message: "Incorrect email or password",
+          success: false,
+        });
+      }
+
+      //token data
+      const tokenData = {
+        userId: user._id,
+      };
+      const token = jwt.sign(tokenData, process.env.SECRET_KEY, {
+        expiresIn: "1d",
+      });
+  
+      user = {
+        name: user.name,
+        email: user.email,
+        slug: user.slug,
+      };
+
+      const firstName = user.name.split(' ')[0];
+  
+      return res.status(200)
+        .cookie("token", token, {
+          maxAge: 1 * 24 * 60 * 60 * 1000,
+          httpOnly: true,
+          sameSite: "strict",
+        })
+        .json({
+            message: `Welcome back ${firstName}`,
+            user,
+            success: true,
+          });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: "Internal Server Error",
+        success: false,
+      });
+    }
+  };

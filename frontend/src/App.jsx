@@ -1,8 +1,6 @@
 import './App.css'
 import Home from './components/Home/Home'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Login from './components/auth/Login'
-import Signup from './components/auth/Signup'
 import Layout from './components/shared/Layout'
 import AiHomePage from './components/AIpage/AiHomePage'
 import CareerCounsellor from './components/Career/CareerCounsellor'
@@ -10,6 +8,9 @@ import CounsellorProfile from './components/Career/CounsellorProfile'
 import CounsellorSignup from './components/auth/CounsellorSignup'
 import SignupChoice from './components/auth/SignupChoice'
 import StudentSignup from './components/auth/StudentSignup'
+import CounsellorLayout from './components/shared/CounsellorLayout'
+import CounsellorLogin from './components/auth/CounsellorLogin'
+import LoginChoice from './components/auth/LoginChoice'
 
 const appRouter = createBrowserRouter([
   {
@@ -35,12 +36,26 @@ const appRouter = createBrowserRouter([
       {
         path: "choicesignup",
         element: <SignupChoice/>
+      },
+      {
+        path: "choicelogin",
+        element: <LoginChoice/>
       }
     ]
   },
   {
-    path: "/counsellor/signup",
-    element: <CounsellorSignup/>
+    path: "/counsellor/",
+    element: <CounsellorLayout/>,
+    children:[
+      {
+        path: 'signup',
+        element: <CounsellorSignup />
+      },
+      {
+        path: 'login',
+        element: <CounsellorLogin />
+      },
+    ]
   },
   {
     path: "/student/signup",

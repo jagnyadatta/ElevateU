@@ -6,6 +6,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import otpGenRoute from "./routes/auth.route.js";
 import counsellorRoute from "./routes/counsellor.route.js";
+import findUserRoute from "./routes/findUser.route.js";
 
 dotenv.config();
 const app = express();
@@ -23,11 +24,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 //API's here
-app.use("/api/v1/otp", otpGenRoute);
-app.use("/api/v1/student", studentRoute);
-app.use("/api/v1/counsellor",counsellorRoute);
+app.use("/elevateu/v1/otp", otpGenRoute);
+app.use("/elevateu/v1/user", findUserRoute);
+app.use("/elevateu/v1/student", studentRoute);
+app.use("/elevateu/v1/counsellor",counsellorRoute);
 
-app.get("/", (req, res)=>{
+app.get("/error", (req, res)=>{
     return res.status(200).json({
         message: "I am from backend",
         success: true
