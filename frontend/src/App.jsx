@@ -57,6 +57,10 @@ const appRouter = createBrowserRouter([
         path: 'login',
         element: <CounsellorLogin />
       },
+      {
+        path: 'profile',
+        element: <CounsellorProfile />
+      },
     ]
   },
   {

@@ -1,6 +1,6 @@
 import express from 'express';
 import { resendOtpCounsellor, sendOtpCounsellor, verifyOtpCounsellor } from '../controllers/otp.controller.js';
-import { login, register } from '../controllers/counsellor.controller.js';
+import { getProfile, login, register } from '../controllers/counsellor.controller.js';
 import upload from '../middleware/multer.js';
 
 const router = express.Router();
@@ -20,5 +20,6 @@ router.route("/register").post(upload.fields([
   { name: "rankCard", maxCount: 1 },
 ]),register);
 router.route("/login").post(login);
+router.route("/profile").post(getProfile);
 
 export default router;

@@ -141,3 +141,34 @@ export const login = async (req, res) => {
       });
     }
   };
+
+  export const getProfile = async (req, res)=>{
+    try {
+      const { slug} = req.body;
+      if (!slug ) {
+        return res.status(400).json({
+          message: "Something is missing",
+          success: false,
+        });
+      }
+      let user = await counsellorPerson.findOne({ email });
+      if (!user) {
+        return res.status(400).json({
+          message: "Cannot find User!",
+          success: false,
+        });
+      }
+      return res.status(200)
+        .json({
+          message: `User found and this is ${firstName}`,
+          user,
+          success: true,
+        });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        message: "Internal Server Error",
+        success: false,
+      });
+    }
+  }

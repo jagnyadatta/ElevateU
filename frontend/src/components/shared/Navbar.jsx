@@ -4,14 +4,17 @@ import {Popover,PopoverContent,PopoverTrigger,} from "@/components/ui/popover"
 import { Link, useNavigate } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import { useDispatch, useSelector } from 'react-redux';
-import { FIND_USER_API_END_POINT, STUDENT_API_END_POINT } from '@/utils/constant';
+import { FIND_USER_API_END_POINT } from '@/utils/constant';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { setUser } from '@/redux/authSlice';
+import ProfileButton from '../ui/ProfileButton';
   
 
 const Navbar = () => {
   const {user} = useSelector((store)=> store.auth);
+  const name = user?.name;
+  const email = user?.email;
   const [imageLink, setImageLink] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,7 +36,6 @@ const Navbar = () => {
           setImageLink(check.user2.profileImage);
         }
       }
-      console.log(imageLink);
     } catch (error){
       console.error("User fetch failed:", error);
     }
@@ -119,12 +121,22 @@ const Navbar = () => {
               <div className='hidden sm:flex md:flex lg:flex'>
                 <Popover>
                   <PopoverTrigger>
-                    <div className='w-[45px] h-[43px] flex items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold hover:cursor-pointer'>
+                    <div className='w-[45px] h-[43px] flex  items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold hover:cursor-pointer'>
                       <img src={imageLink} alt="profileImage" className="w-full h-full object-cover rounded-full"/>
                     </div>
                   </PopoverTrigger>
-                  <PopoverContent>
-                    <Button onClick={logoutHandler}>Logout</Button>
+                  <PopoverContent className="w-[400px]">
+                    <div className='w-full h-[100px] flex items-center justify-between'>
+                      <img src={imageLink} alt="profileImage" className="w-[100px] h-[100px] rounded-full" />
+                      <Link to="/counsellor/profile">
+                        <ProfileButton/>
+                      </Link>
+                    </div>
+                    <div className='flex flex-col mt-3'>
+                      <p className='font-bold text-[#3b66ff] text-[16px]'>Name: <span className='text-gray-900 text-[14px]'>{name}</span></p>
+                      <p className='font-bold text-[#3b66ff] text-[16px]'>Email: <span className='text-gray-900 text-[14px]'>{email}</span></p>
+                    </div>
+                    <Button onClick={logoutHandler} variant="destructive" className="mt-3 cursor-pointer">Logout</Button>
                   </PopoverContent>
                 </Popover>
               </div>
