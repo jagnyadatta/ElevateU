@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "./button";
+import { Link } from "react-router-dom";
 
-const ProfileCard = ({ name, image, college }) => {
+const ProfileCard = ({ name, image, college, id }) => {
   return (
     <StyledWrapper>
       <div className="card">
@@ -11,7 +12,9 @@ const ProfileCard = ({ name, image, college }) => {
         </div>
         <p className="card-title">{name}</p>
         <p className="card-body">{college}</p>
-        <Button className="bg-[#3b66ff]">Go With</Button>
+        <Link to={`/profilecouncil/${id}`}>
+          <Button className="bg-[#3b66ff]" > Go With </Button>
+        </Link>
       </div>
     </StyledWrapper>
   );
