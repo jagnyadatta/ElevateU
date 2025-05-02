@@ -1,6 +1,6 @@
 import express from 'express';
 import { resendOtpCounsellor, sendOtpCounsellor, verifyOtpCounsellor } from '../controllers/otp.controller.js';
-import { getProfile, login, register } from '../controllers/counsellor.controller.js';
+import { fetchAllData, getProfile, insertData, login, register } from '../controllers/counsellor.controller.js';
 import upload from '../middleware/multer.js';
 
 const router = express.Router();
@@ -21,5 +21,7 @@ router.route("/register").post(upload.fields([
 ]),register);
 router.route("/login").post(login);
 router.route("/profile").post(getProfile);
+router.route("/bulk-insert").post(insertData);
+router.route("/fetch-all-data").get(fetchAllData);
 
 export default router;

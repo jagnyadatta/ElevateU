@@ -13,6 +13,7 @@ import CounsellorLogin from './components/auth/CounsellorLogin'
 import LoginChoice from './components/auth/LoginChoice'
 import StudentLayout from './components/shared/StudentLayout'
 import StudentLogin from './components/auth/StudentLogin'
+import AddCounsellors from './components/Career/AddCounsellors'
 
 const appRouter = createBrowserRouter([
   {
@@ -26,10 +27,6 @@ const appRouter = createBrowserRouter([
       {
         path: 'aisuggest',
         element: <AiHomePage />
-      },
-      {
-        path: 'careerzone',
-        element: <CareerCounsellor/>
       },
       {
         path: 'profilecouncil',
@@ -50,6 +47,10 @@ const appRouter = createBrowserRouter([
     element: <CounsellorLayout/>,
     children:[
       {
+        path: 'all',
+        element: <CareerCounsellor />
+      },
+      {
         path: 'signup',
         element: <CounsellorSignup />
       },
@@ -60,6 +61,10 @@ const appRouter = createBrowserRouter([
       {
         path: 'profile',
         element: <CounsellorProfile />
+      },
+      {
+        path: 'bulk-insert',
+        element: <AddCounsellors />
       },
     ]
   },

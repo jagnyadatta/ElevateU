@@ -30,7 +30,7 @@ const Service = () => {
                     nostrum labore eos amet rerum nihil id quasi illo minus? Earum
                     placeat aut beatae! Blanditiis.
                   </p>
-                  <Link to="/careerzone">
+                  <Link to="/counsellor/all">
                     <Button className="rounded-3xl bg-white text-[#3b66ff] w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
                       Continue
                     </Button>

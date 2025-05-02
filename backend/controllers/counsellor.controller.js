@@ -172,3 +172,30 @@ export const login = async (req, res) => {
       });
     }
   }
+
+  export const insertData = async (req, res) => {
+    try {
+      const { data } = req.body;
+  
+      if (!Array.isArray(data)) {
+        return res.status(400).json({ message: "Invalid data format. Must be array." });
+      }
+  
+      const inserted = await counsellorPerson.insertMany(data, { ordered: false });
+      res.status(201).json({ message: "Inserted successfully", count: inserted.length });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Insert failed", error: err });
+    }
+  }
+
+  export const fetchAllData = async (req,res)=>{
+    try {
+      const allUser = await counsellorPerson.find({});
+      // console.log(allUser);
+      res.status(200).json({ message: "fetch successfully",allUser, success: true });
+    } catch (error){
+      console.error(err);
+      res.status(500).json({ message: "Internal server problem!", success: false });
+    }
+  }
