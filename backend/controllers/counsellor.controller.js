@@ -195,7 +195,7 @@ export const login = async (req, res) => {
       // console.log(allUser);
       res.status(200).json({ message: "fetch successfully",allUser, success: true });
     } catch (error){
-      console.error(err);
+      console.error(error);
       res.status(500).json({ message: "Internal server problem!", success: false });
     }
   }
