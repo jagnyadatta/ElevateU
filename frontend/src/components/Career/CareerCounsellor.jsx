@@ -58,7 +58,7 @@ const CareerCounsellor = () => {
             All Categories
           </p>
         </div>
-        <div>
+        <div className="mt-10">
           <PersonCardList persons={persons} />
         </div>
       </div>

@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { MessageCircle } from "lucide-react"; // For Message icon
 import Footer from "../shared/Footer";
+import Loader from "../ui/Loader";
+import { FIND_USER_API_END_POINT } from "@/utils/constant";
+import axios from "axios";
 
 const CounsellorProfile = () => {
   const concernsList = [
@@ -12,48 +16,75 @@ const CounsellorProfile = () => {
     "Personal Development",
   ];
 
+  const [user, setUser] = useState({});
+  const [loader, setLoader] = useState(false);
+  const { id } = useParams();
+
+  const fetchUser = async () =>{
+    try {
+      setLoader(true);
+      const res = await axios.get(`${FIND_USER_API_END_POINT}/${id}`, {
+        withCredentials: true,
+      });
+      if(res.data.success){
+        setUser(res.data.user);
+      }
+    } catch (error){
+      console.log(error);
+    } finally{
+      setLoader(false);
+    }
+  }
+
+  //DATA fetch.
+  useEffect (()=>{
+    fetchUser();
+  },[id]);
+
+  if(loader){
+    return(
+      <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+        <Loader/>
+      </div>
+    )
+  }
+
   const starImage =
     "https://upload.wikimedia.org/wikipedia/commons/4/44/Plain_Yellow_Star.png";
 
   return (
     <div>
       <div className="flex min-h-screen p-6 pl-[400px] mt-[50px]">
-        {/* Left Fixed Profile Section */}
         <div className="w-[350px] fixed top-[70px] left-6 bg-white p-6 rounded-2xl shadow-lg h-[90vh] flex flex-col items-center justify-start">
-          {/* Profile Image */}
           <img
-            src="https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+            src={user.profileImage}
             alt="Profile"
             className="w-40 h-40 rounded-full object-cover mb-4"
           />
-
-          {/* Name below image */}
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">John Doe</h2>
-
-          {/* Rank, College, Branch, Passout */}
+          <h2 className="text-xl font-bold text-gray-800 mb-6">{user.name}</h2>
           <div className="flex flex-col space-y-4 text-gray-700 w-full mb-6">
             <div>
               <p className="text-sm text-gray-500">Rank Number</p>
-              <h2 className="text-xl font-bold">#1234</h2>
+              <h2 className="text-xl font-bold">#{user.rank}</h2>
             </div>
 
             <div>
               <p className="text-sm text-gray-500">College Name</p>
               <h2 className="text-lg font-semibold">
-                MIT - Massachusetts Institute of Technology
+                {user.collegeName}
               </h2>
             </div>
 
             <div>
               <p className="text-sm text-gray-500">Branch Name</p>
               <h2 className="text-lg font-semibold">
-                Computer Science Engineering
+                {user.branch}
               </h2>
             </div>
 
             <div>
               <p className="text-sm text-gray-500">Passout Year</p>
-              <h2 className="text-lg font-semibold">2021</h2>
+              <h2 className="text-lg font-semibold">{user.passoutYear}</h2>
             </div>
           </div>
 
@@ -70,13 +101,10 @@ const CounsellorProfile = () => {
 
         {/* Right Scrollable Content Section */}
         <div className="flex-1 pl-8 space-y-6">
-          {/* About Section */}
           <div className="bg-white p-6 rounded-2xl shadow-lg">
             <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">About</h3>
             <p className="text-gray-700">
-              John is a passionate software engineer with 5+ years of experience
-              in full-stack development. He loves mentoring students and helping
-              them shape their career paths.
+              {user.about}
             </p>
           </div>
 

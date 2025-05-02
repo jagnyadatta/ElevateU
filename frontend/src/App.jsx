@@ -29,7 +29,7 @@ const appRouter = createBrowserRouter([
         element: <AiHomePage />
       },
       {
-        path: 'profilecouncil',
+        path: 'profilecouncil/:id',
         element: <CounsellorProfile/>
       },
       {
@@ -58,10 +58,10 @@ const appRouter = createBrowserRouter([
         path: 'login',
         element: <CounsellorLogin />
       },
-      {
-        path: 'profile',
-        element: <CounsellorProfile />
-      },
+      // {
+      //   path: 'profile',
+      //   element: <CounsellorProfile />
+      // },
       {
         path: 'bulk-insert',
         element: <AddCounsellors />

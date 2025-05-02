@@ -5,15 +5,9 @@ import upload from '../middleware/multer.js';
 
 const router = express.Router();
 
-// Route to send OTP
 router.route("/send-otp").post(sendOtpCounsellor);
-
-// Route to verify OTP
 router.route("/verify-otp").post(verifyOtpCounsellor);
-
-// Route to resend OTP
 router.route("/resend-otp").post(resendOtpCounsellor);
-
 router.route("/register").post(upload.fields([
   { name: "profileImage", maxCount: 1 },
   { name: "collegeIdCard", maxCount: 1 },
