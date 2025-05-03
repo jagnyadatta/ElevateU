@@ -1,56 +1,61 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import io from "socket.io-client";
+import axios from "axios";
+import { CHAT_API_END_POINT } from "@/utils/constant";
+
+const socket = io("http://localhost:8080"); // Adjust your backend port
 
 const ChatBox = () => {
+  const { senderId, receiverId } = useParams();
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const userType = "student"; // For demo, this can be dynamic (e.g. from login)
+  const [newMsg, setNewMsg] = useState("");
 
-  const handleSend = () => {
-    if (input.trim() === "") return;
+  useEffect(() => {
+    // Join room or initialize socket connection
+    socket.emit("join", { senderId, receiverId });
 
-    const newMessage = {
-      id: Date.now(),
-      text: input,
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      sender: userType,
+    // Receive message from backend
+    socket.on("receive-message", (message) => {
+      setMessages((prev) => [...prev, message]);
+    });
+
+    // Cleanup
+    return () => {
+      socket.off("receive-message");
+    };
+  }, [senderId, receiverId]);
+
+  const sendMessage = async () => {
+    if (!newMsg.trim()) return;
+
+    const messageData = {
+      senderId,
+      receiverId,
+      content: newMsg,
     };
 
-    setMessages((prev) => [...prev, newMessage]);
-    setInput("");
+    // Emit to Socket
+    socket.emit("send-message", messageData);
 
-    // Mocked counselor auto-reply after 1 second (for demo)
-    setTimeout(() => {
-      const reply = {
-        id: Date.now() + 1,
-        text: "Thank you for your message. How can I assist you?",
-        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        sender: "counselor",
-      };
-      setMessages((prev) => [...prev, reply]);
-    }, 1000);
+    // Optional: Save message to DB
+    await axios.post(CHAT_API_END_POINT, messageData);
+
+    // Update local state
+    setMessages((prev) => [...prev, messageData]);
+    setNewMsg("");
   };
 
   return (
-    <div className="w-full max-w-md mx-auto mt-10 shadow-lg rounded-2xl border p-4 flex flex-col h-[500px] bg-white">
-      <div className="flex-1 overflow-y-auto space-y-3 mb-4 px-2">
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`flex ${
-              msg.sender === "student" ? "justify-end" : "justify-start"
-            }`}
-          >
-            <div
-              className={`p-3 rounded-lg max-w-[75%] text-sm shadow-md break-words whitespace-pre-wrap ${
-                msg.sender === "student"
-                ? "bg-blue-500 text-white"
-                : "bg-green-400 text-white"
-              }`}
-            >
+    <div className="p-4 bg-white rounded-xl shadow-lg w-[80%] mx-auto mt-10">
+      <h2 className="text-xl font-bold mb-4">Chat with Counselor</h2>
 
-              <div>{msg.text}</div>
-              <div className="text-[10px] text-right mt-1">{msg.time}</div>
-            </div>
+      <div className="h-64 overflow-y-auto border p-3 mb-4">
+        {messages.map((msg, i) => (
+          <div key={i} className={`mb-2 ${msg.senderId === senderId ? "text-right" : "text-left"}`}>
+            <span className="inline-block bg-blue-100 px-3 py-1 rounded">
+              {msg.content}
+            </span>
           </div>
         ))}
       </div>
@@ -58,15 +63,14 @@ const ChatBox = () => {
       <div className="flex gap-2">
         <input
           type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Type your message..."
-          className="flex-1 border px-4 py-2 rounded-lg focus:outline-none"
+          className="flex-1 border p-2 rounded"
+          value={newMsg}
+          onChange={(e) => setNewMsg(e.target.value)}
+          placeholder="Type a message..."
         />
         <button
-          onClick={handleSend}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={sendMessage}
         >
           Send
         </button>

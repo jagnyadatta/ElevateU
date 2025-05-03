@@ -12,8 +12,8 @@ const ProfileCard = ({ name, image, college, id }) => {
         </div>
         <p className="card-title">{name}</p>
         <p className="card-body">{college}</p>
-        <Link to={`/profilecouncil/${id}`}>
-          <Button className="bg-[#3b66ff]" > Go With </Button>
+        <Link to={`/profilecouncil/${id}`} >
+          <Button className="bg-[#3b66ff] hover:cursor-pointer" > Go With </Button>
         </Link>
       </div>
     </StyledWrapper>

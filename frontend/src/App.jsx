@@ -14,6 +14,8 @@ import LoginChoice from './components/auth/LoginChoice'
 import StudentLayout from './components/shared/StudentLayout'
 import StudentLogin from './components/auth/StudentLogin'
 import AddCounsellors from './components/Career/AddCounsellors'
+import Dashboard from './components/Home/Dashboard'
+import ChatBox from './check/ChatBox'
 
 const appRouter = createBrowserRouter([
   {
@@ -39,7 +41,11 @@ const appRouter = createBrowserRouter([
       {
         path: "choicelogin",
         element: <LoginChoice/>
-      }
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard/>
+      },
     ]
   },
   {
@@ -81,6 +87,10 @@ const appRouter = createBrowserRouter([
         element: <StudentLogin/>
       },
     ] 
+  },
+  {
+    path: "/chat/:senderId/:receiverId",
+    element: <ChatBox/>
   },
 ])
 

@@ -1,3 +1,6 @@
+import http from "http";
+import { Server } from "socket.io";
+import { socketHandler } from "./sockets/socket.js";
 import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./utils/db.js";
@@ -7,10 +10,13 @@ import cookieParser from "cookie-parser";
 import otpGenRoute from "./routes/auth.route.js";
 import counsellorRoute from "./routes/counsellor.route.js";
 import findUserRoute from "./routes/findUser.route.js";
+import messageRoute from "./routes/message.route.js";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const server = http.createServer(app);
 
 //middleware
 app.use(express.json());
@@ -21,6 +27,16 @@ const corsOptions = {
   origin: "http://localhost:5173",
   credentials: true,
 }; 
+
+//socket connection
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    credentials: true,
+  },
+});
+socketHandler(io);
+
 app.use(cors(corsOptions));
 
 //API's here
@@ -28,6 +44,7 @@ app.use("/elevateu/v1/otp", otpGenRoute);
 app.use("/elevateu/v1/user", findUserRoute);
 app.use("/elevateu/v1/student", studentRoute);
 app.use("/elevateu/v1/counsellor",counsellorRoute);
+app.use("/elevateu/v1/chat", messageRoute);
 
 app.get("/error", (req, res)=>{
     return res.status(200).json({
@@ -36,7 +53,7 @@ app.get("/error", (req, res)=>{
     });
 });
 
-app.listen(PORT, () => {
-    connectDB();
+server.listen(PORT, () => {
+  connectDB();
   console.log(`App listening on port ${PORT}`);
 });

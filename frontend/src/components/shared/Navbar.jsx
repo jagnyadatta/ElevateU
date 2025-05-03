@@ -9,7 +9,6 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { setUser } from '@/redux/authSlice';
 import ProfileButton from '../ui/ProfileButton';
-  
 
 const Navbar = () => {
   const {user} = useSelector((store)=> store.auth);
