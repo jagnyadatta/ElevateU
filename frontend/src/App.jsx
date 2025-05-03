@@ -95,14 +95,6 @@ const appRouter = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/chat/:senderId/:receiverId",
-    element: <ChatBox />,
-  },
-  {
-    path: "/RazorpayPayment/",
-    element: <RazorpayPayment />,
-  },
 ]);
 
 function App() {

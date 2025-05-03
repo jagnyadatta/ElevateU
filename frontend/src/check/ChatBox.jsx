@@ -6,10 +6,12 @@ import { CHAT_API_END_POINT } from "@/utils/constant";
 
 const socket = io("http://localhost:8080"); // Adjust your backend port
 
-const ChatBox = () => {
-  const { senderId, receiverId } = useParams();
+const ChatBox = ({senderId, receiverId}) => {
+  // const { senderId, receiverId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState("");
+
+  // console.log(senderId, receiverId);
 
   useEffect(() => {
     // Join room or initialize socket connection
@@ -53,9 +55,6 @@ const ChatBox = () => {
     // Emit to Socket
     socket.emit("send-message", messageData);
 
-    // // Optional: Save message to DB
-    // await axios.post(CHAT_API_END_POINT, messageData);
-
     // Update local state
     setMessages((prev) => [...prev, messageData]);
     setNewMsg("");
@@ -74,11 +73,22 @@ const ChatBox = () => {
 
       <div className="h-[80%] overflow-y-auto border p-3 mb-4">
         {messages.map((msg, i) => (
-          <div key={i} className={`mb-2 ${msg.senderId === senderId ? "text-right" : "text-left"}`}>
-            <span className="inline-block bg-blue-100 px-3 py-1 rounded">
-              {msg.content}
-            </span>
+          <div
+          key={i}
+          className={`mb-2 flex ${(msg.sender === senderId || msg.senderId === senderId) ? "justify-end" : "justify-start"}`}
+        >
+          <div
+            className={`max-w-xs px-4 py-2 rounded-lg shadow text-sm whitespace-pre-wrap ${
+              msg.senderId === senderId ? "bg-blue-500 text-white" : "bg-green-400 text-white"
+            }`}
+          >
+            {msg.content}
+            <div className="text-[10px] text-right opacity-70 mt-1">
+              {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </div>
           </div>
+        </div>
+        
         ))}
       </div>
 

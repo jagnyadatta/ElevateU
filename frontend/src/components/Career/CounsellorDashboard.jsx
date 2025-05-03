@@ -7,10 +7,10 @@ import { useSelector } from "react-redux";
 const CounsellorDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [selectedStudentIndex, setSelectedStudentIndex] = useState(null);
-
   const [currUser, setCurrUser] = useState({});
   const { user } = useSelector((store) => store.auth);
-
+  const [receiverId, setReceiverId] = useState("");
+  const senderId = user.slug;
   const fetchUser = async () => {
     try {
       if (!user) return;
@@ -33,20 +33,20 @@ const CounsellorDashboard = () => {
       console.error("User fetch failed:", error);
     }
   };
-
   console.log(currUser);
+
+  const handleChat = (index, slug) =>{
+    setSelectedStudentIndex(index);
+    setReceiverId(slug);
+  }
 
   const students = Array.from({ length: 4 }, (_, i) => ({
     name: `Student ${i + 1}`,
     image: `https://randomuser.me/api/portraits/women/${(i % 10) + 1}.jpg`,
+    slug: "7e1149fe-f4bd-4fa7-b332-a0af06bb50be"
   }));
 
   const [message, setMessage] = useState("");
-  const handleMessageChange = (e) => setMessage(e.target.value);
-  const handleSendMessage = () => {
-    console.log("Message sent:", message);
-    setMessage("");
-  };
 
   useEffect(() => {
     if (user) {
@@ -159,12 +159,13 @@ const CounsellorDashboard = () => {
               {students.map((student, index) => (
                 <div
                   key={index}
-                  onClick={() => setSelectedStudentIndex(index)}
+                  onClick={()=>handleChat(index, student.slug)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedStudentIndex === index
                       ? "bg-[#dbe4ff]"
                       : "hover:bg-[#f0f4ff]"
                   }`}
+
                 >
                   <img
                     src={student.image}
@@ -178,7 +179,7 @@ const CounsellorDashboard = () => {
 
             {/* Right: Full Width ChatBox */}
             <div className="flex-1">
-              <ChatBox />
+              <ChatBox senderId={senderId} receiverId={receiverId} />
             </div>
           </div>
         )}
@@ -188,7 +189,7 @@ const CounsellorDashboard = () => {
             <h3 className="text-2xl font-bold mb-4">Student List</h3>
             <div className="space-y-4 overflow-y-auto max-h-[80vh]">
               {students.map((student, index) => (
-                <div key={index} className="flex items-center space-x-4">
+                <div key={index} className="flex items-center space-x-4" >
                   <img
                     src={student.image}
                     alt={student.name}
