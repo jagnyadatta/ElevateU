@@ -17,6 +17,7 @@ const ChatBox = ({senderId, receiverId}) => {
     // Establish socket connection
     socketRef.current = io("http://localhost:8080"); // update if needed
     const socket = socketRef.current;
+    socket.emit("register", senderId);
 
     socket.emit("join", { senderId, receiverId });
 
