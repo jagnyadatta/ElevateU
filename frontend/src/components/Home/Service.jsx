@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BackgroundImage from "../shared/BackgroundImage";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
+
 
 const Service = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 700,              
+    });
+  }, []);
+  
   return (
     <>
       {/* Wrapper with relative for positioning context */}
       <div id="services" className="relative h-[100vh] w-full">
 
         {/* Main content above the background */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center">
-          <div className="w-full h-[20%]">
+        <div  className="relative z-10 h-full flex flex-col items-center justify-center ">
+          <div className="w-full h-[20%]" >
             <h2 className="text-5xl ml-[12%] mt-[7%] text-[#3b66ff] font-bold">
              <a href="">Services</a>
             </h2>
@@ -20,9 +30,9 @@ const Service = () => {
           <div className="h-[80%] w-full flex flex-col justify-center items-center gap-5">
             
             {/* Card Row 1 */}
-            <div className="flex gap-2">
-              <div className="w-[45vw] h-[30vh] bg-[#3b66ff] flex flex-col justify-center items-center rounded-[2vw]">
-                <div className="w-[90%] h-[80%] flex flex-col gap-2">
+            <div className="flex gap-2 " >
+              <div className="w-[45vw] h-[30vh] bg-[#3b66ff] flex flex-col justify-center items-center rounded-[2vw]" data-aos="fade-right">
+                <div className="w-[90%] h-[80%] flex flex-col gap-2" >
                   <h2 className="text-white text-4xl">Career counsellor</h2>
                   <p className="text-white">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -38,7 +48,7 @@ const Service = () => {
                 </div>
               </div>
 
-              <div className="w-[35vw] h-[30vh] bg-[#3b66ff] flex justify-center rounded-[2vw]">
+              <div className="w-[35vw] h-[30vh] bg-[#3b66ff] flex justify-center rounded-[2vw]" data-aos="fade-down"  >
                 <img
                   src="/image/women.png"
                   alt="element1"
@@ -49,7 +59,7 @@ const Service = () => {
 
             {/* Card Row 2 */}
             <div className="flex gap-2">
-              <div className="w-[35vw] h-[30vh] bg-[#3b66ff] flex justify-center rounded-[2vw]">
+              <div className="w-[35vw] h-[30vh] bg-[#3b66ff] flex justify-center rounded-[2vw] " data-aos="fade-up">
                 <img
                   src="/image/hand_shake_img.png"
                   alt="element1"
@@ -57,7 +67,7 @@ const Service = () => {
                 />
               </div>
 
-              <div className="w-[45vw] h-[30vh] bg-[#3b66ff] flex flex-col justify-center items-center rounded-[2vw]">
+              <div className="w-[45vw] h-[30vh] bg-[#3b66ff] flex flex-col justify-center items-center rounded-[2vw]" data-aos="fade-left">
                 <div className="w-[90%] h-[80%] flex flex-col gap-2">
                   <h2 className="text-white text-4xl">Admission counselor</h2>
                   <p className="text-white">
