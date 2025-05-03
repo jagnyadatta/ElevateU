@@ -6,11 +6,12 @@ import { useSelector } from "react-redux";
 
 const CounsellorDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
+  const [selectedStudentIndex, setSelectedStudentIndex] = useState(null);
+
   const [currUser, setCurrUser] = useState({});
-  const {user} = useSelector((store)=> store.auth);
+  const { user } = useSelector((store) => store.auth);
 
-
-  const fetchUser = async()=>{
+  const fetchUser = async () => {
     try {
       if (!user) return;
       const res = await axios.post(`${FIND_USER_API_END_POINT}/find`, user, {
@@ -20,18 +21,18 @@ const CounsellorDashboard = () => {
         withCredentials: true,
       });
       const check = res.data;
-      if(check.success){
-        if(check.user1){
+      if (check.success) {
+        if (check.user1) {
           setCurrUser(check.user1);
         }
-        if(check.user2){
+        if (check.user2) {
           setCurrUser(check.user1);
         }
       }
-    } catch (error){
+    } catch (error) {
       console.error("User fetch failed:", error);
     }
-  }
+  };
 
   console.log(currUser);
 
@@ -109,15 +110,15 @@ const CounsellorDashboard = () => {
                 </h2>
                 <div className="flex flex-col gap-4 text-gray-700">
                   <div>
-                    <span className="font-semibold">Name:</span> <strong className="text-xl">{currUser.name}</strong>
+                    <span className="font-semibold">Name:</span>{" "}
+                    <strong className="text-xl">{currUser.name}</strong>
                   </div>
                   <div>
                     <span className="font-semibold">College:</span>{" "}
                     {currUser.collegeName}
                   </div>
                   <div className="md:col-span-2">
-                    <span className="font-semibold">Rank:</span>{" "}
-                    {currUser.rank}
+                    <span className="font-semibold">Rank:</span> {currUser.rank}
                   </div>
                   {/* <div>
                     <span className="font-semibold">Age:</span> {currUser.age}
@@ -158,8 +159,12 @@ const CounsellorDashboard = () => {
               {students.map((student, index) => (
                 <div
                   key={index}
-                  className="flex items-center space-x-4 hover:bg-[#f0f4ff] p-3 cursor-pointer transition rounded-md"
-
+                  onClick={() => setSelectedStudentIndex(index)}
+                  className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
+                    selectedStudentIndex === index
+                      ? "bg-[#dbe4ff]"
+                      : "hover:bg-[#f0f4ff]"
+                  }`}
                 >
                   <img
                     src={student.image}
