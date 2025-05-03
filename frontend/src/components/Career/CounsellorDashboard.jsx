@@ -1,34 +1,57 @@
 import ChatBox from "@/check/ChatBox";
-import React, { useState } from "react";
+import { FIND_USER_API_END_POINT } from "@/utils/constant";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const CounsellorDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
+  const [currUser, setCurrUser] = useState({});
+  const {user} = useSelector((store)=> store.auth);
 
-  const userData = {
-    name: "John Doe",
-    college: "MIT - Massachusetts Institute of Technology",
-    age: 25,
-    gender: "Male",
-    phone: "+1 234 567 890",
-    email: "john.doe@example.com",
-    location: "Cambridge, MA, USA",
-    image:
-      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
-  };
 
-  const students = Array.from({ length: 40 }, (_, i) => ({
+  const fetchUser = async()=>{
+    try {
+      if (!user) return;
+      const res = await axios.post(`${FIND_USER_API_END_POINT}/find`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      const check = res.data;
+      if(check.success){
+        if(check.user1){
+          setCurrUser(check.user1);
+        }
+        if(check.user2){
+          setCurrUser(check.user1);
+        }
+      }
+    } catch (error){
+      console.error("User fetch failed:", error);
+    }
+  }
+
+  console.log(currUser);
+
+  const students = Array.from({ length: 4 }, (_, i) => ({
     name: `Student ${i + 1}`,
     image: `https://randomuser.me/api/portraits/women/${(i % 10) + 1}.jpg`,
   }));
 
   const [message, setMessage] = useState("");
-
   const handleMessageChange = (e) => setMessage(e.target.value);
-
   const handleSendMessage = () => {
     console.log("Message sent:", message);
     setMessage("");
   };
+
+  useEffect(() => {
+    if (user) {
+      fetchUser();
+    }
+  }, [user]);
 
   return (
     <div className="flex">
@@ -78,45 +101,45 @@ const CounsellorDashboard = () => {
       <div className="flex ml-[250px] w-full h-[100vh]">
         {activePage === "dashboard" && (
           <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-white p-10 flex justify-center items-center">
-            <div className="bg-white rounded-3xl shadow-2xl p-10 flex gap-10 items-center max-w-5xl w-full">
+            <div className="bg-white rounded-3xl shadow-2xl p-10 flex gap-10 items-center justify-between max-w-5xl w-full">
               {/* Profile Info */}
-              <div className="flex-grow space-y-4">
+              <div className="flex flex-col space-y-4 w-full">
                 <h2 className="text-3xl font-bold text-blue-600 mb-4 border-b pb-2 border-blue-300">
                   Profile Information
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                <div className="flex flex-col gap-4 text-gray-700">
                   <div>
-                    <span className="font-semibold">Name:</span> {userData.name}
+                    <span className="font-semibold">Name:</span> <strong className="text-xl">{currUser.name}</strong>
                   </div>
                   <div>
                     <span className="font-semibold">College:</span>{" "}
-                    {userData.college}
+                    {currUser.collegeName}
                   </div>
-                  <div>
-                    <span className="font-semibold">Age:</span> {userData.age}
+                  <div className="md:col-span-2">
+                    <span className="font-semibold">Rank:</span>{" "}
+                    {currUser.rank}
                   </div>
+                  {/* <div>
+                    <span className="font-semibold">Age:</span> {currUser.age}
+                  </div> */}
                   <div>
                     <span className="font-semibold">Gender:</span>{" "}
-                    {userData.gender}
+                    {currUser.gender}
                   </div>
                   <div>
                     <span className="font-semibold">Phone:</span>{" "}
-                    {userData.phone}
+                    {currUser.phoneNumber}
                   </div>
                   <div>
                     <span className="font-semibold">Email:</span>{" "}
-                    {userData.email}
-                  </div>
-                  <div className="md:col-span-2">
-                    <span className="font-semibold">Location:</span>{" "}
-                    {userData.location}
+                    {currUser.email}
                   </div>
                 </div>
               </div>
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={userData.image}
+                  src={currUser.profileImage}
                   alt="User"
                   className="w-60 h-60 rounded-2xl object-cover border-4 border-blue-500 shadow-md"
                 />
@@ -136,6 +159,7 @@ const CounsellorDashboard = () => {
                 <div
                   key={index}
                   className="flex items-center space-x-4 hover:bg-[#f0f4ff] p-3 cursor-pointer transition rounded-md"
+
                 >
                   <img
                     src={student.image}
@@ -179,28 +203,28 @@ const CounsellorDashboard = () => {
               <label className="block">Name</label>
               <input
                 type="text"
-                value={userData.name}
+                value={currUser.name}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
 
-              <label className="block">Email</label>
+              {/* <label className="block">Email</label>
               <input
                 type="email"
-                value={userData.email}
+                value={currUser.email}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              />
+              /> */}
 
               <label className="block">Phone</label>
               <input
                 type="text"
-                value={userData.phone}
+                value={currUser.phone}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
 
               <label className="block">Location</label>
               <input
                 type="text"
-                value={userData.location}
+                value={currUser.location}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
             </div>
