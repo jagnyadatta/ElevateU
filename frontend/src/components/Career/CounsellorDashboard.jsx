@@ -58,7 +58,7 @@ const CounsellorDashboard = () => {
     <div className="flex">
       {/* Fixed Left Navbar */}
       <div className="w-[250px] bg-[#3b66ff] text-white p-6 h-screen fixed top-0 left-0 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold mb-6">NavBar</h2>
+        <h2 className="text-2xl font-bold mb-6">COUNSELLOR</h2>
         <ul className="space-y-6">
           <li
             className={`cursor-pointer p-2 rounded-md hover:bg-[#4f85f7] ${

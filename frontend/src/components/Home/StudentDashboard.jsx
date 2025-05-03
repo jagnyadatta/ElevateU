@@ -1,9 +1,13 @@
 import ChatBox from "@/check/ChatBox";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [selectedCounsellorIndex, setSelectedCounsellorIndex] = useState(null);
+  const { user } = useSelector((store) => store.auth);
+  const [receiverId, setReceiverId] = useState("");
+  const senderId = user.slug;
 
   const userData = {
     name: "John Doe",
@@ -17,25 +21,22 @@ const StudentDashboard = () => {
       "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
   };
 
-  const counsellors = Array.from({ length: 40 }, (_, i) => ({
+  const counsellors = Array.from({ length: 4 }, (_, i) => ({
     name: `Counsellor ${i + 1}`,
     image: `https://randomuser.me/api/portraits/men/${(i % 10) + 1}.jpg`,
+    slug: '2526ad7f-85d6-4f99-aa4c-2e04b47a241e'
   }));
 
-  const [message, setMessage] = useState("");
-
-  const handleMessageChange = (e) => setMessage(e.target.value);
-
-  const handleSendMessage = () => {
-    console.log("Message sent:", message);
-    setMessage("");
-  };
+  const handleChat = (index, slug) =>{
+    setSelectedCounsellorIndex(index);
+    setReceiverId(slug);
+  }
 
   return (
     <div className="flex">
       {/* Fixed Left Navbar */}
       <div className="w-[250px] bg-[#3b66ff] text-white p-6 h-screen fixed top-0 left-0 flex flex-col justify-between">
-        <h2 className="text-2xl font-bold mb-6">NavBar</h2>
+        <h2 className="text-2xl font-bold mb-6">STUDENT</h2>
         <ul className="space-y-6">
           <li
             className={`cursor-pointer p-2 rounded-md hover:bg-[#4f85f7] ${
@@ -136,7 +137,7 @@ const StudentDashboard = () => {
               {counsellors.map((counsellor, index) => (
                 <div
                   key={index}
-                  onClick={() => setSelectedCounsellorIndex(index)}
+                  onClick={()=>handleChat(index, counsellor.slug)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedCounsellorIndex === index
                       ? "bg-[#dbe4ff]"
@@ -155,7 +156,7 @@ const StudentDashboard = () => {
 
             {/* Right: Full Width ChatBox */}
             <div className="flex-1">
-              <ChatBox />
+              <ChatBox senderId={senderId} receiverId={receiverId} />
             </div>
           </div>
         )}
