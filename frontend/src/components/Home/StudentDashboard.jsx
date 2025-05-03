@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
+  const [selectedCounsellorIndex, setSelectedCounsellorIndex] = useState(null);
 
   const userData = {
     name: "John Doe",
@@ -135,7 +136,12 @@ const StudentDashboard = () => {
               {counsellors.map((counsellor, index) => (
                 <div
                   key={index}
-                  className="flex items-center space-x-4 hover:bg-[#f0f4ff] p-3 cursor-pointer transition rounded-md"
+                  onClick={() => setSelectedCounsellorIndex(index)}
+                  className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
+                    selectedCounsellorIndex === index
+                      ? "bg-[#dbe4ff]"
+                      : "hover:bg-[#f0f4ff]"
+                  }`}
                 >
                   <img
                     src={counsellor.image}
