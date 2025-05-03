@@ -125,8 +125,8 @@ const Navbar = () => {
                     </div>
                   </PopoverTrigger>
                   <PopoverContent className="w-[400px]">
-                    <div className='w-full h-[100px] flex items-center justify-between'>
-                      <img src={imageLink} alt="profileImage" className="w-[100px] h-[100px] rounded-full" />
+                    <div className='w-full h-[100px] flex items-center justify-between overflow-hidden '>
+                      <img src={imageLink} alt="profileImage" className="w-[100px] h-[100px] rounded-full object-cover" />
                       <Link to="/counsellor/profile">
                         <ProfileButton/>
                       </Link>

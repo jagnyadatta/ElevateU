@@ -8,12 +8,14 @@ export default function Content() {
                 <img
                   src="/image/think30.png"
                   alt="element1"
-                  className="w-50 "
+                  className="w-50 " data-aos="zoom-in"
+                  data-aos-duration="400" 
                 />
                 <img
                   src="/image/think20.png"
                   alt="element1"
-                  className="w-15 "
+                  className="w-15 " data-aos="zoom-in"
+                  data-aos-duration="600" 
                 />
               </div>
               <div>
@@ -21,20 +23,22 @@ export default function Content() {
               <img
                 src="/image/think40.png"
                 alt="element1"
-                className="w-20 "
+                className="w-20 " data-aos="zoom-in"
+                data-aos-duration="500" 
                 />
               <img
                 src="/image/think10.png"
                 alt="element1"
-                className="w-20 "
+                className="w-20 " data-aos="zoom-in"
+                data-aos-duration="300" 
                 />
                 </div>
             </div>
-            <div className="flex justify-end w-[50vw  ">
+            <div className="flex items-end justify-end w-full h-full overflow-hidden   ">
               <img
                 src="/image/person-laptop.png"
                 alt="person-with-table"
-                className="  w-[46vw]  "
+                className="w-[90%] h-[72%] " data-aos="fade-left" data-aos-offset="0" 
               />
             </div>
           </div>

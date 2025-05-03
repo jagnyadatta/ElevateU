@@ -1,5 +1,9 @@
 {
   "dependencies": {
+<<<<<<< HEAD
     "socket.io-client": "^4.8.1"
+=======
+    "aos": "^2.3.4"
+>>>>>>> 3b21b807249f3bf42cac3a5eb34e000fc19c3f7e
   }
 }
