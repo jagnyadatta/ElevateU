@@ -18,6 +18,7 @@ import Dashboard from "./components/Home/StudentDashboard";
 import ChatBox from "./check/ChatBox";
 import CounsellorDashboard from "./components/Career/CounsellorDashboard";
 import StudentDashboard from "./components/Home/StudentDashboard";
+import RazorpayPayment from "./components/payment/RazorpayPayment";
 
 const appRouter = createBrowserRouter([
   {
@@ -97,6 +98,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/chat/:senderId/:receiverId",
     element: <ChatBox />,
+  },
+  {
+    path: "/RazorpayPayment/",
+    element: <RazorpayPayment />,
   },
 ]);
 
