@@ -10,6 +10,7 @@ const ChatBox = ({senderId, receiverId}) => {
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState("");
   const socketRef = useRef();
+  const messagesEndRef = useRef(null); 
 
   // console.log(senderId, receiverId);
 
@@ -64,6 +65,12 @@ const ChatBox = ({senderId, receiverId}) => {
     setNewMsg("");
   };
 
+  // Scroll to the bottom when messages change
+  useEffect(() => {
+    // Scroll to the last message
+    messagesEndRef.current?.scrollIntoView();
+  }, [messages]);
+
   return (
     <div className="p-4 rounded-xl shadow-lg w-full h-full">
       <div className="flex items-center gap-4 mb-4 border-b pb-3">
@@ -96,6 +103,8 @@ const ChatBox = ({senderId, receiverId}) => {
         </div>
         
         ))}
+        {/* Div to trigger scrolling to the bottom */}
+        <div ref={messagesEndRef} />
       </div>
 
       <div className="flex gap-2">
