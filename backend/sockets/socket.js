@@ -1,26 +1,34 @@
-import {Message} from "../models/message.model.js";
-const users = new Map();
+import { Message } from "../models/message.model.js";
+
+const users = new Map(); // userId -> Set of socketIds
 
 export const socketHandler = (io) => {
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
+    // Register user
     socket.on("register", (userId) => {
       if (!users.has(userId)) {
         users.set(userId, new Set());
       }
       users.get(userId).add(socket.id);
-      socket.userId = userId; // store for cleanup
+      socket.userId = userId; // Store userId on socket for disconnect cleanup
     });
 
+    // Send a message
     socket.on("send-message", async ({ senderId, receiverId, content }) => {
       try {
-        const message = new Message({ sender: senderId, receiver: receiverId, content });
+        const message = new Message({
+          sender: senderId,
+          receiver: receiverId,
+          content,
+        });
+
         await message.save();
 
-        const receiverSockets = users.get(receiverId);
-        if (receiverSockets) {
-          receiverSockets.forEach((socketId) => {
+        const receiverSocketIds = users.get(receiverId);
+        if (receiverSocketIds) {
+          receiverSocketIds.forEach((socketId) => {
             io.to(socketId).emit("receive-message", message);
           });
         }
@@ -29,15 +37,17 @@ export const socketHandler = (io) => {
       }
     });
 
+    // Disconnect user
     socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-      const userId = socket.userId;
+      const { userId } = socket;
       if (userId && users.has(userId)) {
-        users.get(userId).delete(socket.id);
-        if (users.get(userId).size === 0) {
+        const socketIds = users.get(userId);
+        socketIds.delete(socket.id);
+        if (socketIds.size === 0) {
           users.delete(userId);
         }
       }
+      console.log("User disconnected:", socket.id);
     });
   });
 };
