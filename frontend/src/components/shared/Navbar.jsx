@@ -16,6 +16,7 @@ const Navbar = () => {
   const email = user?.email;
   const [imageLink, setImageLink] = useState(null);
   const [checkUser, setCheckUser] = useState("");
+  const [propsUser, setPropsUser] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fetchUser = async()=>{
@@ -32,10 +33,12 @@ const Navbar = () => {
         if(check.user1){
           setImageLink(check.user1.profileImage);
           setCheckUser("counsellor");
+          setPropsUser(check.user1);
         }
         if(check.user2){
           setImageLink(check.user2.profileImage);
           setCheckUser("student");
+          setPropsUser(check.user2);
         }
       }
     } catch (error){
@@ -131,7 +134,7 @@ const Navbar = () => {
                     <div className='w-full h-[100px] flex items-center justify-between overflow-hidden '>
                       <img src={imageLink} alt="profileImage" className="w-[100px] h-[100px] rounded-full object-cover" />
                       <Link to={checkUser === "counsellor" ? "/counsellor/dashboardcounsellor" : "/student/dashboard"}>
-                        <ProfileButton/>
+                        <ProfileButton />
                       </Link>
                     </div>
                     <div className='flex flex-col mt-3'>
