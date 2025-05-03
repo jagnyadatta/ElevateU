@@ -42,10 +42,6 @@ const appRouter = createBrowserRouter([
         path: "choicelogin",
         element: <LoginChoice/>
       },
-      {
-        path: "dashboard",
-        element: <Dashboard/>
-      },
     ]
   },
   {
@@ -91,6 +87,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/chat/:senderId/:receiverId",
     element: <ChatBox/>
+  },
+  {
+    path: "dashboard",
+    element: <Dashboard/>
   },
 ])
 
