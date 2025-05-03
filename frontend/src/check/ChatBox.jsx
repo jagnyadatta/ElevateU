@@ -14,17 +14,32 @@ const ChatBox = () => {
   useEffect(() => {
     // Join room or initialize socket connection
     socket.emit("join", { senderId, receiverId });
-
+  
+    // Fetch previous messages from backend
+    const fetchMessages = async () => {
+      try {
+        const res = await axios.get(`${CHAT_API_END_POINT}/${senderId}/${receiverId}`);
+        if (res.data.success) {
+          setMessages(res.data.messages);
+        }
+      } catch (error) {
+        console.error("Failed to fetch chat history", error);
+      }
+    };
+  
+    fetchMessages(); // 👈 Call the fetch function
+  
     // Receive message from backend
     socket.on("receive-message", (message) => {
       setMessages((prev) => [...prev, message]);
     });
-
-    // Cleanup
+  
+    // Cleanup on unmount
     return () => {
       socket.off("receive-message");
     };
   }, [senderId, receiverId]);
+  
 
   const sendMessage = async () => {
     if (!newMsg.trim()) return;
@@ -38,8 +53,8 @@ const ChatBox = () => {
     // Emit to Socket
     socket.emit("send-message", messageData);
 
-    // Optional: Save message to DB
-    await axios.post(CHAT_API_END_POINT, messageData);
+    // // Optional: Save message to DB
+    // await axios.post(CHAT_API_END_POINT, messageData);
 
     // Update local state
     setMessages((prev) => [...prev, messageData]);
