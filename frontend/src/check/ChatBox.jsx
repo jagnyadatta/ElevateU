@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { CHAT_API_END_POINT } from "@/utils/constant";
 
-const socket = io("http://localhost:8080"); // Adjust your backend port
+// const socket = io("http://localhost:8080"); // Adjust your backend port
 
 const ChatBox = ({senderId, receiverId}) => {
   // const { senderId, receiverId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState("");
+  const socketRef = useRef();
 
   // console.log(senderId, receiverId);
 
   useEffect(() => {
-    // Join room or initialize socket connection
+    // Establish socket connection
+    socketRef.current = io("http://localhost:8080"); // update if needed
+    const socket = socketRef.current;
+
     socket.emit("join", { senderId, receiverId });
-  
-    // Fetch previous messages from backend
+
+    // Fetch previous messages
     const fetchMessages = async () => {
       try {
         const res = await axios.get(`${CHAT_API_END_POINT}/${senderId}/${receiverId}`);
@@ -28,20 +31,19 @@ const ChatBox = ({senderId, receiverId}) => {
         console.error("Failed to fetch chat history", error);
       }
     };
-  
-    fetchMessages(); // 👈 Call the fetch function
-  
-    // Receive message from backend
+
+    fetchMessages();
+
+    // Receive message
     socket.on("receive-message", (message) => {
       setMessages((prev) => [...prev, message]);
     });
-  
-    // Cleanup on unmount
+
+    // Cleanup socket on component unmount
     return () => {
-      socket.off("receive-message");
+      socket.disconnect();
     };
   }, [senderId, receiverId]);
-  
 
   const sendMessage = async () => {
     if (!newMsg.trim()) return;
@@ -53,8 +55,8 @@ const ChatBox = ({senderId, receiverId}) => {
       createdAt: new Date().toISOString(),
     };
 
-    // Emit to Socket
-    socket.emit("send-message", messageData);
+    // Emit to socket
+    socketRef.current.emit("send-message", messageData);
 
     // Update local state
     setMessages((prev) => [...prev, messageData]);
@@ -80,7 +82,9 @@ const ChatBox = ({senderId, receiverId}) => {
         >
           <div
             className={`max-w-xs px-4 py-2 rounded-lg shadow text-sm whitespace-pre-wrap ${
-              msg.sender === senderId ? "bg-blue-500 text-white" : "bg-green-400 text-white"
+              (msg.sender === senderId || msg.senderId === senderId)
+                ? "bg-blue-500 text-white"
+                : "bg-green-400 text-white"
             }`}
           >
             {msg.content}
