@@ -6,7 +6,7 @@ import BackgroundImage from "../shared/BackgroundImage";
 import Footer from "../shared/Footer";
 import AboutUs from "./AboutUs";
 import AdminDashboard from "./AdminDashboard";
-import Dashboard from "./Dashboard";
+import Dashboard from "./StudentDashboard";
 import FrontPagelayout from "./FrontPagelayout";
 
 import Service from "./Service";

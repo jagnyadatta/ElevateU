@@ -1,7 +1,7 @@
 import ChatBox from "@/check/ChatBox";
 import React, { useState } from "react";
 
-const Dashboard = () => {
+const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
 
   const userData = {
@@ -211,4 +211,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default StudentDashboard;
