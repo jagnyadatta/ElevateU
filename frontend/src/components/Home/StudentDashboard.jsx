@@ -68,7 +68,7 @@ const StudentDashboard = () => {
           >
             Settings
           </li>
-          <li className="cursor-pointer p-2 rounded-md hover:bg-[#4f85f7]">
+          <li className="cursor-pointer p-2 rounded-md hover:bg-red-600">
             Signout
           </li>
         </ul>
