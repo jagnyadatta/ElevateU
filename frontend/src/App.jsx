@@ -94,10 +94,6 @@ const appRouter = createBrowserRouter([
       },
     ],
   },
-  {
-    path: "/chat/:senderId/:receiverId",
-    element: <ChatBox />,
-  },
 ]);
 
 function App() {
