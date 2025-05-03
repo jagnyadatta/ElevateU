@@ -15,6 +15,7 @@ const Navbar = () => {
   const name = user?.name;
   const email = user?.email;
   const [imageLink, setImageLink] = useState(null);
+  const [checkUser, setCheckUser] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const fetchUser = async()=>{
@@ -30,9 +31,11 @@ const Navbar = () => {
       if(check.success){
         if(check.user1){
           setImageLink(check.user1.profileImage);
+          setCheckUser("counsellor");
         }
         if(check.user2){
           setImageLink(check.user2.profileImage);
+          setCheckUser("student");
         }
       }
     } catch (error){
@@ -127,7 +130,7 @@ const Navbar = () => {
                   <PopoverContent className="w-[400px]">
                     <div className='w-full h-[100px] flex items-center justify-between overflow-hidden '>
                       <img src={imageLink} alt="profileImage" className="w-[100px] h-[100px] rounded-full object-cover" />
-                      <Link to="/counsellor/profile">
+                      <Link to={checkUser === "counsellor" ? "/counsellor/dashboardcounsellor" : "/student/dashboard"}>
                         <ProfileButton/>
                       </Link>
                     </div>
