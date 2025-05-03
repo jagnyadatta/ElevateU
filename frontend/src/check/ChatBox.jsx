@@ -50,6 +50,7 @@ const ChatBox = ({senderId, receiverId}) => {
       senderId,
       receiverId,
       content: newMsg,
+      createdAt: new Date().toISOString(),
     };
 
     // Emit to Socket
