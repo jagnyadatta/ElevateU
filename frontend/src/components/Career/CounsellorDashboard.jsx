@@ -1,7 +1,7 @@
 import ChatBox from "@/check/ChatBox";
 import React, { useState } from "react";
 
-const Dashboard = () => {
+const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
 
   const userData = {
@@ -16,9 +16,9 @@ const Dashboard = () => {
       "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
   };
 
-  const counsellors = Array.from({ length: 40 }, (_, i) => ({
-    name: `Counsellor ${i + 1}`,
-    image: `https://randomuser.me/api/portraits/men/${(i % 10) + 1}.jpg`,
+  const students = Array.from({ length: 40 }, (_, i) => ({
+    name: `Student ${i + 1}`,
+    image: `https://randomuser.me/api/portraits/women/${(i % 10) + 1}.jpg`,
   }));
 
   const [message, setMessage] = useState("");
@@ -54,11 +54,11 @@ const Dashboard = () => {
           </li>
           <li
             className={`cursor-pointer p-2 rounded-md hover:bg-[#4f85f7] ${
-              activePage === "counsellor" ? "bg-[#4f85f7]" : ""
+              activePage === "students" ? "bg-[#4f85f7]" : ""
             }`}
-            onClick={() => setActivePage("counsellor")}
+            onClick={() => setActivePage("students")}
           >
-            Counsellor List
+            Student List
           </li>
           <li
             className={`cursor-pointer p-2 rounded-md hover:bg-[#4f85f7] ${
@@ -127,22 +127,22 @@ const Dashboard = () => {
 
         {activePage === "message" && (
           <div className="flex w-full h-screen bg-white overflow-hidden">
-            {/* Left: Fixed Width Counsellor List */}
+            {/* Left: Fixed Width Student List */}
             <div className="w-[400px] bg-white border-r overflow-y-auto">
               <h3 className="text-2xl font-bold py-4 px-4 text-[#3b66ff] sticky top-0 bg-white z-10 border-b">
                 Messages
               </h3>
-              {counsellors.map((counsellor, index) => (
+              {students.map((student, index) => (
                 <div
                   key={index}
                   className="flex items-center space-x-4 hover:bg-[#f0f4ff] p-3 cursor-pointer transition rounded-md"
                 >
                   <img
-                    src={counsellor.image}
-                    alt={counsellor.name}
+                    src={student.image}
+                    alt={student.name}
                     className="w-10 h-10 rounded-full"
                   />
-                  <span className="text-sm font-medium">{counsellor.name}</span>
+                  <span className="text-sm font-medium">{student.name}</span>
                 </div>
               ))}
             </div>
@@ -154,18 +154,18 @@ const Dashboard = () => {
           </div>
         )}
 
-        {activePage === "counsellor" && (
+        {activePage === "students" && (
           <div>
-            <h3 className="text-2xl font-bold mb-4">Counsellor List</h3>
+            <h3 className="text-2xl font-bold mb-4">Student List</h3>
             <div className="space-y-4 overflow-y-auto max-h-[80vh]">
-              {counsellors.map((counsellor, index) => (
+              {students.map((student, index) => (
                 <div key={index} className="flex items-center space-x-4">
                   <img
-                    src={counsellor.image}
-                    alt={counsellor.name}
+                    src={student.image}
+                    alt={student.name}
                     className="w-12 h-12 rounded-full"
                   />
-                  <span>{counsellor.name}</span>
+                  <span>{student.name}</span>
                 </div>
               ))}
             </div>
@@ -211,4 +211,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default StudentDashboard;

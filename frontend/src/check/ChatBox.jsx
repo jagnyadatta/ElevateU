@@ -62,10 +62,17 @@ const ChatBox = () => {
   };
 
   return (
-    <div className="p-4 bg-white rounded-xl shadow-lg w-[80%] mx-auto mt-10">
-      <h2 className="text-xl font-bold mb-4">Chat with Counselor</h2>
+    <div className="p-4 rounded-xl shadow-lg w-full h-full">
+      <div className="flex items-center gap-4 mb-4 border-b pb-3">
+        <img
+          src="https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+          alt="profile_img"
+          className="w-12 h-12 rounded-full object-cover"
+        />
+        <h2 className="text-xl font-semibold">counsellor name</h2>
+      </div>
 
-      <div className="h-64 overflow-y-auto border p-3 mb-4">
+      <div className="h-[80%] overflow-y-auto border p-3 mb-4">
         {messages.map((msg, i) => (
           <div key={i} className={`mb-2 ${msg.senderId === senderId ? "text-right" : "text-left"}`}>
             <span className="inline-block bg-blue-100 px-3 py-1 rounded">

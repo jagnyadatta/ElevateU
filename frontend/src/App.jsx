@@ -16,6 +16,7 @@ import StudentLogin from './components/auth/StudentLogin'
 import AddCounsellors from './components/Career/AddCounsellors'
 import Dashboard from './components/Home/Dashboard'
 import ChatBox from './check/ChatBox'
+import CounsellorDashboard from './components/Career/CounsellorDashboard'
 
 const appRouter = createBrowserRouter([
   {
@@ -91,6 +92,10 @@ const appRouter = createBrowserRouter([
   {
     path: "dashboard",
     element: <Dashboard/>
+  },
+  {
+    path: "dashboardcounsellor",
+    element: <CounsellorDashboard/>
   },
 ])
 
