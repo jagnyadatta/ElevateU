@@ -46,7 +46,7 @@ app.use("/elevateu/v1/student", studentRoute);
 app.use("/elevateu/v1/counsellor",counsellorRoute);
 app.use("/elevateu/v1/chat", messageRoute);
 
-app.get("/error", (req, res)=>{
+app.get("/", (req, res)=>{
     return res.status(200).json({
         message: "I am from backend",
         success: true
