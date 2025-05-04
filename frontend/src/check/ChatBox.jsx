@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import { CHAT_API_END_POINT } from "@/utils/constant";
+import { BACKEND_API_END_POINT, CHAT_API_END_POINT } from "@/utils/constant";
 
 // const socket = io("http://localhost:8080"); // Adjust your backend port
 
@@ -16,7 +16,7 @@ const ChatBox = ({senderId, receiverId}) => {
 
   useEffect(() => {
     // Establish socket connection
-    socketRef.current = io("http://localhost:8080"); // update if needed
+    socketRef.current = io(BACKEND_API_END_POINT); // update if needed
     const socket = socketRef.current;
     socket.emit("register", senderId);
 
