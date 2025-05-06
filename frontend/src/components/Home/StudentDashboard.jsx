@@ -47,11 +47,8 @@ const StudentDashboard = () => {
     }
   };
 
-  const counsellors = Array.from({ length: 4 }, (_, i) => ({
-    name: `Counsellor ${i + 1}`,
-    image: `https://randomuser.me/api/portraits/men/${(i % 10) + 1}.jpg`,
-    id: '68111597e4043276374aaf10'
-  }));
+  const counsellors = user?.counsellorList.map(Object);
+  // console.log(counsellors);
 
   const handleChat = (index, id) =>{
     setSelectedCounsellorIndex(index);
@@ -122,17 +119,6 @@ const StudentDashboard = () => {
                   <div>
                     <span className="font-semibold">Name:</span> {currUser.name}
                   </div>
-                  {/* <div>
-                    (
-                      currUser.college && (
-                        <span className="font-semibold">College:</span>{" "}
-                        {currUser.college}
-                      )
-                    )
-                  </div> */}
-                  {/* <div>
-                    <span className="font-semibold">Age:</span> {currUser.age}
-                  </div> */}
                   <div>
                     <span className="font-semibold">Gender:</span>{" "}
                     {currUser.gender}
@@ -173,7 +159,7 @@ const StudentDashboard = () => {
               {counsellors.map((counsellor, index) => (
                 <div
                   key={index}
-                  onClick={()=>handleChat(index, counsellor.id)}
+                  onClick={()=>handleChat(index, counsellor.counsellorId)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedCounsellorIndex === index
                       ? "bg-[#dbe4ff]"
@@ -181,7 +167,7 @@ const StudentDashboard = () => {
                   }`}
                 >
                   <img
-                    src={counsellor.image}
+                    src={counsellor.profileImage}
                     alt={counsellor.name}
                     className="w-10 h-10 rounded-full"
                   />
@@ -191,9 +177,14 @@ const StudentDashboard = () => {
             </div>
 
             {/* Right: Full Width ChatBox */}
-            <div className="flex-1">
-              <ChatBox senderId={senderId} receiverId={receiverId} />
-            </div>
+            {
+              receiverId && (
+                <div className="flex-1">
+                  <ChatBox senderId={senderId} receiverId={receiverId} />
+                </div>
+              )
+            }
+            
           </div>
         )}
 

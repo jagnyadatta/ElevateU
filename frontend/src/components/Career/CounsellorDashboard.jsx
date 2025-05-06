@@ -40,13 +40,7 @@ const CounsellorDashboard = () => {
     setReceiverId(id);
   }
 
-  const students = Array.from({ length: 4 }, (_, i) => ({
-    name: `Student ${i + 1}`,
-    image: `https://randomuser.me/api/portraits/women/${(i % 10) + 1}.jpg`,
-    id: "6815da43b271c4d2966a8203"
-  }));
-
-  const [message, setMessage] = useState("");
+  const students = user?.studentList.map(Object);
 
   useEffect(() => {
     if (user) {
@@ -159,7 +153,7 @@ const CounsellorDashboard = () => {
               {students.map((student, index) => (
                 <div
                   key={index}
-                  onClick={()=>handleChat(index, student.id)}
+                  onClick={()=>handleChat(index, student.studentId)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedStudentIndex === index
                       ? "bg-[#dbe4ff]"
@@ -168,7 +162,7 @@ const CounsellorDashboard = () => {
 
                 >
                   <img
-                    src={student.image}
+                    src={student.profileImage}
                     alt={student.name}
                     className="w-10 h-10 rounded-full"
                   />

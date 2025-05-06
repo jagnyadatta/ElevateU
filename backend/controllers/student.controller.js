@@ -165,18 +165,6 @@ export const register = async (req, res) => {
         });
       }
   
-      // Prevent duplicates
-      if (student.counsellorList.includes(counsellorId)) {
-        return res.status(400).json({
-          message: "Counsellor already exist to chat.",
-          success: false,
-        });
-      }
-  
-      student.counsellorList.push(counsellorId);
-      await student.save();
-
-      //COUNSELLOR OPERATION
       const counsellor = await counsellorPerson.findById(counsellorId);
       if (!counsellor) {
         return res.status(404).json({
@@ -184,15 +172,44 @@ export const register = async (req, res) => {
           success: false,
         });
       }
-      // Prevent duplicates
-      if (counsellor.studentList.includes(studentId)) {
+  
+      // ✅ Check if counsellor already exists
+      const counsellorAlreadyExists = student.counsellorList.some(
+        (item) => item.counsellorId.toString() === counsellorId
+      );
+      if (counsellorAlreadyExists) {
         return res.status(400).json({
-          message: "student already added to the student",
+          message: "Counsellor already added.",
           success: false,
         });
       }
-
-      counsellor.studentList.push(studentId);
+  
+      // ✅ Push counsellor to student
+      student.counsellorList.push({
+        counsellorId: counsellor._id,
+        name: counsellor.name,
+        profileImage: counsellor.profileImage,
+      });
+  
+      // ✅ Check if student already exists
+      const studentAlreadyExists = counsellor.studentList.some(
+        (item) => item.studentId.toString() === studentId
+      );
+      if (studentAlreadyExists) {
+        return res.status(400).json({
+          message: "Student already added.",
+          success: false,
+        });
+      }
+  
+      // ✅ Push student to counsellor
+      counsellor.studentList.push({
+        studentId: student._id,
+        name: student.name,
+        profileImage: student.profileImage,
+      });
+  
+      await student.save();
       await counsellor.save();
   
       return res.status(200).json({
@@ -201,11 +218,12 @@ export const register = async (req, res) => {
         counsellorList: student.counsellorList,
       });
     } catch (error) {
-      console.log(error);
+      console.log("Error in addCounsellorToStudent:", error);
       return res.status(500).json({
         message: "Internal Server Error",
         success: false,
       });
     }
   };
+  
   

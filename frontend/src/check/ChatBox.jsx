@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
-import { BACKEND_API_END_POINT, CHAT_API_END_POINT } from "@/utils/constant";
+import { BACKEND_API_END_POINT, CHAT_API_END_POINT, FIND_USER_API_END_POINT } from "@/utils/constant";
 
 // const socket = io("http://localhost:8080"); // Adjust your backend port
 
 const ChatBox = ({senderId, receiverId}) => {
-  // const { senderId, receiverId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState("");
+  const [currUser, setCurrUser] = useState({});
   const socketRef = useRef();
   const messagesEndRef = useRef(null); 
 
@@ -25,6 +25,21 @@ const ChatBox = ({senderId, receiverId}) => {
     // Fetch previous messages
     const fetchMessages = async () => {
       try {
+        const user = await axios.post(`${FIND_USER_API_END_POINT}/find`, {id: receiverId}, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
+        const check = user.data;
+        if (check.success) {
+          if (check.user1) {
+            setCurrUser(check.user1);
+          }
+          if (check.user2) {
+            setCurrUser(check.user2);
+          }
+        }
         const res = await axios.get(`${CHAT_API_END_POINT}/${senderId}/${receiverId}`);
         if (res.data.success) {
           setMessages(res.data.messages);
@@ -71,15 +86,20 @@ const ChatBox = ({senderId, receiverId}) => {
     messagesEndRef.current?.scrollIntoView();
   }, [messages]);
 
+  useEffect(() => {
+    console.log("Updated currUser:", currUser);
+  }, [currUser]);
+
   return (
     <div className="p-4 rounded-xl shadow-lg w-full h-full">
       <div className="flex items-center gap-4 mb-4 border-b pb-3">
         <img
-          src="https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"
+          src={currUser.profileImage||"https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"}
           alt="profile_img"
-          className="w-12 h-12 rounded-full object-cover"
+          className="w-12 h-12 border-2 border-blue-700 rounded-full object-cover"
         />
-        <h2 className="text-xl font-semibold">counsellor name</h2>
+        <h2 className="text-xl font-semibold text-[#152972]">{currUser.name || "counsellor"}</h2>
+        <p className="text-right text-red-500">({currUser.role})</p>
       </div>
 
       <div className="h-[80%] overflow-y-auto border p-3 mb-4">

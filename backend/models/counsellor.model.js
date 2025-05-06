@@ -67,9 +67,13 @@ const counsellorPersonSchema = new mongoose.Schema({
     required: false
   },
   studentList: [
-    { 
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Student"
+    {
+      studentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student"
+      },
+      name: String,
+      profileImage: String
     }
   ],
   role: {

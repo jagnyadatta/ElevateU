@@ -26,10 +26,14 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: false
     },
-    counsellorList:[
-      { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "counsellorPerson"
+    counsellorList: [
+      {
+        counsellorId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "counsellorPerson",
+        },
+        name: String,
+        profileImage: String,
       }
     ],
     role: {
