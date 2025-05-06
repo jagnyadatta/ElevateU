@@ -18,6 +18,7 @@ const Navbar = () => {
   const [checkUser, setCheckUser] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // console.log(user);
   const fetchUser = async()=>{
     try {
       if (!user) return;

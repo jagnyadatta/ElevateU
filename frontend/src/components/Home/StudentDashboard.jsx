@@ -1,13 +1,16 @@
 import ChatBox from "@/check/ChatBox";
-import React, { useState } from "react";
+import { FIND_USER_API_END_POINT } from "@/utils/constant";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [selectedCounsellorIndex, setSelectedCounsellorIndex] = useState(null);
+  const [currUser, setCurrUser] = useState({});
   const { user } = useSelector((store) => store.auth);
   const [receiverId, setReceiverId] = useState("");
-  const senderId = user.slug;
+  const senderId = user.id;
 
   const userData = {
     name: "John Doe",
@@ -21,16 +24,45 @@ const StudentDashboard = () => {
       "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
   };
 
+  const fetchUser = async () => {
+    try {
+      if (!user) return;
+      const res = await axios.post(`${FIND_USER_API_END_POINT}/find`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      const check = res.data;
+      if (check.success) {
+        if (check.user1) {
+          setCurrUser(check.user1);
+        }
+        if (check.user2) {
+          setCurrUser(check.user2);
+        }
+      }
+    } catch (error) {
+      console.error("User fetch failed:", error);
+    }
+  };
+
   const counsellors = Array.from({ length: 4 }, (_, i) => ({
     name: `Counsellor ${i + 1}`,
     image: `https://randomuser.me/api/portraits/men/${(i % 10) + 1}.jpg`,
-    slug: '2526ad7f-85d6-4f99-aa4c-2e04b47a241e'
+    id: '68111597e4043276374aaf10'
   }));
 
-  const handleChat = (index, slug) =>{
+  const handleChat = (index, id) =>{
     setSelectedCounsellorIndex(index);
-    setReceiverId(slug);
+    setReceiverId(id);
   }
+
+  useEffect(() => {
+    if (user) {
+      fetchUser();
+    }
+  }, [user]);
 
   return (
     <div className="flex">
@@ -88,37 +120,41 @@ const StudentDashboard = () => {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
                   <div>
-                    <span className="font-semibold">Name:</span> {userData.name}
+                    <span className="font-semibold">Name:</span> {currUser.name}
                   </div>
-                  <div>
-                    <span className="font-semibold">College:</span>{" "}
-                    {userData.college}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Age:</span> {userData.age}
-                  </div>
+                  {/* <div>
+                    (
+                      currUser.college && (
+                        <span className="font-semibold">College:</span>{" "}
+                        {currUser.college}
+                      )
+                    )
+                  </div> */}
+                  {/* <div>
+                    <span className="font-semibold">Age:</span> {currUser.age}
+                  </div> */}
                   <div>
                     <span className="font-semibold">Gender:</span>{" "}
-                    {userData.gender}
+                    {currUser.gender}
                   </div>
                   <div>
                     <span className="font-semibold">Phone:</span>{" "}
-                    {userData.phone}
+                    {currUser.phoneNumber}
                   </div>
                   <div>
                     <span className="font-semibold">Email:</span>{" "}
-                    {userData.email}
+                    {currUser.email}
                   </div>
-                  <div className="md:col-span-2">
+                  {/* <div className="md:col-span-2">
                     <span className="font-semibold">Location:</span>{" "}
-                    {userData.location}
-                  </div>
+                    {user.location}
+                  </div> */}
                 </div>
               </div>
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={userData.image}
+                  src={currUser.profileImage}
                   alt="User"
                   className="w-60 h-60 rounded-2xl object-cover border-4 border-blue-500 shadow-md"
                 />
@@ -137,7 +173,7 @@ const StudentDashboard = () => {
               {counsellors.map((counsellor, index) => (
                 <div
                   key={index}
-                  onClick={()=>handleChat(index, counsellor.slug)}
+                  onClick={()=>handleChat(index, counsellor.id)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedCounsellorIndex === index
                       ? "bg-[#dbe4ff]"

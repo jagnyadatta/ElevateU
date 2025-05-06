@@ -115,9 +115,10 @@ export const login = async (req, res) => {
       });
   
       user = {
+        id: user._id,
         name: user.name,
         email: user.email,
-        slug: user.slug,
+        role: user.role,
       };
 
       const firstName = user.name.split(' ')[0];

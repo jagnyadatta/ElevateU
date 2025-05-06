@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Loader from "../ui/Loader";
-import { FIND_USER_API_END_POINT } from "@/utils/constant";
+import { FIND_USER_API_END_POINT, STUDENT_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const CounsellorProfile = () => {
   const concernsList = [
@@ -21,9 +22,35 @@ const CounsellorProfile = () => {
   const [currUser, setCurrUser] = useState({});
   const [loader, setLoader] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
+  const studentId = user.id;
+  const counsellorId = id;
 
-  const senderId = user?.slug;
-  const receiverId = id;
+
+  const handleOperation = async (studentId, counsellorId) =>{
+    console.log(user.role);
+    console.log(currUser.role);
+    if(user?.role === currUser.role){
+      toast.error("You cannot chat with a counsellor!. You are a counsellor too!");
+    }else{
+      try {
+        const res = await axios.put(
+          `${STUDENT_API_END_POINT}/add-counsellor/${studentId}/${counsellorId}`,
+          {},
+          { withCredentials: true }
+        );
+
+        if (res.data.success) {
+          toast.success("Counsellor added successfully!");
+          navigate("/student/dashboard");
+        }
+      } catch (err) {
+        const backendMessage = err?.response?.data?.message || "Something went wrong.";
+        toast.error(backendMessage);
+        navigate("/student/dashboard");
+      }
+    }
+  }
 
   const fetchUser = async () =>{
     try {
@@ -95,11 +122,12 @@ const CounsellorProfile = () => {
 
           {/* Two Buttons Side by Side */}
           <div className="flex w-full gap-4 ">
-            <Link to={`/chat/${senderId}/${receiverId}`}>
-              <button className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 hover:cursor-pointer">
-                Continue
-              </button>
-            </Link>
+            <button 
+              className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 hover:cursor-pointer"
+              onClick={()=>handleOperation(studentId, counsellorId)}
+            >
+              Continue
+            </button>
           </div>
         </div>
 

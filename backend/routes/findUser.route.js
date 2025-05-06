@@ -3,8 +3,8 @@ import { findIndivisual, findUser, logout } from '../controllers/findUser.contro
 
 const router = express.Router();
 
-router.route("/:id").get(findIndivisual);
 router.route("/find").post(findUser);
 router.route("/v1/logout").get(logout);
+router.route("/:id").get(findIndivisual);
 
 export default router;

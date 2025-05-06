@@ -10,7 +10,7 @@ const CounsellorDashboard = () => {
   const [currUser, setCurrUser] = useState({});
   const { user } = useSelector((store) => store.auth);
   const [receiverId, setReceiverId] = useState("");
-  const senderId = user.slug;
+  const senderId = user.id;
   const fetchUser = async () => {
     try {
       if (!user) return;
@@ -33,17 +33,17 @@ const CounsellorDashboard = () => {
       console.error("User fetch failed:", error);
     }
   };
-  console.log(currUser);
+  // console.log(currUser);
 
-  const handleChat = (index, slug) =>{
+  const handleChat = (index, id) =>{
     setSelectedStudentIndex(index);
-    setReceiverId(slug);
+    setReceiverId(id);
   }
 
   const students = Array.from({ length: 4 }, (_, i) => ({
     name: `Student ${i + 1}`,
     image: `https://randomuser.me/api/portraits/women/${(i % 10) + 1}.jpg`,
-    slug: "7e1149fe-f4bd-4fa7-b332-a0af06bb50be"
+    id: "6815da43b271c4d2966a8203"
   }));
 
   const [message, setMessage] = useState("");
@@ -159,7 +159,7 @@ const CounsellorDashboard = () => {
               {students.map((student, index) => (
                 <div
                   key={index}
-                  onClick={()=>handleChat(index, student.slug)}
+                  onClick={()=>handleChat(index, student.id)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedStudentIndex === index
                       ? "bg-[#dbe4ff]"

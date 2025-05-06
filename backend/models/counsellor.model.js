@@ -66,6 +66,16 @@ const counsellorPersonSchema = new mongoose.Schema({
     type: Number,
     required: false
   },
+  studentList: [
+    { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student"
+    }
+  ],
+  role: {
+    type: String,
+    default: "counsellor"
+  },
   otp: {
     type: String,  // Stores the OTP sent to the user
     required: false, // OTP is not always needed

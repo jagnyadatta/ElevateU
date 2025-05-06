@@ -26,6 +26,16 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: false
     },
+    counsellorList:[
+      { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "counsellorPerson"
+      }
+    ],
+    role: {
+      type: String,
+      default: "student"
+    },
     otp: {
       type: String,  
       required: false, 

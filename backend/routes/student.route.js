@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, register } from "../controllers/student.controller.js";
+import { addCounsellorToStudent, login, logout, register } from "../controllers/student.controller.js";
 import { resendOtp, sendOtp, verifyOtp } from '../controllers/otp.controller.js';
 import upload from "../middleware/multer.js";
 
@@ -14,5 +14,6 @@ router.route("/register").post(upload.fields([
 ]),register);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
+router.route("/add-counsellor/:studentId/:counsellorId").put(addCounsellorToStudent);
 
 export default router;

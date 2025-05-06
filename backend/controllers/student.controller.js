@@ -104,9 +104,11 @@ export const register = async (req, res) => {
       });
   
       user = {
+        id: user._id,
         name: user.name,
         email: user.email,
-        slug: user.slug,
+        role: user.role,
+        counsellorList: user.counsellorList,
       };
 
       const firstName = user.name.split(' ')[0];
@@ -142,3 +144,68 @@ export const register = async (req, res) => {
       console.log(error);
     }
   };
+
+
+  export const addCounsellorToStudent = async (req, res) => {
+    try {
+      const { studentId, counsellorId } = req.params;
+  
+      if (!studentId || !counsellorId) {
+        return res.status(400).json({
+          message: "Student ID and Counsellor ID are required",
+          success: false,
+        });
+      }
+  
+      const student = await Student.findById(studentId);
+      if (!student) {
+        return res.status(404).json({
+          message: "Student not found",
+          success: false,
+        });
+      }
+  
+      // Prevent duplicates
+      if (student.counsellorList.includes(counsellorId)) {
+        return res.status(400).json({
+          message: "Counsellor already exist to chat.",
+          success: false,
+        });
+      }
+  
+      student.counsellorList.push(counsellorId);
+      await student.save();
+
+      //COUNSELLOR OPERATION
+      const counsellor = await counsellorPerson.findById(counsellorId);
+      if (!counsellor) {
+        return res.status(404).json({
+          message: "Counsellor not found",
+          success: false,
+        });
+      }
+      // Prevent duplicates
+      if (counsellor.studentList.includes(studentId)) {
+        return res.status(400).json({
+          message: "student already added to the student",
+          success: false,
+        });
+      }
+
+      counsellor.studentList.push(studentId);
+      await counsellor.save();
+  
+      return res.status(200).json({
+        message: "Counsellor added successfully to student",
+        success: true,
+        counsellorList: student.counsellorList,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        message: "Internal Server Error",
+        success: false,
+      });
+    }
+  };
+  
