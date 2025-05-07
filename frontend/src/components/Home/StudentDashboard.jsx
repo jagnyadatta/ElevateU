@@ -2,7 +2,11 @@ import ChatBox from "@/check/ChatBox";
 import { FIND_USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import AleartLogin from "../ui/AleartLogin";
+import { setUser } from '@/redux/authSlice';
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
@@ -11,18 +15,8 @@ const StudentDashboard = () => {
   const { user } = useSelector((store) => store.auth);
   const [receiverId, setReceiverId] = useState("");
   const senderId = user?.id;
-
-  const userData = {
-    name: "John Doe",
-    college: "MIT - Massachusetts Institute of Technology",
-    age: 25,
-    gender: "Male",
-    phone: "+1 234 567 890",
-    email: "john.doe@example.com",
-    location: "Cambridge, MA, USA",
-    image:
-      "https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg",
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const fetchUser = async () => {
     try {
@@ -55,11 +49,33 @@ const StudentDashboard = () => {
     setReceiverId(id);
   }
 
+  const handleLogout = async () =>{
+    try {
+      const res = await axios.get(`${FIND_USER_API_END_POINT}/v1/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     if (user) {
       fetchUser();
     }
   }, [user]);
+
+  if (!user) {
+    return (
+      <AleartLogin/>
+    ) 
+  }
 
   return (
     <div className="flex">
@@ -99,7 +115,9 @@ const StudentDashboard = () => {
           >
             Settings
           </li>
-          <li className="cursor-pointer p-2 rounded-md hover:bg-red-600">
+          <li className="cursor-pointer p-2 rounded-md hover:bg-red-600"
+            onClick={handleLogout}
+          >
             Signout
           </li>
         </ul>
@@ -131,10 +149,6 @@ const StudentDashboard = () => {
                     <span className="font-semibold">Email:</span>{" "}
                     {currUser.email}
                   </div>
-                  {/* <div className="md:col-span-2">
-                    <span className="font-semibold">Location:</span>{" "}
-                    {user.location}
-                  </div> */}
                 </div>
               </div>
               {/* Profile Image */}
@@ -178,9 +192,13 @@ const StudentDashboard = () => {
 
             {/* Right: Full Width ChatBox */}
             {
-              receiverId && (
+              receiverId ? (
                 <div className="flex-1">
                   <ChatBox senderId={senderId} receiverId={receiverId} />
+                </div>
+              ): (
+                <div className="w-full flex items-center justify-center">
+                  <p className="text-red-500 font-bold text-xl">No Chat is selected!.</p>
                 </div>
               )
             }
@@ -195,7 +213,7 @@ const StudentDashboard = () => {
               {counsellors.map((counsellor, index) => (
                 <div key={index} className="flex items-center space-x-4">
                   <img
-                    src={counsellor.image}
+                    src={counsellor.profileImage}
                     alt={counsellor.name}
                     className="w-12 h-12 rounded-full"
                   />
@@ -213,28 +231,28 @@ const StudentDashboard = () => {
               <label className="block">Name</label>
               <input
                 type="text"
-                value={userData.name}
+                value={user?.name}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
 
               <label className="block">Email</label>
               <input
                 type="email"
-                value={userData.email}
+                value={user?.email}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
 
               <label className="block">Phone</label>
               <input
                 type="text"
-                value={userData.phone}
+                value={user?.phoneNumber}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
 
-              <label className="block">Location</label>
+              <label className="block">College</label>
               <input
                 type="text"
-                value={userData.location}
+                value={user?.college}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
             </div>

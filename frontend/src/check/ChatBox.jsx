@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { BACKEND_API_END_POINT, CHAT_API_END_POINT, FIND_USER_API_END_POINT } from "@/utils/constant";
+import Loader from "@/components/ui/Loader";
 
 // const socket = io("http://localhost:8080"); // Adjust your backend port
 
 const ChatBox = ({senderId, receiverId}) => {
+  const [loader, setLoader] = useState(false);
   const [messages, setMessages] = useState([]);
   const [newMsg, setNewMsg] = useState("");
   const [currUser, setCurrUser] = useState({});
@@ -89,6 +91,14 @@ const ChatBox = ({senderId, receiverId}) => {
   useEffect(() => {
     console.log("Updated currUser:", currUser);
   }, [currUser]);
+
+  if(loader){
+    return(
+      <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+        <Loader/>
+      </div>
+    )
+  }
 
   return (
     <div className="p-4 rounded-xl shadow-lg w-full h-full">

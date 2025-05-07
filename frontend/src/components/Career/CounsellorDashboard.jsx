@@ -2,7 +2,11 @@ import ChatBox from "@/check/ChatBox";
 import { FIND_USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import AleartLogin from "../ui/AleartLogin";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "@/redux/authSlice";
+import { toast } from "sonner";
 
 const CounsellorDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
@@ -10,7 +14,10 @@ const CounsellorDashboard = () => {
   const [currUser, setCurrUser] = useState({});
   const { user } = useSelector((store) => store.auth);
   const [receiverId, setReceiverId] = useState("");
-  const senderId = user.id;
+  const senderId = user?.id;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const fetchUser = async () => {
     try {
       if (!user) return;
@@ -40,6 +47,22 @@ const CounsellorDashboard = () => {
     setReceiverId(id);
   }
 
+  const handleLogout = async () =>{
+    try {
+      const res = await axios.get(`${FIND_USER_API_END_POINT}/v1/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  }
+
   const students = user?.studentList.map(Object);
 
   useEffect(() => {
@@ -47,6 +70,12 @@ const CounsellorDashboard = () => {
       fetchUser();
     }
   }, [user]);
+
+  if (!user) {
+    return (
+      <AleartLogin/>
+    ) 
+  }
 
   return (
     <div className="flex">
@@ -86,7 +115,9 @@ const CounsellorDashboard = () => {
           >
             Settings
           </li>
-          <li className="cursor-pointer p-2 rounded-md hover:bg-[#4f85f7]">
+          <li className="cursor-pointer p-2 rounded-md hover:bg-red-600"
+            onClick={handleLogout}
+          >
             Signout
           </li>
         </ul>
@@ -172,9 +203,17 @@ const CounsellorDashboard = () => {
             </div>
 
             {/* Right: Full Width ChatBox */}
-            <div className="flex-1">
-              <ChatBox senderId={senderId} receiverId={receiverId} />
-            </div>
+            {
+              receiverId ? (
+                <div className="flex-1">
+                  <ChatBox senderId={senderId} receiverId={receiverId} />
+                </div>
+              ) : (
+                <div className="w-full flex items-center justify-center">
+                  <p className="text-red-500 font-bold text-xl">No Chat is selected!.</p>
+                </div>
+              )
+            }
           </div>
         )}
 
@@ -185,7 +224,7 @@ const CounsellorDashboard = () => {
               {students.map((student, index) => (
                 <div key={index} className="flex items-center space-x-4" >
                   <img
-                    src={student.image}
+                    src={student.profileImage}
                     alt={student.name}
                     className="w-12 h-12 rounded-full"
                   />

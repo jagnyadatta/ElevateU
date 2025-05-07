@@ -7,6 +7,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import AleartLogin from "../ui/AleartLogin";
 
 const CounsellorProfile = () => {
   const concernsList = [
@@ -79,6 +80,12 @@ const CounsellorProfile = () => {
         <Loader/>
       </div>
     )
+  }
+
+  if (!user) {
+    return (
+      <AleartLogin/>
+    ) 
   }
 
   const starImage =
