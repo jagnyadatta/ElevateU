@@ -5,7 +5,7 @@ import Navbar from './Navbar'
 const Layout = () => {
   return (
     <>
-      <div className="fixed top-5 flex justify-center w-full z-50">
+      <div className="fixed w-full top-5 flex justify-center z-50">
         <Navbar />
       </div>
       <Outlet />
