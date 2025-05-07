@@ -10,7 +10,7 @@ const StudentDashboard = () => {
   const [currUser, setCurrUser] = useState({});
   const { user } = useSelector((store) => store.auth);
   const [receiverId, setReceiverId] = useState("");
-  const senderId = user.id;
+  const senderId = user?.id;
 
   const userData = {
     name: "John Doe",

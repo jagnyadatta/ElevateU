@@ -23,12 +23,12 @@ const CounsellorProfile = () => {
   const [loader, setLoader] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const studentId = user.id;
+  const studentId = user?.id;
   const counsellorId = id;
 
 
   const handleOperation = async (studentId, counsellorId) =>{
-    console.log(user.role);
+    console.log(user?.role);
     console.log(currUser.role);
     if(user?.role === currUser.role){
       toast.error("You cannot chat with a counsellor!. You are a counsellor too!");
