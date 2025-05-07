@@ -60,7 +60,7 @@ const Service = () => {
             </div>
 
             {/* Card Row 2 */}
-            <div className="justify-center sm:justify-start md:justify-start lg:justify-start flex gap-2  h-[70%] sm:h-auto px-4 overflow-x-hidden ">
+            <div className="justify-center sm:justify-start md:justify-start lg:justify-start flex gap-2  h-[70%] sm:h-auto px-4 overflow-hidden ">
               <div
                 className="w-[35vw] h-[30vh] bg-[#3b66ff] hidden sm:flex  justify-center rounded-[2vw]  "
                 data-aos="fade-up"
