@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faFacebook,faInstagram,faLinkedin,faWhatsapp,} from "@fortawesome/free-brands-svg-icons";
 import { Button } from "../ui/button";
 import TypingEffect from "./TypingEffect";
+import { Link } from "react-router-dom";
 
 export default function Title(){
     return (
@@ -24,7 +25,10 @@ export default function Title(){
                 <span class="font-normal">We offers</span>
                 <TypingEffect />
               </div>
+              <Link to="/choicelogin">
+                
               <Button className="rounded-3xl bg-[#3b66ff]">Go With..</Button>
+              </Link>
             </div>
           </div>
           <div className="w-full h-[20%] flex sm:items-center justify-center gap-3 z-3">
