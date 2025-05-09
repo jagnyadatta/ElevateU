@@ -29,10 +29,10 @@ export const findUser = async (req, res) => {
           });
         }
   
-    return res.status(404).json({
-      message: "Account Not Found!",
-      success: false,
-    });
+      return res.status(404).json({
+        message: "Account Not Found!",
+        success: false,
+      });
     } catch (error) {
       console.log(error);
       return res.status(500).json({

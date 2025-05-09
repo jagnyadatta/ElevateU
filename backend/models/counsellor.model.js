@@ -92,6 +92,11 @@ const counsellorPersonSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  verification: {
+    type: String,
+    enum: ["pending", "approved"],
+    default: "pending"
+  }
 },
 { timestamps: true }
 );
