@@ -136,36 +136,36 @@ const CounsellorDashboard = () => {
                 <div className="flex flex-col gap-4 text-gray-700">
                   <div>
                     <span className="font-semibold">Name:</span>{" "}
-                    <strong className="text-xl">{currUser.name}</strong>
+                    <strong className="text-xl">{user?.name}</strong>
                   </div>
                   <div>
                     <span className="font-semibold">College:</span>{" "}
-                    {currUser.collegeName}
+                    {user?.collegeName}
                   </div>
                   <div className="md:col-span-2">
-                    <span className="font-semibold">Rank:</span> {currUser.rank}
+                    <span className="font-semibold">Rank:</span> {user?.rank}
                   </div>
                   {/* <div>
                     <span className="font-semibold">Age:</span> {currUser.age}
                   </div> */}
                   <div>
                     <span className="font-semibold">Gender:</span>{" "}
-                    {currUser.gender}
+                    {user?.gender}
                   </div>
                   <div>
                     <span className="font-semibold">Phone:</span>{" "}
-                    {currUser.phoneNumber}
+                    {user?.phoneNumber}
                   </div>
                   <div>
                     <span className="font-semibold">Email:</span>{" "}
-                    {currUser.email}
+                    {user?.email}
                   </div>
                 </div>
               </div>
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={currUser.profileImage}
+                  src={user?.profileImage}
                   alt="User"
                   className="w-60 h-60 rounded-2xl object-cover border-4 border-blue-500 shadow-md"
                 />
@@ -242,7 +242,7 @@ const CounsellorDashboard = () => {
               <label className="block">Name</label>
               <input
                 type="text"
-                value={currUser.name}
+                value={user?.name}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
 
@@ -256,16 +256,16 @@ const CounsellorDashboard = () => {
               <label className="block">Phone</label>
               <input
                 type="text"
-                value={currUser.phone}
+                value={user?.phone}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               />
 
-              <label className="block">Location</label>
+              {/* <label className="block">Location</label>
               <input
                 type="text"
                 value={currUser.location}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              />
+              /> */}
             </div>
           </div>
         )}

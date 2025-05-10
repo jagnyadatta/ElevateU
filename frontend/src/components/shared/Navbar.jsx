@@ -62,11 +62,6 @@ const Navbar = () => {
   useEffect(() => {
     if (user?.profileImage) {
       setImageLink(user.profileImage);
-      return;
-    }
-
-    if (user?.id) {
-      fetchUser();
     }
   }, [user]);
  
@@ -103,6 +98,11 @@ const Navbar = () => {
                 AI Suggestion
               </Link>
             </li>
+            {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+              <Link to="/elevateu/admin">
+                Admin
+              </Link>
+            </li> */}
           </ul>
         </div>
         <div className="flex flex-row">
@@ -137,7 +137,7 @@ const Navbar = () => {
                   <PopoverContent className="w-[400px]">
                     <div className='w-full h-[100px] flex items-center justify-between overflow-hidden '>
                       <img src={imageLink} alt="profileImage" className="w-[100px] h-[100px] rounded-full object-cover" />
-                      <Link to={checkUser === "counsellor" ? "/counsellor/dashboardcounsellor" : "/student/dashboard"}>
+                      <Link to={user?.role === "counsellor" ? "/counsellor/dashboardcounsellor" : "/student/dashboard"}>
                         <ProfileButton />
                       </Link>
                     </div>

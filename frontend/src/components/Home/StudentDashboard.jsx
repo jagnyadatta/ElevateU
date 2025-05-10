@@ -45,7 +45,7 @@ const StudentDashboard = () => {
     }
   };
 
-  const counsellors = user?.counsellorList.map(Object) || [];
+  const counsellors = Array.isArray(user?.counsellorList) ? user.counsellorList.map(Object) : [];
   // console.log(counsellors);
 
   const handleChat = (index, id) =>{

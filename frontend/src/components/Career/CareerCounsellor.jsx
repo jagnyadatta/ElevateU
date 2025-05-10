@@ -7,6 +7,7 @@ import BackgroundImage from "../shared/BackgroundImage";
 import axios from "axios";
 import Loader from "../ui/Loader";
 import { COUNSELLOR_API_END_POINT } from "@/utils/constant";
+import Navbar from "../shared/Navbar";
 
 const CareerCounsellor = () => {
   const [persons, setPersons] = useState([]);
@@ -43,6 +44,9 @@ const CareerCounsellor = () => {
 
   return (
     <div className="h-[100vh] relative z-2">
+      <div className="fixed w-full top-5 flex justify-center z-50">
+        <Navbar />
+      </div>
       <BackgroundImage />
       <div className="h-[30%] flex justify-center items-end">
         <SearchBox />
