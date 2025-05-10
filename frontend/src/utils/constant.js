@@ -6,3 +6,4 @@ export const OTP_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/v1/otp`;
 export const AI_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/v1/aipage`;
 export const FIND_USER_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/v1/user`;
 export const CHAT_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/v1/chat`;
+export const ADMIN_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/admin`;

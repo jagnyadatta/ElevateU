@@ -11,6 +11,7 @@ import otpGenRoute from "./routes/auth.route.js";
 import counsellorRoute from "./routes/counsellor.route.js";
 import findUserRoute from "./routes/findUser.route.js";
 import messageRoute from "./routes/message.route.js";
+import adminRoute from "./routes/admin.route.js";
 
 dotenv.config();
 const app = express();
@@ -58,12 +59,13 @@ app.use("/elevateu/v1/user", findUserRoute);
 app.use("/elevateu/v1/student", studentRoute);
 app.use("/elevateu/v1/counsellor",counsellorRoute);
 app.use("/elevateu/v1/chat", messageRoute);
+app.use("/elevateu/admin", adminRoute);
 
 app.get("/", (req, res)=>{
-    return res.status(200).json({
-        message: "I am from backend",
-        success: true
-    });
+  return res.status(200).json({
+    message: "I am from backend",
+    success: true
+  });
 });
 
 server.listen(PORT, () => {
