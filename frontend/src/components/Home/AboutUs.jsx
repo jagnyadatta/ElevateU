@@ -9,7 +9,7 @@ const AboutUs = () => {
             About Us
           </h2>
         </div>
-        <div className="h-[80] flex justify-center items-center ">
+        <div className="h-[80vh] flex justify-center items-center ">
           <div className="flex justify-center w-[75%] items-center gap-6 flex-col sm:flex-row">
             <div className=" flex flex-col gap-10">
               <p className="">
