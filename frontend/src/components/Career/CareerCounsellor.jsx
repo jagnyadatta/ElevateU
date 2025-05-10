@@ -19,7 +19,9 @@ const CareerCounsellor = () => {
         withCredentials: true,
       });
       if(res.data.success){
-        setPersons(res.data.allUser);
+        const all = res.data.allUser;
+        const approvedCounsellors = all.filter(c => c.verification === "approved");
+        setPersons(approvedCounsellors);
       }
     } catch (error){
       console.log(error);
@@ -35,7 +37,7 @@ const CareerCounsellor = () => {
   if(loader){
     return(
       <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
-          <Loader/>
+        <Loader/>
       </div>
     )
   }

@@ -5,9 +5,10 @@ import Loader from "../ui/Loader";
 import { FIND_USER_API_END_POINT, STUDENT_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import AleartLogin from "../ui/AleartLogin";
+import { setUser } from "@/redux/authSlice";
 
 const CounsellorProfile = () => {
   const concernsList = [
@@ -24,13 +25,14 @@ const CounsellorProfile = () => {
   const [loader, setLoader] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const studentId = user?.id;
+  const dispatch = useDispatch();
+  const studentId = user?._id;
   const counsellorId = id;
 
 
   const handleOperation = async (studentId, counsellorId) =>{
-    console.log(user?.role);
-    console.log(currUser.role);
+    // console.log(user?.role);
+    // console.log(currUser.role);
     if(user?.role === currUser.role){
       toast.error("You cannot chat with a counsellor!. You are a counsellor too!");
     }else{
@@ -42,6 +44,22 @@ const CounsellorProfile = () => {
         );
 
         if (res.data.success) {
+          
+          // ✅ Fetch updated student data and update Redux
+          const updatedUserRes = await axios.post(
+            `${FIND_USER_API_END_POINT}/find`,
+            user,
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            }
+          );
+          
+          if (updatedUserRes.data.success) {
+            const updatedUser = updatedUserRes.data.user1 || updatedUserRes.data.user2;
+            dispatch(setUser(updatedUser));
+          }
+          
           toast.success("Counsellor added successfully!");
           navigate("/student/dashboard");
         }

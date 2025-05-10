@@ -37,8 +37,9 @@ const AdminDashboard = () => {
       const check = res.data;
       if(check.success){
         const all = check.AllCounsellors;
-        setCounsellors(all);
-        const recent = [...all]
+        const approvedCounsellors = all.filter(c => c.verification === "approved");
+        setCounsellors(approvedCounsellors);
+        const recent = [...approvedCounsellors]
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 10);
         setRecentCounsellors(recent);

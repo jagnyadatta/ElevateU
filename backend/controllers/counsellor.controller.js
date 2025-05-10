@@ -114,13 +114,14 @@ export const login = async (req, res) => {
         expiresIn: "1d",
       });
   
-      user = {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        studentList: user.studentList
-      };
+      // user = {
+      //   _id: user._id,
+      //   name: user.name,
+      //   email: user.email,
+      //   role: user.role,
+      //   profileImage: user.profileImage,
+      //   studentList: user.studentList
+      // };
 
       const firstName = user.name.split(' ')[0];
   

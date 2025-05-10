@@ -103,13 +103,14 @@ export const register = async (req, res) => {
         expiresIn: "1d",
       });
   
-      user = {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        counsellorList: user.counsellorList,
-      };
+      // user = {
+      //   _id: user._id,
+      //   name: user.name,
+      //   email: user.email,
+      //   role: user.role,
+      //   profileImage: user.profileImage,
+      //   counsellorList: user.counsellorList,
+      // };
 
       const firstName = user.name.split(' ')[0];
   

@@ -60,10 +60,16 @@ const Navbar = () => {
   }; 
 
   useEffect(() => {
-    if (user) {
+    if (user?.profileImage) {
+      setImageLink(user.profileImage);
+      return;
+    }
+
+    if (user?.id) {
       fetchUser();
     }
-  }, [user]);  
+  }, [user]);
+ 
 
   return (
       <nav className="navbar w-[90vw] sm:w-[600px] md:w-[707px] lg:w-[907px] p-2 pl-6 font-primary overflow-hidden navbar-expand-lg navbar-light bg-white flex flex-row justify-between items-center border-0 rounded-full shadow-lg m-[-10px]">
@@ -125,7 +131,7 @@ const Navbar = () => {
                 <Popover>
                   <PopoverTrigger>
                     <div className='w-[45px] h-[43px] flex  items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold hover:cursor-pointer'>
-                      <img src={imageLink} alt="profileImage" className="w-full h-full object-cover rounded-full"/>
+                      <img src={user?.profileImage} alt="profileImage" className="w-full h-full object-cover rounded-full"/>
                     </div>
                   </PopoverTrigger>
                   <PopoverContent className="w-[400px]">

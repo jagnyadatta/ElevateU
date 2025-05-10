@@ -5,18 +5,20 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AleartLogin from "../ui/AleartLogin";
 import { setUser } from '@/redux/authSlice';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [selectedCounsellorIndex, setSelectedCounsellorIndex] = useState(null);
   const [currUser, setCurrUser] = useState({});
+  const [reloadDashboard, setReloadDashboard] = useState(false);
   const { user } = useSelector((store) => store.auth);
   const [receiverId, setReceiverId] = useState("");
-  const senderId = user?.id;
+  const senderId = user?._id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const fetchUser = async () => {
     try {
@@ -31,9 +33,11 @@ const StudentDashboard = () => {
       if (check.success) {
         if (check.user1) {
           setCurrUser(check.user1);
+          dispatch(setUser(check.user1));
         }
         if (check.user2) {
           setCurrUser(check.user2);
+          dispatch(setUser(check.user2));
         }
       }
     } catch (error) {
@@ -41,7 +45,7 @@ const StudentDashboard = () => {
     }
   };
 
-  const counsellors = user?.counsellorList.map(Object);
+  const counsellors = user?.counsellorList.map(Object) || [];
   // console.log(counsellors);
 
   const handleChat = (index, id) =>{
@@ -61,7 +65,7 @@ const StudentDashboard = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message || "Logout failed.");
     }
   }
 
@@ -69,7 +73,13 @@ const StudentDashboard = () => {
     if (user) {
       fetchUser();
     }
-  }, [user]);
+  }, [reloadDashboard]);
+
+  useEffect(() => {
+    if (location.state?.reload) {
+      setReloadDashboard(true);
+    }
+  }, [location]);
 
   if (!user) {
     return (
@@ -135,26 +145,26 @@ const StudentDashboard = () => {
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
                   <div>
-                    <span className="font-semibold">Name:</span> {currUser.name}
+                    <span className="font-semibold">Name:</span> {user?.name}
                   </div>
                   <div>
                     <span className="font-semibold">Gender:</span>{" "}
-                    {currUser.gender}
+                    {user?.gender}
                   </div>
                   <div>
                     <span className="font-semibold">Phone:</span>{" "}
-                    {currUser.phoneNumber}
+                    {user?.phoneNumber}
                   </div>
                   <div>
                     <span className="font-semibold">Email:</span>{" "}
-                    {currUser.email}
+                    {user?.email}
                   </div>
                 </div>
               </div>
               {/* Profile Image */}
               <div className="flex-shrink-0">
                 <img
-                  src={currUser.profileImage}
+                  src={user?.profileImage}
                   alt="User"
                   className="w-60 h-60 rounded-2xl object-cover border-4 border-blue-500 shadow-md"
                 />
