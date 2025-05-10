@@ -90,6 +90,10 @@ const appRouter = createBrowserRouter([
         path: "dashboard",
         element: <StudentDashboard />,
       },
+      {
+        path: "dashboard",
+        element: <StudentDashboard />,
+      },
     ],
   },
 ]);

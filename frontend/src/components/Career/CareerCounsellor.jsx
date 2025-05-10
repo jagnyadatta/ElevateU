@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CarouselSize } from "./CarouselSize";
 import SearchBox from "./SearchBox";
-
 import PersonCardList from "./PersonCardList";
 import Footer from "../shared/Footer";
 import BackgroundImage from "../shared/BackgroundImage";
@@ -50,7 +49,7 @@ const CareerCounsellor = () => {
         <h3 className="text-[#3b66ff] text-4xl text-left w-[70%] border-b-2 pb-2">
           <strong>Best Cousellors</strong>
         </h3>
-        <CarouselSize   persons={persons} />
+        <CarouselSize  persons={persons} />
       </div>
       <div className=" flex flex-col justify-center items-center">
         <div className=" w-full flex justify-center">
