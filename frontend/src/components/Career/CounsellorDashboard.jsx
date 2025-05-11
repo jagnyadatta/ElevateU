@@ -1,5 +1,5 @@
 import ChatBox from "@/check/ChatBox";
-import { FIND_USER_API_END_POINT } from "@/utils/constant";
+import { COUNSELLOR_API_END_POINT, FIND_USER_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +7,6 @@ import AleartLogin from "../ui/AleartLogin";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
-
 
 const CounsellorDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
@@ -19,20 +18,20 @@ const CounsellorDashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [slotDate, setSlotDate] = useState("");
-const [startTime, setStartTime] = useState("");
-const [endTime, setEndTime] = useState("");
-const [slotList, setSlotList] = useState([]);
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [slotList, setSlotList] = useState([]);
+  const [bookedSlots, setBookedSlots] = useState([]);
 
-const handleSlotSubmit = (e) => {
-  e.preventDefault();
-  const newSlot = { date: slotDate, startTime, endTime };
-  setSlotList([...slotList, newSlot]);
-  // TODO: Post to backend
-  setSlotDate("");
-  setStartTime("");
-  setEndTime("");
-};
-
+  const handleSlotSubmit = (e) => {
+    e.preventDefault();
+    const newSlot = { date: slotDate, startTime, endTime };
+    setSlotList([...slotList, newSlot]);
+    // TODO: Post to backend
+    setSlotDate("");
+    setStartTime("");
+    setEndTime("");
+  };
 
   const fetchUser = async () => {
     try {
@@ -90,6 +89,19 @@ const handleSlotSubmit = (e) => {
   if (!user) {
     return <AleartLogin />;
   }
+  useEffect(() => {
+    if (activePage === "slots") {
+      // Replace with your actual endpoint
+      axios.get(`${COUNSELLOR_API_END_POINT}/fetch-booked-slots`, { withCredentials: true })
+
+        .then((res) => {
+          if (res.data.success) {
+            setBookedSlots(res.data.slots); // adjust key as per your response
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [activePage]);
 
   return (
     <div className="flex">
@@ -301,6 +313,42 @@ const handleSlotSubmit = (e) => {
                 Add Slot
               </button>
             </form>
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-2">Available Slots</h3>
+              <ul className="space-y-2">
+                {slotList.map((slot, index) => (
+                  <li
+                    key={index}
+                    className="p-3 bg-blue-50 border border-blue-200 rounded"
+                  >
+                    {slot.date} - {slot.startTime} to {slot.endTime}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-2">
+                Booked Slots by Students
+              </h3>
+              {bookedSlots.length > 0 ? (
+                <ul className="space-y-2">
+                  {bookedSlots.map((slot, index) => (
+                    <li
+                      key={index}
+                      className="p-3 bg-red-50 border border-red-200 rounded"
+                    >
+                      {slot.date} - {slot.startTime} to {slot.endTime} <br />
+                      <span className="text-sm text-gray-600">
+                        Booked by: {slot.studentName}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500">No slots have been booked yet.</p>
+              )}
+            </div>
 
             <div className="mt-8">
               <h3 className="text-xl font-semibold mb-2">Available Slots</h3>
