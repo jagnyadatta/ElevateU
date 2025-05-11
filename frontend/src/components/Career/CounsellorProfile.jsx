@@ -34,8 +34,6 @@ const CounsellorProfile = () => {
   const counsellorId = id;
 
   const handleOperation = async (studentId, counsellorId) => {
-    // console.log(user?.role);
-    // console.log(currUser.role);
     if (user?.role === currUser.role) {
       toast.error(
         "You cannot chat with a counsellor!. You are a counsellor too!"
@@ -49,7 +47,6 @@ const CounsellorProfile = () => {
         );
 
         if (res.data.success) {
-          // ✅ Fetch updated student data and update Redux
           const updatedUserRes = await axios.post(
             `${FIND_USER_API_END_POINT}/find`,
             user,
@@ -93,9 +90,9 @@ const CounsellorProfile = () => {
     }
   };
 
-  //DATA fetch.
   useEffect(() => {
     fetchUser();
+    window.scrollTo(0, 0); 
   }, [id]);
 
   if (loader) {
@@ -114,93 +111,85 @@ const CounsellorProfile = () => {
     "https://upload.wikimedia.org/wikipedia/commons/4/44/Plain_Yellow_Star.png";
 
   return (
-    <div>
-      <div className="flex min-h-screen p-6 pl-[400px] mt-[50px]">
-        <div className="w-[350px] fixed top-[70px] left-6 bg-white p-6 rounded-2xl shadow-lg h-[90vh] flex flex-col items-center justify-start">
-          <img
-            src={currUser.profileImage}
-            alt="Profile"
-            className="w-40 h-40 rounded-full object-cover mb-4"
-          />
-          <h2 className="text-xl font-bold text-gray-800 mb-6">
-            {currUser.name}
-          </h2>
-          <div className="flex flex-col space-y-4 text-gray-700 w-full mb-6">
-            <div>
-              <p className="text-sm text-gray-500">Rank Number</p>
-              <h2 className="text-xl font-bold">#{currUser.rank}</h2>
-            </div>
-
-            <div>
-              <p className="text-sm text-gray-500">College Name</p>
-              <h2 className="text-lg font-semibold">{currUser.collegeName}</h2>
-            </div>
-
-            <div>
-              <p className="text-sm text-gray-500">Branch Name</p>
-              <h2 className="text-lg font-semibold">{currUser.branch}</h2>
-            </div>
-
-            <div>
-              <p className="text-sm text-gray-500">Passout Year</p>
-              <h2 className="text-lg font-semibold">{currUser.passoutYear}</h2>
-            </div>
+    <div className="flex flex-col lg:flex-row min-h-screen mt-[50px] p-4 lg:pl-[400px]">
+      {/* Left Profile Section */}
+      <div className="w-full lg:w-[350px] lg:fixed lg:top-[70px] lg:left-6 bg-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-start mb-6 lg:mb-0">
+        <img
+          src={currUser.profileImage}
+          alt="Profile"
+          className="w-40 h-40 rounded-full object-cover mb-4"
+        />
+        <h2 className="text-xl font-bold text-gray-800 mb-6">
+          {currUser.name}
+        </h2>
+        <div className="flex flex-col space-y-4 text-gray-700 w-full mb-6">
+          <div>
+            <p className="text-sm text-gray-500">Rank Number</p>
+            <h2 className="text-xl font-bold">#{currUser.rank}</h2>
           </div>
-
-          {/* Two Buttons Side by Side */}
-          <div className="flex w-full gap-4 ">
-            <button
-              className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 hover:cursor-pointer"
-              onClick={() => handleOperation(studentId, counsellorId)}
-            >
-              Continue
-            </button>
+          <div>
+            <p className="text-sm text-gray-500">College Name</p>
+            <h2 className="text-lg font-semibold">{currUser.collegeName}</h2>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Branch Name</p>
+            <h2 className="text-lg font-semibold">{currUser.branch}</h2>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Passout Year</p>
+            <h2 className="text-lg font-semibold">{currUser.passoutYear}</h2>
           </div>
         </div>
 
-        {/* Right Scrollable Content Section */}
-        <div className="flex-1 pl-8 space-y-6">
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
-            <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">About</h3>
-            <p className="text-gray-700">{currUser.about}</p>
-          </div>
+        <div className="flex w-full gap-4">
+          <button
+            className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 hover:cursor-pointer"
+            onClick={() => handleOperation(studentId, counsellorId)}
+          >
+            Continue
+          </button>
+        </div>
+      </div>
 
-          {/* Rating Section */}
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
-            <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">Rating</h3>
-            <div className="flex items-center gap-2">
-              {[...Array(5)].map((_, index) => (
-                <img
-                  key={index}
-                  src={starImage}
-                  alt="Star"
-                  className="w-6 h-6 object-contain"
-                />
-              ))}
-              <span className="text-gray-600 ml-2">(5.0)</span>
-            </div>
-          </div>
+      {/* Right Scrollable Section */}
+      <div className="flex-1 lg:pl-8 space-y-6">
+        <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">About</h3>
+          <p className="text-gray-700">{currUser.about}</p>
+        </div>
 
-          {/* slot booking section  */}
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
-  <StudentSlotBooking />
-</div>
-
-
-          {/* Student Concern Section */}
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
-            <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">
-              Make Student Concern With John
-            </h3>
-            <ul className="list-disc list-inside text-gray-700 space-y-2">
-              {concernsList.map((concern, index) => (
-                <li key={index}>{concern}</li>
-              ))}
-            </ul>
+        <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">Rating</h3>
+          <div className="flex items-center gap-2">
+            {[...Array(5)].map((_, index) => (
+              <img
+                key={index}
+                src={starImage}
+                alt="Star"
+                className="w-6 h-6 object-contain"
+              />
+            ))}
+            <span className="text-gray-600 ml-2">(5.0)</span>
           </div>
-          <div className="bg-blue-500 p-6 mt-6 rounded-2xl shadow-lg">
-            <Footer />
-          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <StudentSlotBooking />
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow-lg">
+          <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">
+            Make Student Concern With {currUser.name}
+          </h3>
+          <ul className="list-disc list-inside text-gray-700 space-y-2">
+            {concernsList.map((concern, index) => (
+              <li key={index}>{concern}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="bg-blue-500 p-6 mt-6 rounded-2xl shadow-lg">
+          <Footer />
         </div>
       </div>
     </div>
