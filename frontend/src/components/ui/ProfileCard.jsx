@@ -6,16 +6,16 @@ import { Link } from "react-router-dom";
 const ProfileCard = ({ name, image, college, id }) => {
   return (
     <StyledWrapper>
+        <Link to={`/profilecouncil/${id}`} >
       <div className="card">
         <div className="w-full h-52 overflow-hidden rounded-lg">
           <img src={image} alt={name} className="w-full h-full object-cover" />
         </div>
         <p className="card-title">{name}</p>
         <p className="card-body">{college}</p>
-        <Link to={`/profilecouncil/${id}`} >
           <Button className="bg-[#3b66ff] hover:cursor-pointer" > Go With </Button>
-        </Link>
       </div>
+        </Link>
     </StyledWrapper>
   );
 };
