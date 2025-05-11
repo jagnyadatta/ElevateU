@@ -19,6 +19,7 @@ import StudentDashboard from "./components/Home/StudentDashboard";
 import AdminDashboard from "./components/Home/AdminDashboard";
 import CounsellorDetails from "./components/Career/CounsellorDetails";
 import StudentSlotBooking from "./components/Home/StudentSlotBooking";
+import AdminLogin from "./components/auth/AdminLogin";
 
 const appRouter = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/elevateu/admin",
     element: <AdminDashboard />,
+  },
+  {
+    path: "/elevateu/admin/login",
+    element: <AdminLogin />,
   },
   {
     path: "/elevateu/admin/counsellor/:id",

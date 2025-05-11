@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutAdmin } from "@/redux/adminSlice";
 
 const AdminDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
@@ -11,7 +13,9 @@ const AdminDashboard = () => {
   const [recentStudents, setRecentStudents] = useState([]);
   const [recentCounsellors, setRecentCounsellors] = useState([]);
   const [pendingCounsellors, setPendingCounsellors] = useState([]);
+  const { admin } = useSelector((store) => store.admin);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const fetchStudents = async () =>{
     try {
@@ -54,10 +58,24 @@ const AdminDashboard = () => {
     }
   }
 
+  const handleSignout = () => {
+    dispatch(logoutAdmin());
+    toast.success("Signed out successfully");
+    navigate("/elevateu/admin/login");
+  };
+
+
   useEffect(()=>{
     fetchStudents();
     fetchCounsellors();
   },[])
+
+  useEffect(() => {
+    if (!admin) {
+      toast.error("You are not logged in to view admin dashboard");
+      navigate("/elevateu/admin/login");
+    }
+  }, [admin, navigate]);
 
   return (
     <div className="flex min-h-screen">
@@ -69,7 +87,7 @@ const AdminDashboard = () => {
         <button onClick={() => setActivePage("counsellors")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Counsellor Manage</button>
         {/* <button onClick={() => setActivePage("admins")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Admin Manage</button> */}
         {/* <button onClick={() => setActivePage("settings")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Settings</button> */}
-        <button className="hover:bg-red-500 p-3 rounded-lg text-left mt-auto">Signout</button>
+        <button onClick={handleSignout} className="hover:bg-red-500 p-3 rounded-lg text-left mt-auto cursor-pointer">Signout</button>
       </div>
 
       {/* Main Content */}

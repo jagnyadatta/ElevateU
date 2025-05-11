@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
 import { counsellorPerson } from "../models/counsellor.model.js";
 import { Student } from "../models/student.model.js";
 import { sendVerificationSuccessEmail } from "../utils/sendMail.js";
+import { Admin } from "../models/admin.model.js";
 
 export const findAllStudents = async (req, res)=>{
     try {
@@ -109,5 +111,40 @@ export const approveCounsellor = async (req, res) => {
       message: "Server error",
       success: false,
     });
+  }
+};
+
+export const adminLogin = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      return res.status(400).json({ message: "All fields are required", success: false });
+    }
+
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found", success: false });
+    }
+
+    const isMatch = admin.password === password;
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials", success: false });
+    }
+
+    const token = jwt.sign({ adminId: admin._id }, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+
+    return res
+      .cookie("adminToken", token, {
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: "strict",
+      })
+      .status(200)
+      .json({ message: "Admin logged in successfully", success: true, admin });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", success: false });
   }
 };
