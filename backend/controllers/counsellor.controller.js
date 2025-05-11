@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from 'uuid';
 import { counsellorPerson } from "../models/counsellor.model.js";
 import { Student } from "../models/student.model.js";
+import { sendRegistrationSuccessEmailCounsellor } from "../utils/sendMail.js";
 
 //REGISTER FUNCTION
 export const register = async (req, res) => {
@@ -67,6 +68,8 @@ export const register = async (req, res) => {
       slug,
     });
 
+    await sendRegistrationSuccessEmailCounsellor(email, name);
+
     return res.status(201).json({
       message: "Account is created Successfully.",
       success: true,
@@ -98,7 +101,7 @@ export const login = async (req, res) => {
         });
       }
 
-      const isPasswordMatch = bcrypt.compare(password, user.password);
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
       if (!isPasswordMatch) {
         return res.status(400).json({
           message: "Incorrect email or password",

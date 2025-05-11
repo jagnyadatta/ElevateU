@@ -72,3 +72,70 @@ export const sendVerificationSuccessEmail = async (email, name) => {
     return { success: false, message: 'Failed to send verification email.' };
   }
 };
+
+// Function to send registration success email
+export const sendRegistrationSuccessEmailCounsellor = async (email, name) => {
+  const mailOptions = {
+    from: process.env.SMTP_EMAIL,
+    to: email,
+    subject: 'Successfully Registered on ElevateU 🎉',
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <h2 style="color: #3b66ff;">Hello ${name},</h2>
+        <p>🎉 Thank you for registering as a counsellor on <strong>ElevateU</strong>!</p>
+        <p>Your form has been submitted successfully and is currently under review.</p>
+        <p>🔒 <strong>Verification Status:</strong> <span style="color: orange;">Pending</span></p>
+        <p>Our admin team will verify your documents within 24 hours. Once verified, you’ll receive another confirmation email, and you can log in to access your dashboard.</p>
+        <p>If you have any questions, feel free to reach out to us.</p>
+        <p>We appreciate your interest in helping students grow! 🚀</p>
+        <br />
+        <p>Best regards,<br><strong>ElevateU Team</strong></p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return { success: true, message: 'Registration email sent successfully!' };
+  } catch (error) {
+    console.error('Error sending registration email:', error);
+    return { success: false, message: 'Failed to send registration email.' };
+  }
+};
+
+// Function to send registration success email to student
+export const sendRegistrationSuccessEmailStudent = async (email, name) => {
+  const mailOptions = {
+    from: process.env.SMTP_EMAIL,
+    to: email,
+    subject: 'Welcome to ElevateU 🎓 - Registration Successful!',
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <h2 style="color: #3b66ff;">Hi ${name},</h2>
+        <p>🎉 You have successfully registered as a <strong>student</strong> on <strong>ElevateU</strong>.</p>
+        <p>We're excited to help you navigate your academic and career journey.</p>
+
+        <p><strong>Here’s what you can do next:</strong></p>
+        <ul>
+          <li>💬 Connect with verified counsellors for guidance.</li>
+          <li>📚 Get real-time support via our chat system.</li>
+          <li>🚀 Take control of your career and college decisions.</li>
+        </ul>
+
+        <p>You're one step closer to a brighter future. If you have questions, feel free to reach out at any time.</p>
+        
+        <br />
+        <p>Cheers,<br><strong>ElevateU Team</strong></p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return { success: true, message: 'Student registration email sent successfully!' };
+  } catch (error) {
+    console.error('Error sending student registration email:', error);
+    return { success: false, message: 'Failed to send student registration email.' };
+  }
+};
+

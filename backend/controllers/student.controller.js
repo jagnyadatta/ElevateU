@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from 'uuid';
 import { Student } from "../models/student.model.js";
 import { counsellorPerson } from "../models/counsellor.model.js";
+import { sendRegistrationSuccessEmailStudent } from "../utils/sendMail.js";
 
 export const register = async (req, res) => {
     try {
@@ -54,6 +55,8 @@ export const register = async (req, res) => {
         profileImage: profileImageUrl,
         slug,
       });
+
+      await sendRegistrationSuccessEmailStudent(email, name);
   
       return res.status(201).json({
         message: "Account is created Successfully.",

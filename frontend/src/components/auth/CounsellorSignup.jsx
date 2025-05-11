@@ -30,17 +30,46 @@ const CounsellorSignup = () => {
   const [isOTPRequested, setIsOTPRequested] = useState(false);
   const [isOTPVerified, setIsOTPVerified] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [countdown, setCountdown] = useState(60);
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
 
+  
+  
+  const validateForm = () => {
+    const isValid =
+    input.name.trim() &&
+    input.email.trim() &&
+    input.gender &&
+    input.phoneNumber.trim() &&
+    input.password.trim() &&
+    input.collegeName.trim() &&
+    input.branch.trim() &&
+    input.examName &&
+    input.rank &&
+    input.passoutYear &&
+    input.about.trim() &&
+    input.registrationNumber.trim() &&
+    input.profileImage &&
+    input.collegeIdCard &&
+    input.rankCard &&
+    isOTPVerified;
+    
+    setIsFormValid(Boolean(isValid));
+  };
+  
   const changeEventHandler = (e) => {
-    const { name, value, files } = e.target;
-    if (files) {
-      setInput({ ...input, [name]: files[0] });
-    } else {
-      setInput({ ...input, [name]: value });
-    }
+  const { name, value, files } = e.target;
+  const updatedInput = {
+    ...input,
+    [name]: files ? files[0] : value,
+  };
+  setInput(updatedInput);
+
+  setTimeout(() => {
+    validateForm(); // Call form validation
+  }, 0);
   };
 
   // Function to send OTP to email
@@ -110,6 +139,7 @@ const CounsellorSignup = () => {
 
       if (verifyRes.data.success) {
         setIsOTPVerified(true); // Mark OTP as verified
+        validateForm();
         toast.success("OTP verified successfully. You can now fill the form.");
       } else {
         toast.error("Invalid OTP. Please try again.");
@@ -431,10 +461,17 @@ const CounsellorSignup = () => {
             <Button
               type="submit"
               className="w-full my-4 bg-[#3b66ff] hover:bg-[#6072b4] active:bg-black cursor-pointer outline:none"
-              disabled={!isOTPVerified}
+              disabled={!isOTPVerified || !isFormValid}
               >
               Submit Form
             </Button>
+
+            {!isFormValid && (
+              <p className="text-red-600 font-semibold text-sm mt-1">
+                Please complete all fields and verify OTP before submitting.
+              </p>
+            )}
+
             {
               !isOTPVerified && (
                 <p className="text-red-600 font-semibold text-sm mt-1 ">
