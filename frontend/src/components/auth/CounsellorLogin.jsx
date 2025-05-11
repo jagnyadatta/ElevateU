@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
 import Loader from "../ui/Loader";
+import CounsellorVerificationPending from "../Career/CounsellorVerificationPending";
 
 const CounsellorLogin = () => {
   const [input, setInput] = useState({
@@ -16,6 +17,7 @@ const CounsellorLogin = () => {
     password: "",
   });
   const [loader, setLoader] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const {user} = useSelector((store)=> store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,9 +35,16 @@ const CounsellorLogin = () => {
         withCredentials: true,
       });
       if (res.data.success) {
-        dispatch(setUser(res.data.user));
-        navigate("/");  
-        toast.success(res.data.message);
+        if(res.data.user.verification === "pending"){
+          setIsVerified(true);
+          toast.success("Your account is under verification!")
+        }else{
+          setIsVerified(false);
+          dispatch(setUser(res.data.user));
+          navigate("/");  
+          toast.success(res.data.message);
+        }
+        
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -48,6 +57,12 @@ const CounsellorLogin = () => {
       navigate("/");
     }
   }, []);
+
+  if(isVerified){
+    return(
+      <CounsellorVerificationPending/>
+    )
+  }
   return (
     <>
       <div className="mt-40">

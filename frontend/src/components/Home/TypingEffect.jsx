@@ -6,7 +6,7 @@ const TypingEffect = () => {
 
   useEffect(() => {
     const typed = new Typed(typedRef.current, {
-      strings: ["Carrer Counselling", "Admission Counselling"],
+      strings: ["Career Counselling", "Admission Counselling"],
       typeSpeed: 50,
       backSpeed: 50,
       backDelay: 1000,

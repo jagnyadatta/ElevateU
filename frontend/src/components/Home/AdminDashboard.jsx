@@ -1,6 +1,7 @@
 import { ADMIN_API_END_POINT } from "@/utils/constant";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const AdminDashboard = () => {
@@ -10,6 +11,7 @@ const AdminDashboard = () => {
   const [recentStudents, setRecentStudents] = useState([]);
   const [recentCounsellors, setRecentCounsellors] = useState([]);
   const [pendingCounsellors, setPendingCounsellors] = useState([]);
+  const navigate = useNavigate();
 
   const fetchStudents = async () =>{
     try {
@@ -37,8 +39,9 @@ const AdminDashboard = () => {
       const check = res.data;
       if(check.success){
         const all = check.AllCounsellors;
-        setCounsellors(all);
-        const recent = [...all]
+        const approvedCounsellors = all.filter(c => c.verification === "approved");
+        setCounsellors(approvedCounsellors);
+        const recent = [...approvedCounsellors]
           .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
           .slice(0, 10);
         setRecentCounsellors(recent);
@@ -141,7 +144,7 @@ const AdminDashboard = () => {
                         />
                         <span className="font-medium text-gray-800">{student.name}</span>
                       </div>
-                      <button className="px-4 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded cursor-pointer">
+                      <button disabled className="px-4 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded cursor-pointer">
                         View
                       </button>
                     </li>
@@ -176,7 +179,10 @@ const AdminDashboard = () => {
                             />
                             <span className="font-medium text-gray-800">{counsellor.name}</span>
                           </div>
-                          <button className="px-4 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded cursor-pointer">
+                          <button 
+                            onClick={() => navigate(`/elevateu/admin/counsellor/${counsellor._id}`)}
+                            className="px-4 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded cursor-pointer"
+                          >
                             View
                           </button>
                         </li>
@@ -203,7 +209,10 @@ const AdminDashboard = () => {
                         />
                         <span className="font-medium text-gray-800">{counsellor.name}</span>
                       </div>
-                      <button className="px-4 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded cursor-pointer">
+                      <button 
+                        onClick={() => navigate(`/elevateu/admin/counsellor/${counsellor._id}`)}
+                        className="px-4 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded cursor-pointer"
+                      >
                         View
                       </button>
                     </li>

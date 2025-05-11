@@ -5,9 +5,6 @@ import Navbar from './Navbar';
 const CounsellorLayout = () => {
   return (
     <> 
-      <div className="fixed w-full top-5 flex justify-center z-50">
-        <Navbar />
-      </div>
       <Outlet />
     </>
   )

@@ -60,10 +60,11 @@ const Navbar = () => {
   }; 
 
   useEffect(() => {
-    if (user) {
-      fetchUser();
+    if (user?.profileImage) {
+      setImageLink(user.profileImage);
     }
-  }, [user]);  
+  }, [user]);
+ 
 
   return (
       <nav className="navbar w-[90vw] sm:w-[600px] md:w-[707px] lg:w-[907px] p-2 pl-6 font-primary overflow-hidden navbar-expand-lg navbar-light bg-white flex flex-row justify-between items-center border-0 rounded-full shadow-lg m-[-10px]">
@@ -97,6 +98,11 @@ const Navbar = () => {
                 AI Suggestion
               </Link>
             </li>
+            {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+              <Link to="/elevateu/admin">
+                Admin
+              </Link>
+            </li> */}
           </ul>
         </div>
         <div className="flex flex-row">
@@ -125,13 +131,13 @@ const Navbar = () => {
                 <Popover>
                   <PopoverTrigger>
                     <div className='w-[45px] h-[43px] flex  items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold hover:cursor-pointer'>
-                      <img src={imageLink} alt="profileImage" className="w-full h-full object-cover rounded-full"/>
+                      <img src={user?.profileImage} alt="profileImage" className="w-full h-full object-cover rounded-full"/>
                     </div>
                   </PopoverTrigger>
                   <PopoverContent className="w-[400px]">
                     <div className='w-full h-[100px] flex items-center justify-between overflow-hidden '>
                       <img src={imageLink} alt="profileImage" className="w-[100px] h-[100px] rounded-full object-cover" />
-                      <Link to={checkUser === "counsellor" ? "/counsellor/dashboardcounsellor" : "/student/dashboard"}>
+                      <Link to={user?.role === "counsellor" ? "/counsellor/dashboardcounsellor" : "/student/dashboard"}>
                         <ProfileButton />
                       </Link>
                     </div>
