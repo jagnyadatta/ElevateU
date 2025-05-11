@@ -88,7 +88,7 @@ const CareerCounsellor = () => {
         {/* Conditionally render the Carousel and handle height adjustment */}
         {searchQuery === "" ? (
           <>
-            <div className="h-[30%]">
+            <div className="h-[30%] w-full">
               <CarouselSize persons={filteredPersons} />
             </div>
             <div className="w-full flex justify-center">
