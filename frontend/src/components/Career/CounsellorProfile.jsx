@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Loader from "../ui/Loader";
-import { FIND_USER_API_END_POINT, STUDENT_API_END_POINT } from "@/utils/constant";
+import {
+  FIND_USER_API_END_POINT,
+  STUDENT_API_END_POINT,
+} from "@/utils/constant";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import AleartLogin from "../ui/AleartLogin";
 import { setUser } from "@/redux/authSlice";
+import StudentSlotBooking from "../Home/StudentSlotBooking";
 
 const CounsellorProfile = () => {
   const concernsList = [
@@ -20,7 +24,7 @@ const CounsellorProfile = () => {
     "Personal Development",
   ];
 
-  const {user} = useSelector((store)=> store.auth);
+  const { user } = useSelector((store) => store.auth);
   const [currUser, setCurrUser] = useState({});
   const [loader, setLoader] = useState(false);
   const { id } = useParams();
@@ -29,13 +33,14 @@ const CounsellorProfile = () => {
   const studentId = user?._id;
   const counsellorId = id;
 
-
-  const handleOperation = async (studentId, counsellorId) =>{
+  const handleOperation = async (studentId, counsellorId) => {
     // console.log(user?.role);
     // console.log(currUser.role);
-    if(user?.role === currUser.role){
-      toast.error("You cannot chat with a counsellor!. You are a counsellor too!");
-    }else{
+    if (user?.role === currUser.role) {
+      toast.error(
+        "You cannot chat with a counsellor!. You are a counsellor too!"
+      );
+    } else {
       try {
         const res = await axios.put(
           `${STUDENT_API_END_POINT}/add-counsellor/${studentId}/${counsellorId}`,
@@ -44,7 +49,6 @@ const CounsellorProfile = () => {
         );
 
         if (res.data.success) {
-          
           // ✅ Fetch updated student data and update Redux
           const updatedUserRes = await axios.post(
             `${FIND_USER_API_END_POINT}/find`,
@@ -54,56 +58,56 @@ const CounsellorProfile = () => {
               withCredentials: true,
             }
           );
-          
+
           if (updatedUserRes.data.success) {
-            const updatedUser = updatedUserRes.data.user1 || updatedUserRes.data.user2;
+            const updatedUser =
+              updatedUserRes.data.user1 || updatedUserRes.data.user2;
             dispatch(setUser(updatedUser));
           }
-          
+
           toast.success("Counsellor added successfully!");
           navigate("/student/dashboard");
         }
       } catch (err) {
-        const backendMessage = err?.response?.data?.message || "Something went wrong.";
+        const backendMessage =
+          err?.response?.data?.message || "Something went wrong.";
         toast.error(backendMessage);
         navigate("/student/dashboard");
       }
     }
-  }
+  };
 
-  const fetchUser = async () =>{
+  const fetchUser = async () => {
     try {
       setLoader(true);
       const res = await axios.get(`${FIND_USER_API_END_POINT}/${id}`, {
         withCredentials: true,
       });
-      if(res.data.success){
+      if (res.data.success) {
         setCurrUser(res.data.user);
       }
-    } catch (error){
+    } catch (error) {
       console.log(error);
-    } finally{
+    } finally {
       setLoader(false);
     }
-  }
+  };
 
   //DATA fetch.
-  useEffect (()=>{
+  useEffect(() => {
     fetchUser();
-  },[id]);
+  }, [id]);
 
-  if(loader){
-    return(
+  if (loader) {
+    return (
       <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
-        <Loader/>
+        <Loader />
       </div>
-    )
+    );
   }
 
   if (!user) {
-    return (
-      <AleartLogin/>
-    ) 
+    return <AleartLogin />;
   }
 
   const starImage =
@@ -118,7 +122,9 @@ const CounsellorProfile = () => {
             alt="Profile"
             className="w-40 h-40 rounded-full object-cover mb-4"
           />
-          <h2 className="text-xl font-bold text-gray-800 mb-6">{currUser.name}</h2>
+          <h2 className="text-xl font-bold text-gray-800 mb-6">
+            {currUser.name}
+          </h2>
           <div className="flex flex-col space-y-4 text-gray-700 w-full mb-6">
             <div>
               <p className="text-sm text-gray-500">Rank Number</p>
@@ -127,16 +133,12 @@ const CounsellorProfile = () => {
 
             <div>
               <p className="text-sm text-gray-500">College Name</p>
-              <h2 className="text-lg font-semibold">
-                {currUser.collegeName}
-              </h2>
+              <h2 className="text-lg font-semibold">{currUser.collegeName}</h2>
             </div>
 
             <div>
               <p className="text-sm text-gray-500">Branch Name</p>
-              <h2 className="text-lg font-semibold">
-                {currUser.branch}
-              </h2>
+              <h2 className="text-lg font-semibold">{currUser.branch}</h2>
             </div>
 
             <div>
@@ -147,9 +149,9 @@ const CounsellorProfile = () => {
 
           {/* Two Buttons Side by Side */}
           <div className="flex w-full gap-4 ">
-            <button 
+            <button
               className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-xl hover:bg-blue-600 hover:cursor-pointer"
-              onClick={()=>handleOperation(studentId, counsellorId)}
+              onClick={() => handleOperation(studentId, counsellorId)}
             >
               Continue
             </button>
@@ -160,9 +162,7 @@ const CounsellorProfile = () => {
         <div className="flex-1 pl-8 space-y-6">
           <div className="bg-white p-6 rounded-2xl shadow-lg">
             <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">About</h3>
-            <p className="text-gray-700">
-              {currUser.about}
-            </p>
+            <p className="text-gray-700">{currUser.about}</p>
           </div>
 
           {/* Rating Section */}
@@ -181,6 +181,12 @@ const CounsellorProfile = () => {
             </div>
           </div>
 
+          {/* slot booking section  */}
+          <div className="bg-white p-6 rounded-2xl shadow-lg">
+  <StudentSlotBooking />
+</div>
+
+
           {/* Student Concern Section */}
           <div className="bg-white p-6 rounded-2xl shadow-lg">
             <h3 className="text-2xl font-bold mb-4 text-[#3b66ff]">
@@ -191,11 +197,10 @@ const CounsellorProfile = () => {
                 <li key={index}>{concern}</li>
               ))}
             </ul>
-            
           </div>
           <div className="bg-blue-500 p-6 mt-6 rounded-2xl shadow-lg">
-  <Footer />
-</div>
+            <Footer />
+          </div>
         </div>
       </div>
     </div>

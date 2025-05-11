@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
 
+
 const CounsellorDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
   const [selectedStudentIndex, setSelectedStudentIndex] = useState(null);
@@ -17,6 +18,21 @@ const CounsellorDashboard = () => {
   const senderId = user?.id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [slotDate, setSlotDate] = useState("");
+const [startTime, setStartTime] = useState("");
+const [endTime, setEndTime] = useState("");
+const [slotList, setSlotList] = useState([]);
+
+const handleSlotSubmit = (e) => {
+  e.preventDefault();
+  const newSlot = { date: slotDate, startTime, endTime };
+  setSlotList([...slotList, newSlot]);
+  // TODO: Post to backend
+  setSlotDate("");
+  setStartTime("");
+  setEndTime("");
+};
+
 
   const fetchUser = async () => {
     try {
@@ -42,12 +58,12 @@ const CounsellorDashboard = () => {
   };
   // console.log(currUser);
 
-  const handleChat = (index, id) =>{
+  const handleChat = (index, id) => {
     setSelectedStudentIndex(index);
     setReceiverId(id);
-  }
+  };
 
-  const handleLogout = async () =>{
+  const handleLogout = async () => {
     try {
       const res = await axios.get(`${FIND_USER_API_END_POINT}/v1/logout`, {
         withCredentials: true,
@@ -61,7 +77,7 @@ const CounsellorDashboard = () => {
       console.log(error);
       toast.error(error.response.data.message);
     }
-  }
+  };
 
   const students = user?.studentList.map(Object);
 
@@ -72,9 +88,7 @@ const CounsellorDashboard = () => {
   }, [user]);
 
   if (!user) {
-    return (
-      <AleartLogin/>
-    ) 
+    return <AleartLogin />;
   }
 
   return (
@@ -109,13 +123,23 @@ const CounsellorDashboard = () => {
           </li>
           <li
             className={`cursor-pointer p-2 rounded-md hover:bg-[#4f85f7] ${
+              activePage === "slots" ? "bg-[#4f85f7]" : ""
+            }`}
+            onClick={() => setActivePage("slots")}
+          >
+            Slot Booking
+          </li>
+
+          <li
+            className={`cursor-pointer p-2 rounded-md hover:bg-[#4f85f7] ${
               activePage === "settings" ? "bg-[#4f85f7]" : ""
             }`}
             onClick={() => setActivePage("settings")}
           >
             Settings
           </li>
-          <li className="cursor-pointer p-2 rounded-md hover:bg-red-600"
+          <li
+            className="cursor-pointer p-2 rounded-md hover:bg-red-600"
             onClick={handleLogout}
           >
             Signout
@@ -157,8 +181,7 @@ const CounsellorDashboard = () => {
                     {user?.phoneNumber}
                   </div>
                   <div>
-                    <span className="font-semibold">Email:</span>{" "}
-                    {user?.email}
+                    <span className="font-semibold">Email:</span> {user?.email}
                   </div>
                 </div>
               </div>
@@ -184,13 +207,12 @@ const CounsellorDashboard = () => {
               {students.map((student, index) => (
                 <div
                   key={index}
-                  onClick={()=>handleChat(index, student.studentId)}
+                  onClick={() => handleChat(index, student.studentId)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedStudentIndex === index
                       ? "bg-[#dbe4ff]"
                       : "hover:bg-[#f0f4ff]"
                   }`}
-
                 >
                   <img
                     src={student.profileImage}
@@ -203,17 +225,17 @@ const CounsellorDashboard = () => {
             </div>
 
             {/* Right: Full Width ChatBox */}
-            {
-              receiverId ? (
-                <div className="flex-1">
-                  <ChatBox senderId={senderId} receiverId={receiverId} />
-                </div>
-              ) : (
-                <div className="w-full flex items-center justify-center">
-                  <p className="text-red-500 font-bold text-xl">No Chat is selected!.</p>
-                </div>
-              )
-            }
+            {receiverId ? (
+              <div className="flex-1">
+                <ChatBox senderId={senderId} receiverId={receiverId} />
+              </div>
+            ) : (
+              <div className="w-full flex items-center justify-center">
+                <p className="text-red-500 font-bold text-xl">
+                  No Chat is selected!.
+                </p>
+              </div>
+            )}
           </div>
         )}
 
@@ -222,7 +244,7 @@ const CounsellorDashboard = () => {
             <h3 className="text-2xl font-bold mb-4">Student List</h3>
             <div className="space-y-4 overflow-y-auto max-h-[80vh]">
               {students.map((student, index) => (
-                <div key={index} className="flex items-center space-x-4" >
+                <div key={index} className="flex items-center space-x-4">
                   <img
                     src={student.profileImage}
                     alt={student.name}
@@ -231,6 +253,67 @@ const CounsellorDashboard = () => {
                   <span>{student.name}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {activePage === "slots" && (
+          <div className="w-full p-10">
+            <h2 className="text-2xl font-bold mb-6">Manage Time Slots</h2>
+            <form
+              onSubmit={handleSlotSubmit}
+              className="space-y-4 bg-white p-6 rounded-lg shadow-lg max-w-xl"
+            >
+              <div>
+                <label>Date</label>
+                <input
+                  type="date"
+                  value={slotDate}
+                  onChange={(e) => setSlotDate(e.target.value)}
+                  className="w-full p-2 border rounded"
+                  required
+                />
+              </div>
+              <div>
+                <label>Start Time</label>
+                <input
+                  type="time"
+                  value={startTime}
+                  onChange={(e) => setStartTime(e.target.value)}
+                  className="w-full p-2 border rounded"
+                  required
+                />
+              </div>
+              <div>
+                <label>End Time</label>
+                <input
+                  type="time"
+                  value={endTime}
+                  onChange={(e) => setEndTime(e.target.value)}
+                  className="w-full p-2 border rounded"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-[#3b66ff] text-white px-4 py-2 rounded"
+              >
+                Add Slot
+              </button>
+            </form>
+
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-2">Available Slots</h3>
+              <ul className="space-y-2">
+                {slotList.map((slot, index) => (
+                  <li
+                    key={index}
+                    className="p-3 bg-blue-50 border border-blue-200 rounded"
+                  >
+                    {slot.date} - {slot.startTime} to {slot.endTime}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         )}
