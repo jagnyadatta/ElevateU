@@ -121,7 +121,7 @@ export const adminLogin = async (req, res) => {
       return res.status(400).json({ message: "All fields are required", success: false });
     }
 
-    const admin = await Admin.findOne({ email });
+    let admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(404).json({ message: "Admin not found", success: false });
     }
