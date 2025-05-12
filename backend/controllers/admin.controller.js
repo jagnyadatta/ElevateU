@@ -135,6 +135,12 @@ export const adminLogin = async (req, res) => {
       expiresIn: "1d",
     });
 
+    admin = {
+      name: admin.name,
+      email: admin.email,
+      role: admin.role
+    }
+
     return res
       .cookie("adminToken", token, {
         httpOnly: true,
