@@ -12,7 +12,7 @@ const CounsellorSignup = () => {
   const [input, setInput] = useState({
     name: "",
     email: "",
-    gender:"",
+    gender: "",
     phoneNumber: "",
     password: "",
     otp: "",
@@ -34,9 +34,8 @@ const CounsellorSignup = () => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
 
-  
   const changeEventHandler = (e) => {
-  const { name, value, files } = e.target;
+    const { name, value, files } = e.target;
     if (files) {
       setInput({ ...input, [name]: files[0] });
     } else {
@@ -52,14 +51,13 @@ const CounsellorSignup = () => {
       return; // Stop if email is not Gmail
     }
     console.log(COUNSELLOR_API_END_POINT);
-    
+
     try {
       setLoader(true);
-      const otpRes = await axios.post(
-        `${COUNSELLOR_API_END_POINT}/send-otp`, 
-        { email: input.email }
-      );
-      
+      const otpRes = await axios.post(`${COUNSELLOR_API_END_POINT}/send-otp`, {
+        email: input.email,
+      });
+
       if (otpRes.data.success) {
         setIsOTPRequested(true); // Mark OTP as requested
         setResendCooldown(true);
@@ -70,7 +68,7 @@ const CounsellorSignup = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred.");
-    } finally{
+    } finally {
       setLoader(false);
     }
   };
@@ -78,10 +76,13 @@ const CounsellorSignup = () => {
   //function for resend OTP
   const resendOTPHandler = async (e) => {
     e.preventDefault();
-    
+
     try {
       setLoader(true);
-      const resendRes = await axios.post(`${COUNSELLOR_API_END_POINT}/resend-otp`, { email: input.email });
+      const resendRes = await axios.post(
+        `${COUNSELLOR_API_END_POINT}/resend-otp`,
+        { email: input.email }
+      );
       if (resendRes.data.success) {
         setIsOTPRequested(true);
         setIsOTPVerified(false);
@@ -117,11 +118,11 @@ const CounsellorSignup = () => {
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred.");
-    } finally{
+    } finally {
       setLoader(false);
     }
   };
-  
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -131,12 +132,16 @@ const CounsellorSignup = () => {
 
     try {
       setLoader(true);
-      const res = await axios.post(`${COUNSELLOR_API_END_POINT}/register`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${COUNSELLOR_API_END_POINT}/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
       if (res.data.success) {
         toast.success(res.data.message);
         navigate("/");
@@ -174,7 +179,9 @@ const CounsellorSignup = () => {
             onSubmit={submitHandler}
             className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
           >
-            <h1 className="text-center font-bold text-2xl mb-5 text-[#3b66ff]">Counsellor Signup Form</h1>
+            <h1 className="text-center font-bold text-2xl mb-5 text-[#3b66ff]">
+              Counsellor Signup Form
+            </h1>
 
             <div className="my-2">
               <Label>Name</Label>
@@ -212,7 +219,6 @@ const CounsellorSignup = () => {
                     >
                       {!isOTPVerified && "Resend"}
                     </Button>
-
                   </div>
                 ) : (
                   <Button
@@ -226,13 +232,15 @@ const CounsellorSignup = () => {
                 )}
               </div>
             </div>
-            
-            {!isOTPVerified && (resendCooldown && (isOTPRequested && (
+
+            {!isOTPVerified && resendCooldown && isOTPRequested && (
               <p className="text-gray-600 text-sm mt-1 ">
-                You can request a new OTP in <span className="text-red-600 font-semibold">{countdown}</span> seconds.
+                You can request a new OTP in{" "}
+                <span className="text-red-600 font-semibold">{countdown}</span>{" "}
+                seconds.
               </p>
-            )))}
-            
+            )}
+
             {isOTPRequested && (
               <div className="my-2">
                 <Label>Enter OTP</Label>
@@ -271,9 +279,10 @@ const CounsellorSignup = () => {
                 <option value="">Select Gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
+                <option value="prefer_not_to_say">Prefer not to say</option>
               </select>
             </div>
-            
+
             <div className="my-2">
               <Label>Phone No</Label>
               <Input
@@ -333,10 +342,39 @@ const CounsellorSignup = () => {
                 required
               >
                 <option value="">Select Exam</option>
-                <option value="JEE">JEE</option>
-                <option value="OJEE">OJEE</option>
-                <option value="NIT">NIT</option>
-                <option value="MBA">MBA</option>
+
+                {/* Undergraduate Exams */}
+                <option value="JEE">JEE (Engineering UG)</option>
+                <option value="OJEE">OJEE (State UG Entrance)</option>
+                <option value="NEET">NEET (Medical UG)</option>
+                <option value="BITSAT">BITSAT (Engineering UG)</option>
+                <option value="VITEEE">VITEEE (Engineering UG)</option>
+                <option value="SRMJEEE">SRMJEEE (Engineering UG)</option>
+                <option value="CUET UG">CUET UG (Central Universities)</option>
+                <option value="CLAT">CLAT (Law UG)</option>
+                <option value="AILET">AILET (Law UG)</option>
+                <option value="NDA">NDA (Defense UG)</option>
+                <option value="IPU CET">IPU CET (Various UG Courses)</option>
+                <option value="NIFT">NIFT (Fashion Design UG)</option>
+                <option value="NID">NID (Design UG)</option>
+                <option value="ICAR UG">ICAR AIEEA UG</option>
+
+                {/* Postgraduate Exams */}
+                <option value="GATE">GATE (Engineering PG)</option>
+                <option value="CAT">CAT (MBA PG)</option>
+                <option value="MAT">MAT (MBA PG)</option>
+                <option value="XAT">XAT (MBA PG)</option>
+                <option value="CMAT">CMAT (MBA PG)</option>
+                <option value="GRE">GRE (International PG)</option>
+                <option value="GMAT">GMAT (MBA International)</option>
+                <option value="NET">UGC NET (PG/PhD)</option>
+                <option value="IIT JAM">IIT JAM (MSc PG)</option>
+                <option value="TANCET">TANCET (State PG)</option>
+                <option value="AP PGCET">AP PGCET (State PG)</option>
+                <option value="TS PGCET">TS PGCET (State PG)</option>
+                <option value="CUET PG">CUET PG (Central Universities)</option>
+                <option value="ICAR PG">ICAR AIEEA PG</option>
+
                 <option value="Other">Other</option>
               </select>
             </div>
@@ -428,31 +466,28 @@ const CounsellorSignup = () => {
               />
             </div>
 
-
             <Button
               type="submit"
               className="w-full my-4 bg-[#3b66ff] hover:bg-[#6072b4] active:bg-black cursor-pointer outline:none"
               disabled={!isOTPVerified}
-              >
+            >
               Submit Form
             </Button>
 
-            {
-              !isOTPVerified && (
-                <p className="text-red-600 font-semibold text-sm mt-1 ">
-                  You can submit this form after OTP is verified.
-                </p>
-              )
-            }
+            {!isOTPVerified && (
+              <p className="text-red-600 font-semibold text-sm mt-1 ">
+                You can submit this form after OTP is verified.
+              </p>
+            )}
           </form>
         </div>
       </div>
 
-      {loader && 
+      {loader && (
         <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
-          <Loader/>
+          <Loader />
         </div>
-      }
+      )}
     </>
   );
 };
