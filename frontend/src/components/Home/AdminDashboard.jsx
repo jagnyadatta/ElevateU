@@ -85,8 +85,8 @@ const AdminDashboard = () => {
         <button onClick={() => setActivePage("dashboard")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Dashboard</button>
         <button onClick={() => setActivePage("students")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Student Manage</button>
         <button onClick={() => setActivePage("counsellors")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Counsellor Manage</button>
-        {/* <button onClick={() => setActivePage("admins")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Admin Manage</button> */}
-        {/* <button onClick={() => setActivePage("settings")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Settings</button> */}
+        <button onClick={() => setActivePage("admins")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Admin Manage</button>
+        <button onClick={() => setActivePage("settings")} className="hover:bg-blue-700 p-3 rounded-lg text-left">Settings</button>
         <button onClick={handleSignout} className="hover:bg-red-500 p-3 rounded-lg text-left mt-auto cursor-pointer">Signout</button>
       </div>
 

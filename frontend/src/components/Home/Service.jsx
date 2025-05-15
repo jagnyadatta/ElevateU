@@ -20,7 +20,9 @@ const Service = () => {
         <div className="relative z-10 h-full flex flex-col items-center justify-center ">
           <div className="w-full sm:h-[20%]">
             <h2 className="text-5xl ml-[25%] sm:ml-[12%] pb-[20px] sm:mt-[7%] text-[#3b66ff] font-bold">
-              <a className="" href="">Services</a>
+              <a className="" href="">
+                Services
+              </a>
             </h2>
           </div>
 
@@ -34,10 +36,10 @@ const Service = () => {
                 <div className="w-[90%] h-[80%] flex flex-col gap-2">
                   <h2 className="text-white text-4xl">Career counsellor</h2>
                   <p className="text-white">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Veritatis nisi officia est, obcaecati neque exercitationem
-                    nostrum labore eos amet rerum nihil id quasi illo minus?
-                    Earum placeat aut beatae! Blanditiis.
+                    Career Counsellors guide you with expert advice tailored to
+                    your goals. Get clarity on academics, careers, and future
+                    opportunities. Book a session and plan your path with
+                    confidence.
                   </p>
                   <Link to="/counsellor/all">
                     <Button className="rounded-3xl bg-white text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
@@ -79,17 +81,16 @@ const Service = () => {
                 <div className="w-[90%] h-[80%] flex flex-col gap-2">
                   <h2 className="text-white text-4xl">Admission counselor</h2>
                   <p className="text-white">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Veritatis nisi officia est, obcaecati neque exercitationem
-                    nostrum labore eos amet rerum nihil id quasi illo minus?
-                    Earum placeat aut beatae! Blanditiis.
+                    Admission Counsellors help you choose the right course and
+                    college. Get expert support for applications, eligibility,
+                    and deadlines. Make informed decisions for a successful
+                    academic journey.
                   </p>
                   <Link to="">
-                  <Button className="rounded-3xl bg-white text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
-                    Continue
-                  </Button>
+                    <Button className="rounded-3xl bg-white text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
+                      Continue
+                    </Button>
                   </Link>
-          
                 </div>
               </div>
             </div>
