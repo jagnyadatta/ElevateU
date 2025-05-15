@@ -24,30 +24,30 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const corsOptions = {
-  origin: "http://localhost:5173",
-  credentials: true,
-}; 
-
-// // socket connection
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173",
-    credentials: true,
-  },
-});
-
 // const corsOptions = {
-//   origin: "https://elevateu-frontend.onrender.com",
+//   origin: "http://localhost:5173",
 //   credentials: true,
 // }; 
 
+// // // socket connection
 // const io = new Server(server, {
 //   cors: {
-//     origin: "https://elevateu-frontend.onrender.com",
+//     origin: "http://localhost:5173",
 //     credentials: true,
 //   },
 // });
+
+const corsOptions = {
+  origin: "https://elevateu-frontend.onrender.com",
+  credentials: true,
+}; 
+
+const io = new Server(server, {
+  cors: {
+    origin: "https://elevateu-frontend.onrender.com",
+    credentials: true,
+  },
+});
 
 socketHandler(io);
 
