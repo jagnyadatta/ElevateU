@@ -14,7 +14,7 @@ const CounsellorDashboard = () => {
   const [currUser, setCurrUser] = useState({});
   const { user } = useSelector((store) => store.auth);
   const [receiverId, setReceiverId] = useState("");
-  const senderId = user?.id;
+  const senderId = user?._id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [slotDate, setSlotDate] = useState("");

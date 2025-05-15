@@ -3,15 +3,15 @@ import { Student } from "../models/student.model.js";
 
 export const findUser = async (req, res) => {
     try {
-      const { id } = req.body;
-      if (!id) {
+      const { _id } = req.body;
+      if (!_id) {
         return res.status(400).json({
           message: "Something is missing",
           success: false,
         });
       }
 
-        const user1 = await counsellorPerson.findOne({ _id:id });
+        const user1 = await counsellorPerson.findOne({ _id });
         if (user1) {
           return res.status(200).json({
             message: "Found user is COUNSELLOR!",
@@ -20,7 +20,7 @@ export const findUser = async (req, res) => {
           });
         }
 
-        const user2 = await Student.findOne({ _id: id });
+        const user2 = await Student.findOne({ _id });
         if (user2) {
           return res.status(200).json({
             message: "Found user is STUDENT!",
