@@ -98,11 +98,11 @@ const Navbar = () => {
                 AI Suggestion
               </Link>
             </li>
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+            {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <Link to="/elevateu/admin/login">
                 Admin
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="flex flex-row">
