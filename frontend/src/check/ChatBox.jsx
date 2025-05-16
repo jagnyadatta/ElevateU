@@ -116,11 +116,11 @@ const ChatBox = ({senderId, receiverId}) => {
         {messages.map((msg, i) => (
           <div
           key={i}
-          className={`mb-2 flex ${(msg.sender === senderId) ? "justify-end" : "justify-start"}`}
+          className={`mb-2 flex ${(msg.sender === senderId || msg.senderId === senderId) ? "justify-end" : "justify-start"}`}
         >
           <div
             className={`max-w-xs px-4 py-2 rounded-lg shadow text-sm whitespace-pre-wrap ${
-              (msg.sender === senderId )
+              (msg.sender === senderId || msg.senderId === senderId)
                 ? "bg-blue-500 text-white"
                 : "bg-green-400 text-white"
             }`}
