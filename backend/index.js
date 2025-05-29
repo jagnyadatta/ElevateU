@@ -37,26 +37,14 @@ app.use(cookieParser());
 //   },
 // });
 
-// const corsOptions = {
-//   origin: "https://elevateu-frontend.onrender.com",
-//   credentials: true,
-// }; 
-
-// const io = new Server(server, {
-//   cors: {
-//     origin: "https://elevateu-frontend.onrender.com",
-//     credentials: true,
-//   },
-// });
-
 const corsOptions = {
-  origin: "https://elevateu-theta.vercel.app",
+  origin: "https://elevateu-frontend.onrender.com",
   credentials: true,
 }; 
 
 const io = new Server(server, {
   cors: {
-    origin: "https://elevateu-theta.vercel.app",
+    origin: "https://elevateu-frontend.onrender.com",
     credentials: true,
   },
 });
