@@ -1,5 +1,6 @@
 // export const BACKEND_API_END_POINT = "http://localhost:8080";
-export const BACKEND_API_END_POINT = "https://group-5-5mpu.onrender.com";
+// export const BACKEND_API_END_POINT = "https://group-5-5mpu.onrender.com";
+export const BACKEND_API_END_POINT = "https://elevateu-backend.vercel.app";
 export const STUDENT_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/v1/student`;
 export const COUNSELLOR_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/v1/counsellor`;
 export const OTP_API_END_POINT=`${BACKEND_API_END_POINT}/elevateu/v1/otp`;
