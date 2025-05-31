@@ -38,14 +38,26 @@ app.use(cookieParser());
 //   },
 // });
 
+// const corsOptions = {
+//   origin: "https://elevateu-frontend.onrender.com",
+//   credentials: true,
+// }; 
+
+// const io = new Server(server, {
+//   cors: {
+//     origin: "https://elevateu-frontend.onrender.com",
+//     credentials: true,
+//   },
+// });
+
 const corsOptions = {
-  origin: "https://elevateu-frontend.onrender.com",
+  origin: "https://elevateu-three.vercel.app",
   credentials: true,
 }; 
 
 const io = new Server(server, {
   cors: {
-    origin: "https://elevateu-frontend.onrender.com",
+    origin: "https://elevateu-three.vercel.app",
     credentials: true,
   },
 });
@@ -70,7 +82,7 @@ app.get("/", (req, res)=>{
 });
 
 setInterval(() => {
-  fetch("https://elevateu-backend.onrender.com")
+  fetch("https://group-5-5mpu.onrender.com")
     .then(() => console.log("⏰ Backend self-ping to prevent sleep"))
     .catch((err) => console.error("❌ Self-ping failed:", err));
 }, 13 * 60 * 1000); // every 14 minutes
