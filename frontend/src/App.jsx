@@ -20,6 +20,7 @@ import AdminDashboard from "./components/Home/AdminDashboard";
 import CounsellorDetails from "./components/Career/CounsellorDetails";
 import StudentSlotBooking from "./components/Home/StudentSlotBooking";
 import AdminLogin from "./components/auth/AdminLogin";
+import { useEffect } from "react";
 
 const appRouter = createBrowserRouter([
   {
