@@ -73,7 +73,7 @@ setInterval(() => {
   fetch("https://elevateu-backend.onrender.com")
     .then(() => console.log("⏰ Backend self-ping to prevent sleep"))
     .catch((err) => console.error("❌ Self-ping failed:", err));
-}, 14 * 60 * 1000); // every 14 minutes
+}, 2 * 60 * 1000); // every 14 minutes
 
 server.listen(PORT, () => {
   connectDB();
