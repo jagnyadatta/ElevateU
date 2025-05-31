@@ -12,6 +12,7 @@ import counsellorRoute from "./routes/counsellor.route.js";
 import findUserRoute from "./routes/findUser.route.js";
 import messageRoute from "./routes/message.route.js";
 import adminRoute from "./routes/admin.route.js";
+import fetch from "node-fetch";
 
 dotenv.config();
 const app = express();
@@ -67,6 +68,12 @@ app.get("/", (req, res)=>{
     success: true
   });
 });
+
+setInterval(() => {
+  fetch("https://elevateu-backend.onrender.com")
+    .then(() => console.log("⏰ Backend self-ping to prevent sleep"))
+    .catch((err) => console.error("❌ Self-ping failed:", err));
+}, 14 * 60 * 1000); // every 14 minutes
 
 server.listen(PORT, () => {
   connectDB();
