@@ -87,7 +87,7 @@ const Service = () => {
                     academic journey.
                   </p>
                   <Link to="">
-                    <Button className="rounded-3xl bg-white text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
+                    <Button className="rounded-3xl bg-white text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-not-allowed">
                       Continue
                     </Button>
                   </Link>
