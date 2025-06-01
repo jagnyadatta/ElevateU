@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AleartLogin from "../ui/AleartLogin";
-import { setUser } from '@/redux/authSlice';
+import { setUser } from "@/redux/authSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -19,6 +19,20 @@ const StudentDashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result); // for preview
+        // Optionally, upload logic or set to form state here
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const fetchUser = async () => {
     try {
@@ -45,15 +59,17 @@ const StudentDashboard = () => {
     }
   };
 
-  const counsellors = Array.isArray(user?.counsellorList) ? user.counsellorList.map(Object) : [];
+  const counsellors = Array.isArray(user?.counsellorList)
+    ? user.counsellorList.map(Object)
+    : [];
   // console.log(counsellors);
 
-  const handleChat = (index, id) =>{
+  const handleChat = (index, id) => {
     setSelectedCounsellorIndex(index);
     setReceiverId(id);
-  }
+  };
 
-  const handleLogout = async () =>{
+  const handleLogout = async () => {
     try {
       const res = await axios.get(`${FIND_USER_API_END_POINT}/v1/logout`, {
         withCredentials: true,
@@ -67,7 +83,7 @@ const StudentDashboard = () => {
       console.log(error);
       toast.error(error.response.data.message || "Logout failed.");
     }
-  }
+  };
 
   useEffect(() => {
     if (user) {
@@ -82,9 +98,7 @@ const StudentDashboard = () => {
   }, [location]);
 
   if (!user) {
-    return (
-      <AleartLogin/>
-    ) 
+    return <AleartLogin />;
   }
 
   return (
@@ -125,7 +139,8 @@ const StudentDashboard = () => {
           >
             Settings
           </li>
-          <li className="cursor-pointer p-2 rounded-md hover:bg-red-600"
+          <li
+            className="cursor-pointer p-2 rounded-md hover:bg-red-600"
             onClick={handleLogout}
           >
             Signout
@@ -136,16 +151,28 @@ const StudentDashboard = () => {
       {/* Right Content */}
       <div className="flex ml-[250px] w-full h-[100vh]">
         {activePage === "dashboard" && (
-          <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-white p-10 flex justify-center items-center">
+          <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-white p-10 flex flex-col justify-center items-center">
+            <h2 className="text-3xl w-[82%] font-bold text-blue-600 mb-4  pb-2 left-0">
+              My Profile
+            </h2>
             <div className="bg-white rounded-3xl shadow-2xl p-10 flex gap-10 items-center max-w-5xl w-full">
               {/* Profile Info */}
+
+              {/* Profile Image */}
+              <div className="flex-shrink-0">
+                <img
+                  src={user?.profileImage}
+                  alt="User"
+                  className="w-60 h-60 rounded-2xl object-cover border-4 border-blue-500 shadow-md"
+                />
+              </div>
               <div className="flex-grow space-y-4">
                 <h2 className="text-3xl font-bold text-blue-600 mb-4 border-b pb-2 border-blue-300">
-                  Profile Information
+                  <span className="font-semibold uppercase"> {user?.name}</span>
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                <div className="grid grid-cols-1 md:grid-cols-1 gap-4 text-gray-700">
                   <div>
-                    <span className="font-semibold">Name:</span> {user?.name}
+                    <span className="font-semibold"></span> {user?.about} 
                   </div>
                   <div>
                     <span className="font-semibold">Gender:</span>{" "}
@@ -156,18 +183,9 @@ const StudentDashboard = () => {
                     {user?.phoneNumber}
                   </div>
                   <div>
-                    <span className="font-semibold">Email:</span>{" "}
-                    {user?.email}
+                    <span className="font-semibold">Email:</span> {user?.email}
                   </div>
                 </div>
-              </div>
-              {/* Profile Image */}
-              <div className="flex-shrink-0">
-                <img
-                  src={user?.profileImage}
-                  alt="User"
-                  className="w-60 h-60 rounded-2xl object-cover border-4 border-blue-500 shadow-md"
-                />
               </div>
             </div>
           </div>
@@ -183,7 +201,7 @@ const StudentDashboard = () => {
               {counsellors.map((counsellor, index) => (
                 <div
                   key={index}
-                  onClick={()=>handleChat(index, counsellor.counsellorId)}
+                  onClick={() => handleChat(index, counsellor.counsellorId)}
                   className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
                     selectedCounsellorIndex === index
                       ? "bg-[#dbe4ff]"
@@ -201,70 +219,135 @@ const StudentDashboard = () => {
             </div>
 
             {/* Right: Full Width ChatBox */}
-            {
-              receiverId ? (
-                <div className="flex-1">
-                  <ChatBox senderId={senderId} receiverId={receiverId} />
-                </div>
-              ): (
-                <div className="w-full flex items-center justify-center">
-                  <p className="text-red-500 font-bold text-xl">No Chat is selected!.</p>
-                </div>
-              )
-            }
-            
+            {receiverId ? (
+              <div className="flex-1">
+                <ChatBox senderId={senderId} receiverId={receiverId} />
+              </div>
+            ) : (
+              <div className="w-full flex items-center justify-center">
+                <p className="text-red-500 font-bold text-xl">
+                  No Chat is selected!.
+                </p>
+              </div>
+            )}
           </div>
         )}
 
         {activePage === "counsellor" && (
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Counsellor List</h3>
-            <div className="space-y-4 overflow-y-auto max-h-[80vh]">
-              {counsellors.map((counsellor, index) => (
-                <div key={index} className="flex items-center space-x-4">
-                  <img
-                    src={counsellor.profileImage}
-                    alt={counsellor.name}
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <span>{counsellor.name}</span>
-                </div>
-              ))}
+  <div className="w-full p-10 bg-gradient-to-br from-blue-50 to-white">
+    <h3 className="text-3xl font-bold text-blue-600 mb-6 border-b pb-2">
+      Counsellor List
+    </h3>
+
+    <div className="bg-white rounded-2xl shadow-xl p-8 max-w-4xl mx-auto">
+      <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
+        {counsellors.map((counsellor, index) => (
+          <div
+            key={index}
+            className="flex items-center bg-blue-50 hover:bg-blue-100 transition p-4 rounded-xl shadow-sm space-x-4"
+          >
+            <img
+              src={counsellor.profileImage}
+              alt={counsellor.name}
+              className="w-14 h-14 rounded-full border-2 border-blue-500 shadow"
+            />
+            <div>
+              <p className="text-lg font-semibold text-gray-800">
+                {counsellor.name}
+              </p>
+              <p className="text-sm text-gray-500">{counsellor.email}</p>
             </div>
           </div>
-        )}
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
 
         {activePage === "settings" && (
-          <div>
-            <h3 className="text-2xl font-bold mb-4">Settings</h3>
-            <div>
-              <label className="block">Name</label>
-              <input
-                type="text"
-                value={user?.name}
-                className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              />
+          <div className="w-full p-10 bg-gradient-to-br from-blue-50 to-white">
+            <h3 className="text-3xl font-bold text-blue-600 mb-6 border-b pb-2">
+              Edit Profile
+            </h3>
 
-              <label className="block">Email</label>
-              <input
-                type="email"
-                value={user?.email}
-                className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              />
+            <div className="bg-white rounded-2xl shadow-xl p-8 max-w-5xl mx-auto flex flex-col md:flex-row gap-10">
+              {/* Left Side – Profile Image */}
+              <div className="flex flex-col items-center w-full md:w-1/3 space-y-4">
+                <img
+                  src={previewImage || user?.profileImage}
+                  alt="Profile"
+                  className="w-60 h-60 rounded-2xl object-cover border-4 border-blue-500 shadow-md"
+                />
+                <div>
+                  <input
+                    type="file"
+                    id="profileImageInput"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                  <label
+                    htmlFor="profileImageInput"
+                    className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                  >
+                    Edit
+                  </label>
+                </div>
+              </div>
 
-              <label className="block">Phone</label>
-              <input
-                type="text"
-                value={user?.phoneNumber}
-                className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              />
+              {/* Right Side – Editable Fields */}
+              <div className="w-full md:w-2/3 space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-1">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    value={user?.name}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  />
+                </div>
 
-              <label className="block">College</label>
-              <input
-                type="text"
-                value={user?.college}
-                className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              />
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-1">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    value={user?.email}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-1">
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    value={user?.phoneNumber}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-600 mb-1">
+                    About
+                  </label>
+                  <textarea
+                    value={user?.about}
+                    rows={4}
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                  />
+                </div>
+
+                <div className="pt-2">
+                  <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    Save Changes
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
