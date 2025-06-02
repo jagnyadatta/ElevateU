@@ -66,7 +66,7 @@ const CareerCounsellor = () => {
   }
 
   return (
-    <div className="h-full relative z-2">
+    <div className="h-full relative z-2 mt-20">
       <div className="fixed w-full top-5 flex justify-center z-50">
         <Navbar />
       </div>
