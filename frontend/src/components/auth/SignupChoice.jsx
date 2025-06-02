@@ -21,7 +21,7 @@ const SignupChoice = () => {
 
   return (
     <>
-    <div className="flex items-center justify-center min-h-screen  relative z-4">
+    <div className="flex items-center justify-center min-h-screen  relative z-10">
       <div className="w-[80%] h-[60%] sm:w-[50%] sm:h-[50%] bg-white p-8 rounded-lg shadow-md text-center">
         <h1 className="text-[20px] sm:text-3xl text-[#3b66ff] font-bold mb-6">Want to signup for...</h1>
         <div className="flex justify-evenly text-[18px] sm:text-2xl items-center mb-6">

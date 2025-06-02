@@ -138,7 +138,7 @@ const Navbar = () => {
                   />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="w-[400px]">
+              <PopoverContent className="w-[400px] bg-white">
                 <div className="w-full h-[100px] flex items-center justify-between overflow-hidden ">
                   <img
                     src={imageLink}
@@ -195,8 +195,8 @@ const Navbar = () => {
                 />
               </svg>
             </PopoverTrigger>
-            <PopoverContent>
-              <div className="">
+            <PopoverContent className="bg-white">
+              <div >
                 <ul className="flex flex-col justify-between gap-3 font-semibold">
                   <HashLink smooth to="/#home">
                     <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
@@ -237,7 +237,7 @@ const Navbar = () => {
                     </Link>
                   </div>
                 ) : (
-                  <div className=" sm:flex md:flex lg:flex  ">
+                  <div className="sm:flex md:flex lg:flex  ">
                     <Popover>
                       <PopoverTrigger>
                         <Link
