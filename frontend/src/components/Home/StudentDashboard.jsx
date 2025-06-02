@@ -104,72 +104,72 @@ const StudentDashboard = () => {
       {/* Navbar - mobile top bar & desktop sidebar */}
       <div>
         {/* Mobile Navbar */}
-        <div className="md:hidden flex justify-between items-center bg-[#3b66ff] text-white p-4">
-          <h2 className="text-xl font-bold">STUDENT</h2>
-          <button onClick={() => setShowMobileMenu(!showMobileMenu)}>
-            <svg
-              className="w-8 h-8"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
-        </div>
+        <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex justify-between items-center bg-[#3b66ff] text-white p-4">
+        <h2 className="text-xl font-bold">STUDENT</h2>
+        <button onClick={() => setShowMobileMenu(!showMobileMenu)}>
+          <svg
+            className="w-8 h-8"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
 
-        {/* Mobile Dropdown Menu */}
-        {showMobileMenu && (
-          <div className="md:hidden bg-[#3b66ff] text-white px-4 py-2 space-y-2">
-            <div
-              onClick={() => {
-                setActivePage("dashboard");
-                setShowMobileMenu(false);
-              }}
-              className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
-            >
-              Dashboard
-            </div>
-            <div
-              onClick={() => {
-                setActivePage("message");
-                setShowMobileMenu(false);
-              }}
-              className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
-            >
-              Message
-            </div>
-            <div
-              onClick={() => {
-                setActivePage("counsellor");
-                setShowMobileMenu(false);
-              }}
-              className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
-            >
-              Counsellor List
-            </div>
-            <div
-              onClick={() => {
-                setActivePage("settings");
-                setShowMobileMenu(false);
-              }}
-              className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
-            >
-              Settings
-            </div>
-            <div
-              onClick={handleLogout}
-              className="cursor-pointer hover:bg-red-600 p-2 rounded"
-            >
-              Signout
-            </div>
+      {/* Mobile Dropdown Menu */}
+      {showMobileMenu && (
+        <div className="md:hidden bg-[#3b66ff] text-white px-4 py-2 space-y-2 fixed top-16 left-0 right-0 z-40 shadow-lg">
+          <div
+            onClick={() => {
+              setActivePage("dashboard");
+              setShowMobileMenu(false);
+            }}
+            className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
+          >
+            Dashboard
           </div>
-        )}
+          <div
+            onClick={() => {
+              setActivePage("message");
+              setShowMobileMenu(false);
+            }}
+            className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
+          >
+            Message
+          </div>
+          <div
+            onClick={() => {
+              setActivePage("counsellor");
+              setShowMobileMenu(false);
+            }}
+            className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
+          >
+            Counsellor List
+          </div>
+          <div
+            onClick={() => {
+              setActivePage("settings");
+              setShowMobileMenu(false);
+            }}
+            className="cursor-pointer hover:bg-[#4f85f7] p-2 rounded"
+          >
+            Settings
+          </div>
+          <div
+            onClick={handleLogout}
+            className="cursor-pointer hover:bg-red-600 p-2 rounded"
+          >
+            Signout
+          </div>
+        </div>
+      )}
 
         {/* Desktop Sidebar */}
         <div className="hidden md:flex md:w-[250px] bg-[#3b66ff] text-white p-6 h-screen fixed top-0 left-0 flex-col justify-between">
@@ -218,7 +218,7 @@ const StudentDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 md:ml-[250px]">
+      <div className="flex-1 pt-15 md:pt-0 md:ml-[250px]">
         {activePage === "dashboard" && (
           <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-white p-4 md:p-10 flex flex-col items-center">
             <h2 className="text-2xl md:text-3xl w-full font-bold text-blue-600 mb-4 border-b pb-2">
@@ -256,96 +256,101 @@ const StudentDashboard = () => {
         )}
 
         {activePage === "message" && (
-  <div className="w-full h-screen bg-white overflow-hidden flex flex-col md:flex-row">
-    {/* 📱 Mobile: Chat List (Visible when no chat selected) */}
-    {!receiverId && (
-      <div className="block md:hidden w-full h-full overflow-y-auto">
-        <h3 className="text-2xl font-bold py-4 px-4 text-[#3b66ff] border-b sticky top-0 bg-white z-10">
-          Messages
-        </h3>
-        {counsellors.map((counsellor, index) => (
-          <div
-            key={index}
-            onClick={() => handleChat(index, counsellor.counsellorId)}
-            className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
-              selectedCounsellorIndex === index
-                ? "bg-[#dbe4ff]"
-                : "hover:bg-[#f0f4ff]"
-            }`}
-          >
-            <img
-              src={counsellor.profileImage}
-              alt={counsellor.name}
-              className="w-10 h-10 rounded-full"
-            />
-            <span className="text-sm font-medium">{counsellor.name}</span>
+          <div className="w-full h-screen bg-white overflow-hidden flex flex-col md:flex-row">
+            {/* 📱 Mobile: Chat List (Visible when no chat selected) */}
+            {!receiverId && (
+              <div className="block md:hidden w-full h-full overflow-y-auto">
+                <h3 className="text-2xl font-bold py-4 px-4 text-[#3b66ff] border-b sticky top-0 bg-white z-10">
+                  Messages
+                </h3>
+                {counsellors.map((counsellor, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleChat(index, counsellor.counsellorId)}
+                    className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md  bg-blue-50 hover:bg-blue-100 shadow-sm  ${
+                      selectedCounsellorIndex === index
+                        ? "bg-[#dbe4ff]"
+                        : "hover:bg-[#f0f4ff]"
+                    }`}
+                  >
+                    <img
+                      src={counsellor.profileImage}
+                      alt={counsellor.name}
+                      className="w-10 h-10 rounded-full  border-2 border-blue-500 shadow"
+                    />
+                    <span className="text-sm font-medium">
+                      {counsellor.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* 💬 Mobile: Chat Box (Visible when chat selected) */}
+            {receiverId && (
+              <div className=" md:hidden w-full h-full flex flex-col">
+                <div className="flex items-center justify-between px-4 py-3 border-b bg-white">
+                  <button
+                    className="text-[#3b66ff] font-semibold"
+                    onClick={() => {
+                      setReceiverId(null);
+                      setSelectedCounsellorIndex(null);
+                    }}
+                  >
+                    ← Back to Messages
+                  </button>
+                  <span className="font-semibold text-lg">
+                    {counsellors[selectedCounsellorIndex]?.name}
+                  </span>
+                </div>
+                <div className="flex-1 overflow-y-auto bg-red-500">
+                  <ChatBox senderId={senderId} receiverId={receiverId} />
+                </div>
+              </div>
+            )}
+
+            {/* 💻 Desktop View: Full Layout */}
+            <div className="hidden md:flex flex-row w-full h-full">
+              {/* Left Panel - Counsellor List */}
+              <div className="w-[400px] bg-white border-r overflow-y-auto">
+                <h3 className="text-2xl font-bold py-4 px-4 text-[#3b66ff] border-b sticky top-0 bg-white z-10">
+                  Messages
+                </h3>
+                {counsellors.map((counsellor, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleChat(index, counsellor.counsellorId)}
+                    className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
+                      selectedCounsellorIndex === index
+                        ? "bg-[#dbe4ff]"
+                        : "hover:bg-[#f0f4ff]"
+                    }`}
+                  >
+                    <img
+                      src={counsellor.profileImage}
+                      alt={counsellor.name}
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <span className="text-sm font-medium">
+                      {counsellor.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Right Panel - Chat Box */}
+              <div className="flex-1 flex items-center justify-center">
+                {receiverId ? (
+                  <ChatBox senderId={senderId} receiverId={receiverId} />
+                ) : (
+                  <p className="text-red-500 font-bold text-xl">
+                    No Chat is selected!
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-    )}
-
-    {/* 💬 Mobile: Chat Box (Visible when chat selected) */}
-    {receiverId && (
-      <div className="block md:hidden w-full h-full flex flex-col">
-        <div className="flex items-center justify-between px-4 py-3 border-b bg-white">
-          <button
-            className="text-[#3b66ff] font-semibold"
-            onClick={() => {
-              setReceiverId(null);
-              setSelectedCounsellorIndex(null);
-            }}
-          >
-            ← Back to Messages
-          </button>
-          <span className="font-semibold text-lg">
-            {counsellors[selectedCounsellorIndex]?.name}
-          </span>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          <ChatBox senderId={senderId} receiverId={receiverId} />
-        </div>
-      </div>
-    )}
-
-    {/* 💻 Desktop View: Full Layout */}
-    <div className="hidden md:flex flex-row w-full h-full">
-      {/* Left Panel - Counsellor List */}
-      <div className="w-[400px] bg-white border-r overflow-y-auto">
-        <h3 className="text-2xl font-bold py-4 px-4 text-[#3b66ff] border-b sticky top-0 bg-white z-10">
-          Messages
-        </h3>
-        {counsellors.map((counsellor, index) => (
-          <div
-            key={index}
-            onClick={() => handleChat(index, counsellor.counsellorId)}
-            className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
-              selectedCounsellorIndex === index
-                ? "bg-[#dbe4ff]"
-                : "hover:bg-[#f0f4ff]"
-            }`}
-          >
-            <img
-              src={counsellor.profileImage}
-              alt={counsellor.name}
-              className="w-10 h-10 rounded-full"
-            />
-            <span className="text-sm font-medium">{counsellor.name}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Right Panel - Chat Box */}
-      <div className="flex-1 flex items-center justify-center">
-        {receiverId ? (
-          <ChatBox senderId={senderId} receiverId={receiverId} />
-        ) : (
-          <p className="text-red-500 font-bold text-xl">No Chat is selected!</p>
         )}
-      </div>
-    </div>
-  </div>
-)}
-
 
         {activePage === "counsellor" && (
           <div className="w-full p-4 md:p-10 bg-gradient-to-br from-blue-50 to-white">
