@@ -303,7 +303,7 @@ const StudentDashboard = () => {
                     {counsellors[selectedCounsellorIndex]?.name}
                   </span>
                 </div>
-                <div className="flex-1 overflow-y-auto bg-red-500">
+                <div className="flex-1 overflow-y-auto ">
                   <ChatBox senderId={senderId} receiverId={receiverId} />
                 </div>
               </div>
