@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import { BACKEND_API_END_POINT, CHAT_API_END_POINT, FIND_USER_API_END_POINT } from "@/utils/constant";
 import Loader from "@/components/ui/Loader";
+import InputChat from "@/components/ui/InputChat";
 
 // const socket = io("http://localhost:8080"); // Adjust your backend port
 
@@ -27,6 +28,7 @@ const ChatBox = ({senderId, receiverId}) => {
     // Fetch previous messages
     const fetchMessages = async () => {
       try {
+        setLoader(true);
         const user = await axios.post(`${FIND_USER_API_END_POINT}/find`, {_id: receiverId}, {
           headers: {
             "Content-Type": "application/json",
@@ -48,6 +50,8 @@ const ChatBox = ({senderId, receiverId}) => {
         }
       } catch (error) {
         console.error("Failed to fetch chat history", error);
+      } finally{
+        setLoader(false);
       }
     };
 
@@ -94,15 +98,18 @@ const ChatBox = ({senderId, receiverId}) => {
 
   if(loader){
     return(
-      <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+      // <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
+      //   <Loader/>
+      // </div>
+      <div className="fixed top-[49%] left-[69%] p-2 rounded">
         <Loader/>
       </div>
     )
   }
 
   return (
-    <div className="p-4 rounded-xl shadow-lg w-full h-full">
-      <div className="flex items-center gap-4 mb-4 border-b pb-3">
+    <div className="rounded-xl shadow-lg w-full h-full">
+      <div className="flex items-center gap-4 mb-4 pt-4 pl-4">
         <img
           src={currUser.profileImage||"https://t3.ftcdn.net/jpg/02/43/12/34/360_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg"}
           alt="profile_img"
@@ -110,9 +117,12 @@ const ChatBox = ({senderId, receiverId}) => {
         />
         <h2 className="text-xl font-semibold text-[#152972]">{currUser.name || "counsellor"}</h2>
         <p className="text-right text-red-500">({currUser.role})</p>
+        <div class="bg-green-500 text-white text-xs px-2 py-1 rounded-full">
+          Online
+        </div>
       </div>
 
-      <div className="h-[80%] overflow-y-auto border p-3 mb-4">
+      <div className="h-[80%] overflow-y-auto border p-3">
         {messages.map((msg, i) => (
           <div
           key={i}
@@ -137,7 +147,7 @@ const ChatBox = ({senderId, receiverId}) => {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <input
           type="text"
           className="flex-1 border p-2 rounded"
@@ -151,7 +161,8 @@ const ChatBox = ({senderId, receiverId}) => {
         >
           Send
         </button>
-      </div>
+      </div> */}
+      <InputChat newMsg={newMsg} setNewMsg={setNewMsg} sendMessage={sendMessage}/>
     </div>
   );
 };
