@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Loader from "../ui/Loader";
@@ -7,7 +7,7 @@ import {
   STUDENT_API_END_POINT,
 } from "@/utils/constant";
 import axios from "axios";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import AleartLogin from "../ui/AleartLogin";

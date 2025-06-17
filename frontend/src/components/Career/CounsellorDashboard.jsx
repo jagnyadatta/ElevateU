@@ -1,5 +1,8 @@
 import ChatBox from "@/check/ChatBox";
-import { COUNSELLOR_API_END_POINT, FIND_USER_API_END_POINT } from "@/utils/constant";
+import {
+  COUNSELLOR_API_END_POINT,
+  FIND_USER_API_END_POINT,
+} from "@/utils/constant";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +10,8 @@ import AleartLogin from "../ui/AleartLogin";
 import { useNavigate } from "react-router-dom";
 import { setUser } from "@/redux/authSlice";
 import { toast } from "sonner";
+import EditButton from "../ui/EditButton";
+import UpdateButton from "../ui/UpdateButton";
 
 const CounsellorDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
@@ -22,6 +27,15 @@ const CounsellorDashboard = () => {
   const [endTime, setEndTime] = useState("");
   const [slotList, setSlotList] = useState([]);
   const [bookedSlots, setBookedSlots] = useState([]);
+  const [isEditOn, setIsEditOn] = useState(false);
+
+  const editOn = (e) => {
+    setIsEditOn(true);
+  };
+
+  const handleEdit = (e) =>{
+    setIsEditOn(false);
+  }
 
   const handleSlotSubmit = (e) => {
     e.preventDefault();
@@ -78,7 +92,9 @@ const CounsellorDashboard = () => {
     }
   };
 
-  const students = user?.studentList.map(Object);
+  const students = Array.isArray(user?.studentList)
+    ? user.studentList
+    : Object.values(user?.studentList || {});
 
   useEffect(() => {
     if (user) {
@@ -89,10 +105,14 @@ const CounsellorDashboard = () => {
   if (!user) {
     return <AleartLogin />;
   }
+
   useEffect(() => {
     if (activePage === "slots") {
       // Replace with your actual endpoint
-      axios.get(`${COUNSELLOR_API_END_POINT}/fetch-booked-slots`, { withCredentials: true })
+      axios
+        .get(`${COUNSELLOR_API_END_POINT}/fetch-booked-slots`, {
+          withCredentials: true,
+        })
 
         .then((res) => {
           if (res.data.success) {
@@ -252,7 +272,7 @@ const CounsellorDashboard = () => {
         )}
 
         {activePage === "students" && (
-          <div>
+          <div className="ml-5">
             <h3 className="text-2xl font-bold mb-4">Student List</h3>
             <div className="space-y-4 overflow-y-auto max-h-[80vh]">
               {students.map((student, index) => (
@@ -367,28 +387,31 @@ const CounsellorDashboard = () => {
         )}
 
         {activePage === "settings" && (
-          <div>
+          <div className="ml-5">
             <h3 className="text-2xl font-bold mb-4">Settings</h3>
             <div>
               <label className="block">Name</label>
               <input
                 type="text"
                 value={user?.name}
-                className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                className="w-72 p-3 mb-4 border border-gray-300 rounded-lg"
+                disabled={!isEditOn}
               />
 
-              {/* <label className="block">Email</label>
+              <label className="block">Email</label>
               <input
                 type="email"
-                value={currUser.email}
+                value={user.email}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
-              /> */}
+                disabled
+              />
 
               <label className="block">Phone</label>
               <input
                 type="text"
-                value={user?.phone}
+                value={user?.phoneNumber}
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                disabled={!isEditOn}
               />
 
               {/* <label className="block">Location</label>
@@ -398,6 +421,9 @@ const CounsellorDashboard = () => {
                 className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
               /> */}
             </div>
+            {/* <div> */}
+              {isEditOn ? <UpdateButton handleEdit={handleEdit} /> : <EditButton editOn={editOn} />}
+            {/* </div> */}
           </div>
         )}
       </div>
