@@ -7,6 +7,7 @@ import AleartLogin from "../ui/AleartLogin";
 import { setUser } from "@/redux/authSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useTheme } from "@/components/shared/ThemeContext.jsx";
 
 const StudentDashboard = () => {
   const [activePage, setActivePage] = useState("dashboard");
@@ -22,6 +23,7 @@ const StudentDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [previewImage, setPreviewImage] = useState(null);
+  const { theme, toggleTheme } = useTheme();
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -162,6 +164,7 @@ const StudentDashboard = () => {
           >
             Settings
           </div>
+         
           <div
             onClick={handleLogout}
             className="cursor-pointer hover:bg-red-600 p-2 rounded"
@@ -199,6 +202,12 @@ const StudentDashboard = () => {
             >
               Counsellor List
             </li>
+            <li className="cursor-pointer p-2 rounded-md hover:bg-[#4f85f7]">
+
+             <button onClick={toggleTheme} className="">
+            <span className="">{theme === "dark" ? "Light Mode ☀️" : "Dark Mode 🌙"}</span>
+          </button>
+            </li>
             <li
               onClick={() => setActivePage("settings")}
               className={`cursor-pointer p-2 rounded-md hover:bg-[#4f85f7] ${
@@ -220,11 +229,11 @@ const StudentDashboard = () => {
       {/* Main Content */}
       <div className="flex-1 pt-15 md:pt-0 md:ml-[250px]">
         {activePage === "dashboard" && (
-          <div className="w-full min-h-screen bg-gradient-to-br from-blue-50 to-white p-4 md:p-10 flex flex-col items-center">
+          <div className="w-full min-h-screen bg-gradient-to-br p-4 md:p-10 flex flex-col items-center">
             <h2 className="text-2xl md:text-3xl w-full font-bold text-blue-600 mb-4 border-b pb-2">
               My Profile
             </h2>
-            <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10 items-center w-full max-w-5xl">
+            <div className="dark:bg-black rounded-3xl shadow-2xl dark:shadow-[0_4px_12px_rgba(255,255,255,0.4)] p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10 items-center w-full max-w-5xl">
               <div className="flex-shrink-0">
                 <img
                   src={user?.profileImage}
@@ -236,10 +245,10 @@ const StudentDashboard = () => {
                 <h2 className="text-2xl md:text-3xl font-bold text-blue-600 border-b pb-2 border-blue-300">
                   {user?.name}
                 </h2>
-                <div className="grid grid-cols-1 gap-2 text-gray-700">
+                <div className="grid grid-cols-1 gap-2 text-gray-700 dark:text-white">
                   <div>{user?.about}</div>
                   <div>
-                    <span className="font-semibold">Gender:</span>{" "}
+                    <span className="font-semibold ">Gender:</span>{" "}
                     {user?.gender}
                   </div>
                   <div>
@@ -256,7 +265,7 @@ const StudentDashboard = () => {
         )}
 
         {activePage === "message" && (
-          <div className="w-full h-screen bg-white overflow-hidden flex flex-col md:flex-row">
+          <div className="w-full h-screen dark:bg-black overflow-hidden flex flex-col md:flex-row">
             {/* 📱 Mobile: Chat List (Visible when no chat selected) */}
             {!receiverId && (
               <div className="block md:hidden w-full h-full overflow-y-auto">
@@ -267,7 +276,7 @@ const StudentDashboard = () => {
                   <div
                     key={index}
                     onClick={() => handleChat(index, counsellor.counsellorId)}
-                    className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md  bg-blue-50 hover:bg-blue-100 shadow-sm  ${
+                    className={`flex items-center space-x-4 p-3  cursor-pointer transition rounded-md  bg-blue-50 hover:bg-blue-100 shadow-sm  ${
                       selectedCounsellorIndex === index
                         ? "bg-[#dbe4ff]"
                         : "hover:bg-[#f0f4ff]"
@@ -276,7 +285,7 @@ const StudentDashboard = () => {
                     <img
                       src={counsellor.profileImage}
                       alt={counsellor.name}
-                      className="w-10 h-10 rounded-full  border-2 border-blue-500 shadow"
+                      className="w-10 h-10 rounded-full border-2 border-blue-500 shadow"
                     />
                     <span className="text-sm font-medium">
                       {counsellor.name}
@@ -312,24 +321,24 @@ const StudentDashboard = () => {
             {/* 💻 Desktop View: Full Layout */}
             <div className="hidden md:flex flex-row w-full h-full">
               {/* Left Panel - Counsellor List */}
-              <div className="w-[400px] bg-white border-r overflow-y-auto">
-                <h3 className="text-2xl font-bold py-4 px-4 text-[#3b66ff] border-b sticky top-0 bg-white z-10">
+              <div className="w-[400px] dark:bg-black border-r overflow-y-auto">
+                <h3 className="text-2xl font-bold py-4 px-4 text-[#3b66ff] border-b sticky top-0 z-10">
                   Messages
                 </h3>
                 {counsellors.map((counsellor, index) => (
                   <div
                     key={index}
                     onClick={() => handleChat(index, counsellor.counsellorId)}
-                    className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md ${
+                    className={`flex items-center space-x-4 p-3 cursor-pointer transition rounded-md  ${
                       selectedCounsellorIndex === index
                         ? "bg-[#dbe4ff]"
-                        : "hover:bg-[#f0f4ff]"
+                        : "hover:bg-[#f0f4ff] hover:text-black"
                     }`}
                   >
                     <img
                       src={counsellor.profileImage}
                       alt={counsellor.name}
-                      className="w-10 h-10 rounded-full"
+                      className="w-10 h-10 rounded-full  "
                     />
                     <span className="text-sm font-medium">
                       {counsellor.name}
