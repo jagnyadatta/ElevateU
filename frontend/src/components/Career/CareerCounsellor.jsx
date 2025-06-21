@@ -66,12 +66,12 @@ const CareerCounsellor = () => {
   }
 
   return (
-    <div className="h-full relative z-2 mt-20">
+    <div className="h-full relative z-2  bg-gray-200 dark:bg-black">
       <div className="fixed w-full top-5 flex justify-center z-50">
         <Navbar />
       </div>
       <BackgroundImage />
-      <div className="h-[30%] pt-25 flex justify-center items-end">
+      <div className="h-[30%] mt-24 pt-25 flex justify-center items-end">
         <SearchBox value={searchQuery} onChange={handleSearchChange} />
       </div>
       

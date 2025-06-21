@@ -103,13 +103,15 @@
 .img-card{
   filter:blur(8px);
   -webkit-filter:blur(20px);
-  background-color: #cccaca;
+  /* background-color: #cccaca; */
 }
 
 .container-shadow{
   box-shadow: 0.5px 0.5px 20px #96aaf1;
 }
-
+.typed-cursor {
+  color: #3b66ff !important;
+}
 html {
   scroll-behavior: smooth;
 }

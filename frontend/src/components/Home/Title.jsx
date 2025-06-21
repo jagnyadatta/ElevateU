@@ -18,7 +18,7 @@ export default function Title() {
       >
         <div className="w-full  h-[70%] sm:h[full] flex flex-col justify-center items-center sm:items-end">
           <div className="w-[96%] h-[50%] sm:h-auto flex flex-col gap-5 sm:gap-3 items-center sm:items-start">
-            <h1 className="text-black text-[34px] sm:text-6xl">
+            <h1 className="text-black text-[34px] sm:text-6xl dark:text-white">
               Welcome to{" "}
               <span className="font-bold text-[#3b66ff]">ElevateU</span>
             </h1>
@@ -32,11 +32,11 @@ export default function Title() {
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               </p> */}
             <div class="w-[300px] sm:w-auto text-[18px] gap-1  sm:text-4xl font-medium text-gray-900 flex flex-row justify-start items-start pb-10 sm:pb-0">
-              <span class="font-normal">We offers</span>
+              <span class="font-normal dark:text-white">We offers</span>
               <TypingEffect />
             </div>
             <Link to="/choicelogin">
-              <Button className="rounded-3xl bg-[#3b66ff]">Go With..</Button>
+              <Button className="rounded-3xl bg-[#3b66ff] text-white dark:text-black">Go With..</Button>
             </Link>
           </div>
         </div>

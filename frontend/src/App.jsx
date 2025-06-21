@@ -21,6 +21,10 @@ import CounsellorDetails from "./components/Career/CounsellorDetails";
 import StudentSlotBooking from "./components/Home/StudentSlotBooking";
 import AdminLogin from "./components/auth/AdminLogin";
 import { useEffect } from "react";
+import { ThemeProvider } from "./components/shared/ThemeContext";
+
+
+// import { RouterProvider } from "react-router-dom";
 
 const appRouter = createBrowserRouter([
   {
@@ -125,7 +129,11 @@ function App() {
 
     return () => clearInterval(interval);
   }, []);
-  return <RouterProvider router={appRouter} />;
+  return  (
+    <ThemeProvider>
+      <RouterProvider router={appRouter} />
+    </ThemeProvider>
+  );
 }
 
 export default App;

@@ -13,8 +13,11 @@ import axios from "axios";
 import { toast } from "sonner";
 import { setUser } from "@/redux/authSlice";
 import ProfileButton from "../ui/ProfileButton";
+import { useTheme } from "./ThemeContext";
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
+
   const { user } = useSelector((store) => store.auth);
   const name = user?.name;
   const email = user?.email;
@@ -68,37 +71,46 @@ const Navbar = () => {
       setImageLink(user.profileImage);
     }
   }, [user]);
-
+ const logoSrc =
+    theme === "dark" ?"/image/ElevateUNightMode.png":"/image/ElevateU.png";
   return (
-    <nav className="navbar w-[90vw] sm:w-[600px] md:w-[707px] lg:w-[907px] p-2 pl-6 font-primary overflow-hidden navbar-expand-lg navbar-light bg-white flex flex-row justify-between items-center border-0 rounded-full shadow-lg m-[-10px]">
+    <nav className="navbar dark:bg-[#3b66ff] w-[90vw] sm:w-[600px] md:w-[707px] lg:w-[907px] p-2 pl-6 font-primary overflow-hidden navbar-expand-lg navbar-light bg-white flex flex-row justify-between items-center border-0 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.4)] dark:shadow-[0_4px_12px_rgba(255,255,255,0.4)] m-[-10px]">
       <Link to="/">
-        <div id="nav-logo" className="w-[40px]">
-          <img src="/image/ElevateU.png" />
+        <div id="nav-logo" className="w-[40px] ">
+           <img src={logoSrc} alt="Logo" />
         </div>
       </Link>
       <div className="sm:flex hidden">
-        <ul className="flex flex-row justify-between gap-5 font-semibold">
+        <ul className="flex flex-row justify-between gap-5 font-semibold ">
           <HashLink smooth to="/#home">
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+            <li className="hover:bg-[#ced9ff] dark:hover:bg-black/50 p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               Home
             </li>
           </HashLink>
           <HashLink smooth to="/#services">
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+            <li className="hover:bg-[#ced9ff] dark:hover:bg-black/50 p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               Services
             </li>
           </HashLink>
           <HashLink smooth to="/#aboutus">
-            <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+            <li className="hover:bg-[#ced9ff] dark:hover:bg-black/50 p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               About Us
             </li>
           </HashLink>
           {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <a href="#contactus">Contact Us</a>
             </li> */}
-          <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+          <li className="hover:bg-[#ced9ff] dark:hover:bg-black/50 p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
             <Link to="/aisuggest">AI Suggestion</Link>
           </li>
+          <button
+            onClick={toggleTheme}
+            className=""
+          >
+           <span className="text-2xl">
+    {theme === "dark" ? "☀️" : "🌙"}
+  </span>
+          </button>
           {/* <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
               <Link to="/elevateu/admin/login">
                 Admin
@@ -127,10 +139,10 @@ const Navbar = () => {
             </Link>
           </div>
         ) : (
-          <div className="hidden sm:flex md:flex lg:flex">
-            <Popover>
+          <div className="hidden sm:flex md:flex lg:flex ">
+            <Popover >
               <PopoverTrigger>
-                <div className="w-[45px] h-[43px] flex  items-center justify-center border-2 border-blue-500 rounded-full text-2xl font-bold hover:cursor-pointer">
+                <div className="w-[45px] h-[43px]  flex  items-center justify-center border-2 border-blue-500 dark:border-white  rounded-full text-2xl font-bold hover:cursor-pointer">
                   <img
                     src={user?.profileImage}
                     alt="profileImage"
@@ -138,8 +150,8 @@ const Navbar = () => {
                   />
                 </div>
               </PopoverTrigger>
-              <PopoverContent className="w-[400px] bg-white">
-                <div className="w-full h-[100px] flex items-center justify-between overflow-hidden ">
+              <PopoverContent className="w-[400px] bg-white dark:bg-[#3b66ff] border-0 dark:shadow-[0_4px_12px_rgba(255,255,255,0.4)]">
+                <div className="w-full h-[100px] flex items-center justify-between overflow-hidden">
                   <img
                     src={imageLink}
                     alt="profileImage"
@@ -156,11 +168,11 @@ const Navbar = () => {
                   </Link>
                 </div>
                 <div className="flex flex-col mt-3">
-                  <p className="font-bold text-[#3b66ff] text-[16px]">
+                  <p className="font-bold text-[#3b66ff] text-[16px] dark:text-white">
                     Name:{" "}
                     <span className="text-gray-900 text-[14px]">{name}</span>
                   </p>
-                  <p className="font-bold text-[#3b66ff] text-[16px]">
+                  <p className="font-bold text-[#3b66ff] text-[16px] dark:text-white">
                     Email:{" "}
                     <span className="text-gray-900 text-[14px]">{email}</span>
                   </p>
@@ -168,7 +180,7 @@ const Navbar = () => {
                 <Button
                   onClick={logoutHandler}
                   variant="destructive"
-                  className="mt-3 cursor-pointer"
+                  className="mt-3 cursor-pointer bg-red-600"
                 >
                   Logout
                 </Button>
@@ -182,7 +194,7 @@ const Navbar = () => {
             <PopoverTrigger>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7 sm:hidden cursor-pointer text-[#3b66ff]"
+                className="h-7 w-7 sm:hidden cursor-pointer text-[#3b66ff] dark:text-white"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -195,8 +207,8 @@ const Navbar = () => {
                 />
               </svg>
             </PopoverTrigger>
-            <PopoverContent className="bg-white">
-              <div >
+            <PopoverContent className="bg-white dark:bg-[#3b66ff]">
+              <div>
                 <ul className="flex flex-col justify-between gap-3 font-semibold">
                   <HashLink smooth to="/#home">
                     <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
@@ -209,21 +221,26 @@ const Navbar = () => {
                     </li>
                   </HashLink>
                   <HashLink smooth to="/#aboutus">
-                    <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                    <li className="hover:bg-[#ced9ff]  p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
                       About Us
                     </li>
                   </HashLink>
-                  <li className="hover:bg-[#ced9ff] p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
+                  <li className="hover:bg-[#ced9ff]  p-2 rounded-3xl transition ease-in duration-250 cursor-pointer">
                     <Link to="/aisuggest">AI Suggetion</Link>
                   </li>
-                </ul>
+                  <button
+                    onClick={toggleTheme}
+                    className="bg-gray-300 dark:bg-gray-600 rounded-3xl p-2 text-start "
+                  >
+                    {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
+                  </button>
                 {!user ? (
                   <div className="flex flex-row gap-1">
                     <Link to="/choicesignup">
                       <Button
                         variant="secondary"
                         className="w-[90px] flex flex-col border-gray-600 hover:bg-[#a6b8fa] hover:text-white border-r-0 rounded-l-full rounded-r-full cursor-pointer mt-2"
-                      >
+                        >
                         SignUp
                       </Button>
                     </Link>
@@ -231,35 +248,36 @@ const Navbar = () => {
                       <Button
                         variant="secondary"
                         className="w-[90px] bg-[#3b66ff] hover:bg-[#9fb4ff] rounded-l-full rounded-r-full text-white cursor-pointer mt-2"
-                      >
+                        >
                         Login
                       </Button>
                     </Link>
                   </div>
                 ) : (
-                  <div className="sm:flex md:flex lg:flex  ">
+                  <div className="sm:flex md:flex lg:flex flex flex-col ">
                     <Popover>
                       <PopoverTrigger>
                         <Link
-                            to={
-                              user?.role === "counsellor"
-                                ? "/counsellor/dashboardcounsellor"
-                                : "/student/dashboard"
+                          to={
+                            user?.role === "counsellor"
+                            ? "/counsellor/dashboardcounsellor"
+                              : "/student/dashboard"
                             }
-                          >
-                            <ProfileButton />
-                          </Link>
+                            >
+                          <ProfileButton />
+                        </Link>
                       </PopoverTrigger>
                     </Popover>
                     <Button
-                        onClick={logoutHandler}
-                        variant="destructive"
-                        className="mt-3 cursor-pointer"
+                      onClick={logoutHandler}
+                      variant="destructive"
+                      className="mt-3 cursor-pointer bg-red-600 text-white"
                       >
-                        Logout
-                      </Button>
+                      Logout
+                    </Button>
                   </div>
                 )}
+                </ul>
               </div>
             </PopoverContent>
           </Popover>

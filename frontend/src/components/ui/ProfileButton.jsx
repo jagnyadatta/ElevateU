@@ -34,7 +34,7 @@ const StyledWrapper = styled.div`
   .button-decor {
     position: absolute;
     inset: 0;
-    background-color: #3b66ff;
+    background-color:black;
     transform: translateX(-100%);
     transition: transform .3s;
     z-index: 0;

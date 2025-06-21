@@ -15,7 +15,7 @@ const Service = () => {
   return (
     <>
       {/* Wrapper with relative for positioning context */}
-      <div id="services" className="relative h-[100vh] w-full">
+      <div id="services" className="relative h-[100vh] w-full ">
         {/* Main content above the background */}
         <div className="relative z-10 h-full flex flex-col items-center justify-center ">
           <div className="w-full sm:h-[20%]">
@@ -34,15 +34,15 @@ const Service = () => {
                 data-aos="fade-right"
               >
                 <div className="w-[90%] h-[80%] flex flex-col gap-2">
-                  <h2 className="text-white text-4xl">Career counsellor</h2>
-                  <p className="text-white">
+                  <h2 className="text-white text-4xl dark:text-black">Career counsellor</h2>
+                  <p className="text-white dark:text-black">
                     Career Counsellors guide you with expert advice tailored to
                     your goals. Get clarity on academics, careers, and future
                     opportunities. Book a session and plan your path with
                     confidence.
                   </p>
                   <Link to="/counsellor/all">
-                    <Button className="rounded-3xl bg-white text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-pointer">
+                    <Button className="rounded-3xl bg-white  dark:bg-black text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] dark:hover:drop-shadow-[1px_1px_20px_black] transition-all duration-300 cursor-pointer">
                       Continue
                     </Button>
                   </Link>
@@ -79,15 +79,15 @@ const Service = () => {
                 data-aos="fade-left"
               >
                 <div className="w-[90%] h-[80%] flex flex-col gap-2">
-                  <h2 className="text-white text-4xl">Admission counselor</h2>
-                  <p className="text-white">
+                  <h2 className="text-white text-4xl dark:text-black">Admission counselor</h2>
+                  <p className="text-white dark:text-black">
                     Admission Counsellors help you choose the right course and
                     college. Get expert support for applications, eligibility,
                     and deadlines. Make informed decisions for a successful
                     academic journey.
                   </p>
                   <Link to="">
-                    <Button className="rounded-3xl bg-white text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] transition-all duration-300 cursor-not-allowed">
+                    <Button className="rounded-3xl bg-white dark:bg-black text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] dark:hover:drop-shadow-[1px_1px_20px_black] transition-all duration-300 cursor-not-allowed">
                       Continue
                     </Button>
                   </Link>
