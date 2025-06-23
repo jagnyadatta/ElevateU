@@ -1,4 +1,4 @@
-import CounsellorSignup from "../Auth/CounsellorSignup";
+import CounsellorSignup from "../auth/CounsellorSignup";
 import CareerCounsellor from "../Career/CareerCounsellor";
 import CounsellorProfile from "../Career/CounsellorProfile";
 import MusicianProfileCard from "../Career/CounsellorProfile";
