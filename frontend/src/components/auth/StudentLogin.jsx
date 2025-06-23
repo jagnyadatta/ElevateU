@@ -78,6 +78,9 @@ const StudentLogin = () => {
                 placeholder="**********"
                 className="mt-2"
               />
+              <p className="text-sm text-right mt-3 text-blue-600 hover:underline cursor-pointer">
+                <a href="/student/forgot-password">Forgot Password?</a>
+              </p>
             </div>
 
             <Button
@@ -86,6 +89,15 @@ const StudentLogin = () => {
             >
               Login
             </Button>
+            <p className="text-sm text-center mt-2">
+              New user?{" "}
+              <a
+                href="/student/signup"
+                className="text-blue-600 hover:underline"
+              >
+                Sign Up
+              </a>
+            </p>
           </form>
         </div>
       </div>

@@ -23,6 +23,7 @@ import AdminLogin from "./components/auth/AdminLogin";
 import { useEffect } from "react";
 import { ThemeProvider } from "./components/shared/ThemeContext";
 import CounsellorForgotPassword from "./components/auth/CounsellorForgotPassword";
+import StudentForgotPassword from "./components/auth/StudentForgotPassword";
 
 
 // import { RouterProvider } from "react-router-dom";
@@ -103,7 +104,11 @@ const appRouter = createBrowserRouter([
       {
         path: "dashboard",
         element: <StudentDashboard />,
-      }
+      },
+      {
+        path: "forgot-password",
+        element: <StudentForgotPassword />,
+      },
     ],
   },
   {
