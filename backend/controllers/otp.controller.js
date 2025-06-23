@@ -1,6 +1,8 @@
 import { Student } from "../models/student.model.js";
 import {counsellorPerson} from "../models/counsellor.model.js";
 import { generateOtp, sendOtpEmail } from "../utils/otpGenerate.js";
+import bcrypt from "bcryptjs";
+import { sendPasswordUpdateEmail } from "../utils/sendMail.js";
 
 // Send OTP
 export const sendOtp = async (req, res) => {
@@ -211,3 +213,112 @@ export const resendOtpCounsellor = async (req, res) => {
     res.status(500).json({ success: false, message: "Something went wrong" });
   }
 };
+
+// FORGOT PASSWORD - COUNSELLOR OTP SEND
+export const sendForgotOtpCounsellor = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // ✅ Check if the counsellor exists
+    const user = await counsellorPerson.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "No user found with this email",
+      });
+    }
+
+    // ✅ Generate OTP
+    const otp = generateOtp();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    user.otp = otp;
+    user.otpExpiry = otpExpiry;
+    await user.save();
+
+    // ✅ Send email
+    const emailResponse = await sendOtpEmail(email, otp);
+
+    if (emailResponse.success) {
+      return res.status(200).json({ success: true, message: "OTP sent to your email" });
+    } else {
+      return res.status(500).json({ success: false, message: emailResponse.message });
+    }
+
+  } catch (error) {
+    console.error("Error in sending OTP for forgot password:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
+// FORGOT PASSWORD - VERIFY OTP FOR COUNSELLOR
+export const verifyForgotOtpCounsellor = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    const user = await counsellorPerson.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    if (user.otp !== otp) {
+      return res.status(400).json({ success: false, message: "Invalid OTP" });
+    }
+
+    if (user.otpExpiry < new Date()) {
+      return res.status(400).json({ success: false, message: "OTP expired" });
+    }
+
+    // ✅ OTP verified, clear it
+    user.otp = null;
+    user.otpExpiry = null;
+    await user.save();
+
+    return res.status(200).json({ success: true, message: "OTP verified successfully" });
+
+  } catch (error) {
+    console.error("OTP Verification Error:", error);
+    return res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+};
+
+export const updatePasswordCounsellor = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Validate input
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: "All fields are required" });
+    }
+
+    // if (newPassword !== confirmPassword) {
+    //   return res.status(400).json({ success: false, message: "Passwords do not match" });
+    // }
+
+    const user = await counsellorPerson.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+
+    await user.save();
+
+    // Send confirmation email
+    await sendPasswordUpdateEmail(email, user?.name);
+
+    return res.status(200).json({ success: true, message: "Password updated successfully" });
+
+  } catch (error) {
+    console.error("Update Password Error:", error);
+    return res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+};
+

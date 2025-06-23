@@ -139,3 +139,30 @@ export const sendRegistrationSuccessEmailStudent = async (email, name) => {
   }
 };
 
+export const sendPasswordUpdateEmail = async (email, name = "User") => {
+  const mailOptions = {
+    from: process.env.SMTP_EMAIL,
+    to: email,
+    subject: '🔐 Your ElevateU Password Has Been Updated',
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <h2 style="color: #3b66ff;">Hello ${name},</h2>
+        <p>✅ Your password has been <strong style="color: green;">successfully updated</strong> for your ElevateU counsellor account.</p>
+        <p>If you made this change, no further action is needed.</p>
+        <p>If <strong>you did NOT</strong> request this change, please reset your password again immediately or contact our support team.</p>
+
+        <br />
+        <p>Stay safe,<br><strong>ElevateU Security Team</strong></p>
+      </div>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return { success: true, message: 'Password update email sent successfully!' };
+  } catch (error) {
+    console.error('Error sending password update email:', error);
+    return { success: false, message: 'Failed to send password update email.' };
+  }
+};
+

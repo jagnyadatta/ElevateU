@@ -3,7 +3,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import { COUNSELLOR_API_END_POINT } from "../../utils/constant.js"
+import { COUNSELLOR_API_END_POINT } from "../../utils/constant.js";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/authSlice";
@@ -18,7 +18,7 @@ const CounsellorLogin = () => {
   });
   const [loader, setLoader] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
-  const {user} = useSelector((store)=> store.auth);
+  const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const changeEventHandler = (e) => {
@@ -35,20 +35,19 @@ const CounsellorLogin = () => {
         withCredentials: true,
       });
       if (res.data.success) {
-        if(res.data.user.verification === "pending"){
+        if (res.data.user.verification === "pending") {
           setIsVerified(true);
-          toast.success("Your account is under verification!")
-        }else{
+          toast.success("Your account is under verification!");
+        } else {
           setIsVerified(false);
           dispatch(setUser(res.data.user));
-          navigate("/");  
+          navigate("/");
           toast.success(res.data.message);
         }
-        
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
-    } finally{
+    } finally {
       setLoader(false);
     }
   };
@@ -58,10 +57,8 @@ const CounsellorLogin = () => {
     }
   }, []);
 
-  if(isVerified){
-    return(
-      <CounsellorVerificationPending/>
-    )
+  if (isVerified) {
+    return <CounsellorVerificationPending />;
   }
   return (
     <>
@@ -71,7 +68,9 @@ const CounsellorLogin = () => {
             onSubmit={submitHandler}
             className="w-[90%] sm:w-[70%] border border-gray-200 rounded-md p-4 my-10 container-shadow"
           >
-            <h1 className="font-bold text-2xl text-center mb-5 text-[#3b66ff]">Counsellor Login</h1>
+            <h1 className="font-bold text-2xl text-center mb-5 text-[#3b66ff]">
+              Counsellor Login
+            </h1>
             <div className="my-2">
               <Label>Email</Label>
               <Input
@@ -93,6 +92,9 @@ const CounsellorLogin = () => {
                 placeholder="**********"
                 className="mt-2"
               />
+              <p className="text-sm text-right mt-3 text-blue-600 hover:underline cursor-pointer">
+                <a href="/counsellor/forgot-password">Forgot Password?</a>
+              </p>
             </div>
 
             <Button
@@ -101,14 +103,23 @@ const CounsellorLogin = () => {
             >
               Login
             </Button>
+            <p className="text-sm text-center mt-2">
+              New user?{" "}
+              <a
+                href="/counsellor/signup"
+                className="text-blue-600 hover:underline"
+              >
+                Sign Up
+              </a>
+            </p>
           </form>
         </div>
       </div>
-      {loader && 
+      {loader && (
         <div className="bg-[#cbd3e9] fixed top-[49%] left-[49%] p-2 rounded">
-          <Loader/>
+          <Loader />
         </div>
-      }
+      )}
     </>
   );
 };

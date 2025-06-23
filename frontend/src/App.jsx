@@ -5,23 +5,24 @@ import Layout from "./components/shared/Layout";
 import AiHomePage from "./components/AIpage/AiHomePage";
 import CareerCounsellor from "./components/Career/CareerCounsellor";
 import CounsellorProfile from "./components/Career/CounsellorProfile";
-import CounsellorSignup from "./components/auth/CounsellorSignup";
-import SignupChoice from "./components/auth/SignupChoice";
-import StudentSignup from "./components/auth/StudentSignup";
+import CounsellorSignup from "./components/Auth/CounsellorSignup";
+import SignupChoice from "./components/Auth/SignupChoice";
+import StudentSignup from "./components/Auth/StudentSignup";
 import CounsellorLayout from "./components/shared/CounsellorLayout";
-import CounsellorLogin from "./components/auth/CounsellorLogin";
-import LoginChoice from "./components/auth/LoginChoice";
+import CounsellorLogin from "./components/Auth/CounsellorLogin";
+import LoginChoice from "./components/Auth/LoginChoice";
 import StudentLayout from "./components/shared/StudentLayout";
-import StudentLogin from "./components/auth/StudentLogin";
+import StudentLogin from "./components/Auth/StudentLogin";
 import AddCounsellors from "./components/Career/AddCounsellors";
 import CounsellorDashboard from "./components/Career/CounsellorDashboard";
 import StudentDashboard from "./components/Home/StudentDashboard";
 import AdminDashboard from "./components/Home/AdminDashboard";
 import CounsellorDetails from "./components/Career/CounsellorDetails";
 import StudentSlotBooking from "./components/Home/StudentSlotBooking";
-import AdminLogin from "./components/auth/AdminLogin";
+import AdminLogin from "./components/Auth/AdminLogin";
 import { useEffect } from "react";
 import { ThemeProvider } from "./components/shared/ThemeContext";
+import CounsellorForgotPassword from "./components/Auth/CounsellorForgotPassword";
 
 
 // import { RouterProvider } from "react-router-dom";
@@ -68,6 +69,10 @@ const appRouter = createBrowserRouter([
       {
         path: "login",
         element: <CounsellorLogin />,
+      },
+      {
+        path: "forgot-password",
+        element: <CounsellorForgotPassword />,
       },
       // {
       //   path: 'profile',
