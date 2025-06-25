@@ -130,15 +130,6 @@ const appRouter = createBrowserRouter([
 ]);
 
 function App() {
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetch("https://group-5-5mpu.onrender.com") // 🔁 Ping your backend
-        .then(() => console.log("🔁 Frontend pinged backend"))
-        .catch((err) => console.error("Frontend ping error:", err));
-    }, 14 * 60 * 1000); // every 14 minutes
-
-    return () => clearInterval(interval);
-  }, []);
   return  (
     <ThemeProvider>
       <RouterProvider router={appRouter} />
