@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
@@ -6,13 +6,13 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_API_END_POINT } from "@/utils/constant";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAdmin } from "@/redux/adminSlice"; // ✅ import the action
-
 
 const AdminLogin = () => {
   const [input, setInput] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const { admin } = useSelector((store) => store.admin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,10 +39,22 @@ const AdminLogin = () => {
     }
   };
 
+  useEffect(() => {
+    if (admin) {
+      toast.success("Already logged in");
+      navigate("/elevateu/admin");
+    }
+  }, [admin, navigate]);
+
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <form onSubmit={handleSubmit} className="w-[90%] sm:w-[400px] bg-white p-6 shadow rounded-md">
-        <h1 className="text-2xl font-bold text-center mb-6 text-[#3b66ff]">Admin Login</h1>
+      <form
+        onSubmit={handleSubmit}
+        className="w-[90%] sm:w-[400px] bg-white p-6 shadow rounded-md"
+      >
+        <h1 className="text-2xl font-bold text-center mb-6 text-[#3b66ff]">
+          Admin Login
+        </h1>
 
         <Label>Email</Label>
         <Input
