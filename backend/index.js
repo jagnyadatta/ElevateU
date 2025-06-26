@@ -12,6 +12,7 @@ import counsellorRoute from "./routes/counsellor.route.js";
 import findUserRoute from "./routes/findUser.route.js";
 import messageRoute from "./routes/message.route.js";
 import adminRoute from "./routes/admin.route.js";
+import aiChatRoute from "./routes/ai.route.js";
 import fetch from "node-fetch";
 
 dotenv.config();
@@ -72,6 +73,7 @@ app.use("/elevateu/v1/user", findUserRoute);
 app.use("/elevateu/v1/student", studentRoute);
 app.use("/elevateu/v1/counsellor",counsellorRoute);
 app.use("/elevateu/v1/chat", messageRoute);
+app.use("/elevateu/v1/aipage",aiChatRoute);
 app.use("/elevateu/admin", adminRoute);
 
 app.get("/", (req, res)=>{
