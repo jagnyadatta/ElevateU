@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CarouselSize } from "./CarouselSize";
 import SearchBox from "./SearchBox";
 import PersonCardList from "./PersonCardList";
@@ -9,6 +9,10 @@ import Loader from "../ui/Loader";
 import { COUNSELLOR_API_END_POINT } from "@/utils/constant";
 import Navbar from "../shared/Navbar";
 
+const CACHE_KEY = "approvedCounsellors";
+const CACHE_EXPIRY_KEY = "approvedCounsellorsExpiry";
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
 const CareerCounsellor = () => {
   const [persons, setPersons] = useState([]);
   const [filteredPersons, setFilteredPersons] = useState([]);
@@ -16,34 +20,60 @@ const CareerCounsellor = () => {
   const [loader, setLoader] = useState(false);
 
   // Fetch counsellor data from backend
-  const fetchCounsellor = async () => {
+  const fetchCounsellor = useCallback(async () => {
     try {
       setLoader(true);
-      const res = await axios.get(`${COUNSELLOR_API_END_POINT}/fetch-all-data`, {
-        withCredentials: true,
-      });
+
+      const cachedData = sessionStorage.getItem(CACHE_KEY);
+      const cachedExpiry = sessionStorage.getItem(CACHE_EXPIRY_KEY);
+      const now = Date.now();
+
+      // ✅ Use cache if valid
+      if (cachedData && cachedExpiry && now < parseInt(cachedExpiry, 10)) {
+        const parsed = JSON.parse(cachedData);
+        setPersons(parsed);
+        setFilteredPersons(parsed);
+        return;
+      }
+
+      // 🌐 Else, fetch from server
+      const res = await axios.get(
+        `${COUNSELLOR_API_END_POINT}/fetch-all-data`,
+        {
+          withCredentials: true,
+        }
+      );
+
       if (res.data.success) {
-        const all = res.data.allUser;
-        const approvedCounsellors = all.filter(c => c.verification === "approved");
-        setPersons(approvedCounsellors);
-        setFilteredPersons(approvedCounsellors); // Initially show all counsellors
+        const approved = res.data.allUser.filter(
+          (c) => c.verification === "approved"
+        );
+        setPersons(approved);
+        setFilteredPersons(approved);
+
+        // 💾 Cache data + expiry time
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify(approved));
+        sessionStorage.setItem(
+          CACHE_EXPIRY_KEY,
+          (now + CACHE_DURATION).toString()
+        );
       }
     } catch (error) {
-      console.log(error);
+      console.log("Error fetching counsellors:", error);
     } finally {
       setLoader(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchCounsellor();
-  }, []);
+  }, [fetchCounsellor]);
 
   // Handle the search query change
   const handleSearchChange = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
-    
+
     if (query === "") {
       setFilteredPersons(persons); // If search query is empty, show all
     } else {
@@ -74,7 +104,7 @@ const CareerCounsellor = () => {
       <div className="h-[30%] mt-24 pt-25 flex justify-center items-end">
         <SearchBox value={searchQuery} onChange={handleSearchChange} />
       </div>
-      
+
       {/* Conditional rendering of the Best Counsellors and Carousel */}
       {searchQuery === "" && (
         <div className="h-[30%] flex justify-center items-center">
@@ -83,7 +113,7 @@ const CareerCounsellor = () => {
           </h3>
         </div>
       )}
-      
+
       <div className="flex flex-col items-center gap-6">
         {/* Conditionally render the Carousel and handle height adjustment */}
         {searchQuery === "" ? (
