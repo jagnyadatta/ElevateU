@@ -87,7 +87,7 @@ setInterval(() => {
   fetch("https://group-5-5mpu.onrender.com")
     .then(() => console.log("⏰ Backend self-ping to prevent sleep"))
     .catch((err) => console.error("❌ Self-ping failed:", err));
-}, 13 * 60 * 1000); // every 14 minutes
+}, 14 * 60 * 1000); // every 14 minutes
 
 server.listen(PORT, () => {
   connectDB();
