@@ -4,8 +4,12 @@ import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { toast } from "sonner";
 
 const Service = () => {
+  const handleNotification = () =>{
+    toast.error("This will Available soon!");
+  }
   useEffect(() => {
     AOS.init({
       duration: 700,
@@ -87,7 +91,7 @@ const Service = () => {
                     academic journey.
                   </p>
                   <Link to="">
-                    <Button className="rounded-3xl bg-white dark:bg-black text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] dark:hover:drop-shadow-[1px_1px_20px_black] transition-all duration-300 cursor-not-allowed">
+                    <Button onClick={handleNotification} className="rounded-3xl bg-white dark:bg-black text-[#3b66ff] sm:w-[20%] hover:drop-shadow-[1px_1px_20px_white] dark:hover:drop-shadow-[1px_1px_20px_black] transition-all duration-300 cursor-not-allowed">
                       Continue
                     </Button>
                   </Link>
